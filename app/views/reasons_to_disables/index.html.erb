@@ -1,0 +1,31 @@
+<h1>Motivos de baja</h1>
+<%= link_to "<i class='fa fa-plus'></i> Registrar motivo".html_safe, new_reasons_to_disable_path( d_type: params[:d_type] ),remote: true, class: 'btn u-btn-outline-indigo u-btn-hover-v1-2 mb-2' %>
+
+<%= render( partial: 'shared/table', 
+            locals: { table_id: 'reasons', 
+                      color: 'blue', 
+                      icon: 'fa-gear',
+                      title: "Motivos de baja", 
+                      col_names: [ 'Motivo', 'Descripcion', 'Acciones' ] }) %>
+
+<!-- Modal para eliminar reason -->
+<div class="modal fade" id="modal-disable-reason" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">¿ Esta seguro de dar de baja este motivo ?</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <%= form_with(url: disable_reason_path, id: 'form-disable-reason') do |form| %>
+          <%= form.hidden_field :reason_id %>
+          <%= form.submit 'Eliminar', class: 'btn u-btn-red g-mr-10' %>
+          <button type="button" data-dismiss="modal" class="btn u-btn-teal g-mr-10"> Cerrar </button>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Fin modal eliminar company -->

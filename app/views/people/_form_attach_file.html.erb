@@ -1,0 +1,12 @@
+<%= form_with(model: @person, remote: true, multipart: true, id: 'form-attach-file-person', class: 'g-pa-10') do |form| %>
+  <div class="form-group row mb-4">
+    <label class="u-file-attach-v2 g-color-gray-dark-v5 mb-0">
+      <%= form.file_field @file.to_sym, required: true %>
+      <i class="icon-cloud-upload g-font-size-16 g-pos-rel g-top-2 g-mr-5"></i>
+      <span class="js-value">Anexar archivo del DNI</span>
+        <small id="person_file_error" class="form-control-feedback text-danger"></small>
+    </label>
+  </div>
+  <%= form.submit "Enviar", class: "btn btn-primary" %>
+  <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
+<% end %>

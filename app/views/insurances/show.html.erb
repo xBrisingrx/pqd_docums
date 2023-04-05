@@ -1,0 +1,19 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @insurance.name %>
+</p>
+
+<p>
+  <strong>Description:</strong>
+  <%= @insurance.description %>
+</p>
+
+<p>
+  <strong>Active:</strong>
+  <%= @insurance.active %>
+</p>
+
+<%= link_to 'Edit', edit_insurance_path(@insurance) %> |
+<%= link_to 'Back', insurances_path %>

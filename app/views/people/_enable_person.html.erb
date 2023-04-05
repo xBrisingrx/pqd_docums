@@ -1,0 +1,17 @@
+<p>Legajo: <%= @person.file %></p>
+<p>Nombre: <%= @person.fullname %></p>
+
+<%= form_with(url: enable_person_path, id: 'form-enable-person') do |form| %>
+  <%= form.hidden_field :person_id, value: @person.id %>
+  <div class="form-group row g-mb-10">
+    <label class="col-sm-2 col-form-label g-mb-10">Fecha reactivacion (*)</label>
+    <div class="col-sm-6">
+      <%= form.date_field :date, class: "form-control u-form-control"  %>
+    </div>
+  </div>
+  <div class="form-group">
+    <%= form.text_area :description, class: 'form-control form-control-md u-textarea-expandable', rows: 3, placeholder: 'Detalle de la reactivacion' %>
+  </div>
+  <%= form.submit 'Reactivar', class: 'btn u-btn-blue g-mr-10' %>
+  <button type="button" data-dismiss="modal" class="btn u-btn-red g-mr-10"> Cerrar </button>
+<% end %>

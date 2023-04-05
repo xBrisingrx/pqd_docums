@@ -1,0 +1,38 @@
+<%= form_with(model: person_clothe, class: 'g-brd-around g-brd-gray-light-v4 g-pa-10 g-mb-10', 
+              id: form_id) do |form| %>
+  <%= form.hidden_field :person_id, value: person_clothe.person_id %>
+  <div class="form-group row">
+    <%= form.label :clothing_package_id, 'Pack de ropa (*)', class:'col-form-label col-sm-3 col-md-4' %>
+    <div class="col-sm-8 col-lg-6">
+      <select name="people_clothe[clothing_package_id]" id="people_clothe_clothing_package_id" 
+        class='form-control select-clothing-package' required 
+        onchange="set_person_clothe_date()">
+        <option value=""></option>
+        <% ClothingPackage.actives.each do |c| %>
+          <option value="<%= c.id %>" data-expires="<%= c.expires %>" data-days="<%= c.days_of_validity %>"> <%= c.name %> </option>
+        <% end %>
+      </select>
+      <small class="form-control-feedback text-danger clothing_package_id"></small>
+    </div>
+  </div>
+
+  <div class="form-group row g-mb-10">
+    <%= form.label :start_date, 'Fecha entrega:',class: 'col-4' %>
+    <div class="col-12 col-sm-6">
+      <%= form.date_field :start_date, class: 'form-control'%>
+      <small id="error_renovation_date" class='text-danger'></small>
+    </div>
+  </div>
+
+  <div class="form-group row g-mb-10">
+    <%= form.label :end_date, 'Proxima entrega:',class: 'col-4' %>
+    <div class="col-12 col-sm-6">
+      <%= form.date_field :end_date, class: 'form-control'%>
+      <small id="error_expiration_date" class='text-danger'></small>
+    </div>
+  </div>
+
+  <div class="actions">
+    <%= form.submit 'Registrar entrega' ,class: 'btn u-btn-primary mr-2'%>
+  </div>
+<% end %>

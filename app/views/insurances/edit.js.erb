@@ -1,0 +1,58 @@
+$("#modal").html("<%= j (render partial: 'shared/modal', locals:{ size: 'xl', content: 'form' } ) %>")
+
+$('.select-vehicle-insurance').select2({ width: '100%',theme: "bootstrap4", placeholder: "Seleccione vehiculo a agregar" });
+
+$("#modal").modal('show')
+
+
+document.getElementById('add_vehicle_insurance').addEventListener('click', (e) => {
+  let vehicle_selected = $("#insurance_vehicle_id option:selected")
+  let policy = document.querySelector('#insurance_policy').value
+  let start_date = document.querySelector('#insurance_start_date').value
+  let end_date = document.querySelector('#insurance_end_date').value
+  if (vehicle_selected.val() != '' && start_date.value != '' && end_date.value != '' ) {
+    document.getElementById('vehicle_insurance').innerHTML += `
+        <tr class='vehicle_insurance_body'>
+          <td id='td_vehicle_id' data-value=${vehicle_selected.val()}>${vehicle_selected.text()}</td>
+          <td id='td_policy' data-value=${policy}>${policy}</td>
+          <td id='td_start_date' data-value=${start_date}>${ formatDateAR( start_date ) }</td>
+          <td id='td_end_date' data-value=${end_date}>${ formatDateAR( end_date ) }</td>
+        </tr>
+      `
+  }
+})
+
+document.getElementById('form-insurance').addEventListener('submit', (e) => {
+  e.preventDefault()
+  e.stopPropagation()
+  console.log(e.target.action)
+  let form = new FormData()
+  let vehicle_insurance_list = document.getElementsByClassName('vehicle_insurance_body')
+  let vehicle_index = 1
+  form.append( `insurance[name]`, document.querySelector('#insurance_name').value )
+  form.append( `insurance[description]`, document.querySelector('#insurance_description').value )
+  for (let data of vehicle_insurance_list) {
+    form.append( `insurance[vehicle_insurances_attributes][${vehicle_index}][vehicle_id]`, data.querySelector('#td_vehicle_id').dataset.value )
+    form.append( `insurance[vehicle_insurances_attributes][${vehicle_index}][policy]`, data.querySelector('#td_policy').dataset.value )
+    form.append( `insurance[vehicle_insurances_attributes][${vehicle_index}][start_date]`, data.querySelector('#td_start_date').dataset.value )
+    form.append( `insurance[vehicle_insurances_attributes][${vehicle_index}][end_date]`, data.querySelector('#td_end_date').dataset.value )
+    vehicle_index++
+  }
+
+  fetch(e.target.action, {
+      method: 'PATCH',
+      headers: {           
+        'X-CSRF-Token': document.getElementsByName('csrf-token')[0].content,
+      },
+      body: form
+    })
+    .then( response => response.json() )
+    .then( response => {
+      if (response.status === 'success') {
+        noty_alert(response.status, response.msg)
+        insurances_table.ajax.reload(null,false)
+        $("#modal").modal('hide')
+      }
+    } )
+    .catch( error => noty_alert('error', 'Ocurrio un error, no se pudo registrar la venta') )
+})

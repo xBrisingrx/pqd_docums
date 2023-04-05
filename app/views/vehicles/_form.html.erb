@@ -1,0 +1,104 @@
+<%= form_with(model: @vehicle, multipart: true, class: 'g-brd-around g-brd-gray-light-v4 g-pa-10 g-mb-10', id: 'form-vehicle') do |form| %>
+  <div class="form-group row g-mb-10">
+    <%= form.label :code, 'Interno(*) ' ,class:'col-sm-2 col-form-label g-mb-10' %>
+    <div class="col-sm-9">
+      <%= form.text_field :code, class: 'form-control u-form-control rounded-0', placeholder: 'Ingrese interno', required: true %>
+    </div>
+  </div>
+
+  <div class="form-group row g-mb-10">
+    <%= form.label :domain, 'Dominio(*) ' ,class:'col-sm-2 col-form-label g-mb-10' %>
+
+    <div class="col-sm-9">
+      <%= form.text_field :domain, class: 'form-control u-form-control rounded-0', placeholder: 'Ingrese dominio', required: true %>
+    </div>
+  </div>
+
+  <div class="form-group row g-mb-10">
+    <%= form.label :year, 'Año ' ,class:'col-sm-2 col-form-label g-mb-10' %>
+
+    <div class="col-sm-9">
+      <%= form.text_field :year, class: 'form-control u-form-control rounded-0', placeholder: 'Ingrese año' %>
+    </div>
+  </div>
+
+  <div class="form-group  row">
+    <%= form.label :vehicle_location_id, 'Patentamiento ', class:'col-form-label col-2' %>
+    <div class="col-sm-6 col-lg-6">
+      <%= form.select(:vehicle_location_id, @locations.collect {|m| [ m.name , m.id]}, { include_blank: true},
+                      class: 'form-control select-vehicle-locations', required: true) %>
+      <small class="form-control-feedback text-danger vehicle"></small>
+    </div>
+  </div>
+
+
+  <div class="form-group row g-mb-10">
+    <%= form.label :chassis, 'N.º chasis ' ,class:'col-sm-2 col-form-label g-mb-10' %>
+
+    <div class="col-sm-9">
+      <%= form.text_field :chassis, class: 'form-control u-form-control rounded-0', placeholder: 'Ingrese número de chasis' %>
+    </div>
+  </div>
+
+  <div class="form-group row g-mb-10">
+    <%= form.label :engine, 'N.º motor ' ,class:'col-sm-2 col-form-label g-mb-10' %>
+
+    <div class="col-sm-9">
+      <%= form.text_field :engine, class: 'form-control u-form-control rounded-0', placeholder: 'Ingrese número de motor' %>
+    </div>
+  </div>
+
+  <div class="form-group row g-mb-10">
+    <%= form.label :seats, 'Cant asientos ' ,class:'col-sm-2 col-form-label g-mb-10' %>
+
+    <div class="col-sm-9">
+      <%= form.text_field :seats, class: 'form-control u-form-control rounded-0', placeholder: 'Ingrese cantidad de asientos' %>
+    </div>
+  </div>
+
+  <div class="form-group  row">
+    <%= form.label :vehicle_type_id, 'Tipo (*)', class:'col-form-label col-2' %>
+    <div class="col-sm-6 col-lg-6">
+      <%= form.select(:vehicle_type_id, @types.collect {|m| [ m.name , m.id]}, { include_blank: true},
+                      class: 'form-control select-vehicle-types', required: true) %>
+      <small class="form-control-feedback text-danger vehicle"></small>
+    </div>
+  </div>
+
+  <div class="form-group  row">
+    <%= form.label :vehicle_model_id, 'Modelo (*)', class:'col-form-label col-2' %>
+    <div class="col-sm-6 col-lg-6">
+      <%= form.select(:vehicle_model_id, @models.collect {|m| [ "#{m.name}  -  #{m.vehicle_brand.name}" , m.id]}, { include_blank: true},
+                      class: 'form-control select-vehicle-models', required: true) %>
+      <small class="form-control-feedback text-danger vehicle"></small>
+    </div>
+  </div>
+
+  <div class="form-group  row">
+    <%= form.label :company_id, 'Empresa (*)', class:'col-form-label col-2' %>
+    <div class="col-sm-6 col-lg-6">
+      <%= form.select(:company_id, @companies.collect {|m| [ m.name , m.id]}, { include_blank: true},
+                      class: 'form-control select-company', required: true) %>
+      <small class="form-control-feedback text-danger vehicle"></small>
+    </div>
+  </div>
+
+  <div class='col-sm-6'>
+    <label class="u-file-attach-v2 g-color-gray-dark-v5 mb-0">
+      <%= form.file_field :images, multiple: true %>
+      <i class="icon-cloud-upload g-font-size-16 g-pos-rel g-top-2 g-mr-5"></i>
+      <span class="js-value">Anexar imágenes</span>
+      <small class="form-control-feedback text-danger vehicle_images"></small>
+    </label>
+  </div>
+
+  <div class="form-group row">
+    <%= form.label :observations, 'Observaciones:', class: 'col-form-label col-sm-10 col-md-4' %>
+    <%= form.text_area :observations, class: 'form-control col-sm-10 col-md-6 u-textarea-expandable g-resize-none', rows: 3 %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit 'Guardar', class: 'btn u-btn-primary mr-2' %>
+    <button type="button" class="btn u-btn-red" data-dismiss="modal">Cerrar</button>
+  </div>
+<% end %>

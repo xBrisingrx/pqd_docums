@@ -1,0 +1,86 @@
+$("#modal").html("<%= j (render partial: 'shared/modal', locals:{ size: 'xl', content: 'form' } ) %>")
+
+$('.select-profile-document').select2({ width: '100%',theme: "bootstrap4", placeholder: "Seleccione perfil (*)" });
+$('.select-document-profile').select2({ width: '100%',theme: "bootstrap4", placeholder: "Seleccione document (*)" });
+
+setInputDate('#form-document-profile #documents_profile_start_date')
+
+$("#modal").modal('show')
+
+document.getElementById('add_document_profile').addEventListener('click', (e) => {
+  e.preventDefault()
+  let start_date = document.querySelector('#documents_profile_start_date').value
+  let document_selected = $("#documents_profile_document_id option:selected")
+  if (start_date != '' && document_selected.val() != '') {
+    document.getElementById('table_list_documents_body').innerHTML += `
+      <tr class="document_to_add" id="document_${document_selected.val()}">
+        <td id='td_document' data-value=${document_selected.val()}>${document_selected.text()}</td>
+        <td id='td_start_date' data-value=${start_date}>${ formatDateAR( start_date ) }</td>
+        <td> <button class='btn btn-xs u-btn-red' onclick='remove_document(${document_selected.val()})'> <i class='fa fa-trash'> </i></button> </td>
+      </tr>
+    `
+    $('#documents_profile_document_id option:selected').attr('disabled', 'disabled')
+    $('.select-document-profile').val('').trigger('change')
+  }
+})
+
+function remove_document( id ) {
+  event.preventDefault()
+  let element = document.getElementById(`document_${id}`)
+  element.remove()
+  $(`#documents_profile_document_id option[value='${id}']`).attr('disabled', false)
+}
+
+
+$("#form-document-profile").on("ajax:success", function(event) {
+  documents_profiles_table.ajax.reload(null,false)
+  let msg = JSON.parse(event.detail[2].response)
+  noty_alert(msg.status, msg.msg)
+  $("#modal").modal('hide')
+}).on("ajax:error", function(event) {
+  let msg = JSON.parse( event.detail[2].response )
+  let msg_errors = $('#form-document-profile #msg_errors')
+  msg_errors.hide(500)
+  msg_errors.empty()
+  $.each( msg, function( key, value ) {
+    msg_errors.append(`${value}`)
+  })
+  msg_errors.show('slow')
+})
+
+document.getElementById('form-document-profile').addEventListener('submit', (event) =>{
+  event.preventDefault()
+  event.stopPropagation()
+  let form = new FormData()
+  let document_list = document.getElementsByClassName('document_to_add')
+  let cant_documents = document_list.length
+  let document_index = 1
+  form.append( 'profile_id', event.target.querySelector('#documents_profile_profile_id').value )
+  form.append( 'd_type', event.target.querySelector('#documents_profile_d_type').value )
+  form.append( 'count', cant_documents )
+  for (let data of document_list) {
+    form.append( `document_${document_index}`, data.querySelector(`#td_document`).dataset.value )
+    form.append( `start_date_${document_index}`, data.querySelector(`#td_start_date`).dataset.value )
+    document_index++
+  }
+  fetch('/documents_profiles/', {
+      method: 'POST',
+      headers: {           
+        'X-CSRF-Token': document.getElementsByName('csrf-token')[0].content,
+      },
+      body: form
+    }
+  )
+  .then( response => response.json() )
+  .then( response => {
+    if (response.status === 'success') {
+      documents_profiles_table.ajax.reload(null,false)
+      $("#modal").modal('hide')
+    }
+    noty_alert(response.status, response.msg)
+  } )
+  .catch( error => {
+    noty_alert('error', error)
+    console.log(error)
+  } )
+})

@@ -1,0 +1,19 @@
+<%= form_with(model: @assignments_document, class: 'needs-validation g-brd-around g-brd-gray-light-v4 g-pa-10 g-mb-10', id: 'form-assignment-document') do |form| %>
+    
+  <div id="msg_errors" class="alert g-bg-red-opacity-0_1 g-color-lightred mb-2" style="display:none"></div>
+  <%= form.hidden_field :assignated_type %>
+  <%= form.hidden_field :assignated_id %>
+  <%= form.hidden_field :custom, value: true %>
+  <div class="form-group  row">
+    <%= form.label :document_id, 'Documento (*)', class:'col-form-label col-sm-3 col-md-4' %>
+    <div class="col-sm-8 col-lg-6">
+      <%= form.select(:document_id, @documents.collect {|p| [p.name, p.id]}, { include_blank: true},
+                      class: 'form-control select-assignment-document', required: true) %>
+      <small class="form-control-feedback text-danger assignment_document_error"></small>
+    </div>
+  </div>
+  <div class="actions">
+    <%= form.submit 'Guardar', class: 'btn u-btn-primary mr-2' %>
+    <button type="button" class="btn u-btn-red" data-dismiss="modal">Cerrar</button>
+  </div>
+<% end %>

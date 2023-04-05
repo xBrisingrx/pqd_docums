@@ -1,0 +1,92 @@
+<h1>Entregas de ropa</h1>
+<div class="mb-2">
+  <%= link_to "<i class='fa fa-plus'></i> Registrar ropa".html_safe, new_clothe_path( ),remote: true, data: { toggle: :modal, target: '#modal' }, 
+  class: 'btn u-btn-outline-indigo u-btn-hover-v1-2' %>
+  <button class="btn u-btn-teal" onclick="hide_table( 'clothes_table' )"> <i class="fa fa-eye"></i></button>
+</div>
+
+<%= render( partial: 'shared/table', 
+            locals: { table_id: 'clothes', 
+                      color: 'blue', 
+                      icon: 'fa-gear',
+                      title: "Ropa", 
+                      col_names: [ 'Nombre', 'Descripcion', 'Acciones' ] }) %>
+
+<div class="mb-2">
+  <%= link_to "<i class='fa fa-plus'></i> Registrar pack de ropa".html_safe, new_clothing_package_path( ), remote: true, data: { toggle: :modal, target: '#modal' }, 
+  class: 'btn u-btn-outline-indigo u-btn-hover-v1-2' %>
+  <button class="btn u-btn-teal" onclick="hide_table( 'clothing_packages_table' )"> <i class="fa fa-eye"></i></button>
+</div>
+
+<%= render( partial: 'shared/table', 
+            locals: { table_id: 'clothing_packages', 
+                      color: 'pink', 
+                      icon: 'fa-gear',
+                      title: "Paquetes de ropa", 
+                      col_names: [ 'Nombre', 'Descripcion', 'Ropa' ,'Acciones' ] }) %>
+
+<!-- Modal para eliminar clothe -->
+<div class="modal fade" id="modal-disable-clothe" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">¿ Esta seguro de dar de baja esta ropa ?</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <%= form_with(url: disable_clothe_path, id: 'form-disable-clothe') do |form| %>
+          <%= form.hidden_field :clothe_id %>
+          <%= form.submit 'Eliminar', class: 'btn u-btn-red g-mr-10' %>
+          <button type="button" data-dismiss="modal" class="btn u-btn-teal g-mr-10"> Cerrar </button>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Fin modal eliminar clothe -->
+
+<!-- Modal para eliminar clothe -->
+<div class="modal fade" id="modal-disable-clothe" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">¿ Esta seguro de dar de baja esta ropa ?</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <%= form_with(url: disable_clothe_path, id: 'form-disable-clothe') do |form| %>
+          <%= form.hidden_field :clothe_id %>
+          <%= form.submit 'Eliminar', class: 'btn u-btn-red g-mr-10' %>
+          <button type="button" data-dismiss="modal" class="btn u-btn-teal g-mr-10"> Cerrar </button>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Fin modal eliminar clothe -->
+
+<!-- Modal para eliminar clothing-package -->
+<div class="modal fade" id="modal-disable-clothing-package" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">¿ Esta seguro de dar de baja este pack ?</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <%= form_with(url: disable_clothing_package_path, id: 'form-disable-clothing-package') do |form| %>
+          <%= form.hidden_field :clothing_package_id %>
+          <%= form.submit 'Eliminar', class: 'btn u-btn-red g-mr-10' %>
+          <button type="button" data-dismiss="modal" class="btn u-btn-teal g-mr-10"> Cerrar </button>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Fin modal eliminar clothing-package -->

@@ -1,0 +1,104 @@
+<%= form_with(model: @document,id: 'form-document', class: 'needs-validation g-brd-around g-brd-gray-light-v4 g-pa-10 g-mb-10') do |form| %>
+  <%= form.hidden_field :d_type, value: params[:d_type] %>
+  <div class="form-group row">
+    <%= form.label :name, 'Nombre (*) ', class:'col-form-label col-sm-3 col-md-4' %>
+    <div class="col-sm-9 col-md-6">
+      <%= form.text_field :name, class: 'form-control', required:true %>
+      <small class="form-control-feedback text-danger document_name"></small>
+    </div>
+  </div>
+
+  <div class="form-group row">
+    <%= form.label :description, 'Descripción ', class:'col-form-label col-sm-3 col-md-4' %>
+    <div class="col-sm-9 col-md-6 ">
+      <%= form.text_area :description, class: 'form-control u-textarea-expandable g-resize-none', rows: 3 %>
+      <small class="form-control-feedback text-danger document_description"></small>
+    </div>
+  </div>
+
+  <div class="form-group row">
+    <%= form.label :document_category_id, 'Categoría (*)', class:'col-form-label col-sm-3 col-md-4' %>
+    <div class="col-sm-8 col-lg-6">
+      <%= form.select(:document_category_id, @categories.collect {|c| [c.name, c.id]}, { include_blank: true},
+                      class: 'form-control select-2-document-category', required: true) %>
+      <small class="form-control-feedback text-danger document_document_category_id document_document_category"></small>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label class="form-check-inline u-check g-pl-25">
+      <%= form.check_box :expires, class: 'g-hidden-xs-up g-pos-abs g-top-0 g-left-0' %>
+      <div class="u-check-icon-checkbox-v6 g-absolute-centered--y g-left-0">
+        <i class="fa" data-check-icon="&#xf00c"></i>
+      </div>
+      Tiene vencimiento
+    </label>
+  </div>
+
+ <div class="form-group row" style="display: none">
+    <%= form.label :expiration_type_id, 'Periodo de vencimiento' ,class:'col-form-label col-sm-3 col-md-4' %>
+    <div class="col-sm-8 col-lg-6">
+      <%= form.select(:expiration_type_id, @expiration_types.collect { |e| [e.name, e.id, data: { days: e.days }] }, { include_blank: true},
+                      onchange: 'check_expiration_type()',
+                      class: 'form-control select-2-document-expiration') %>
+    <small class="form-control-feedback text-danger document_expiration_type_id"></small>
+    </div>
+ </div>
+
+  <div class="form-group row" style="display: none">
+    <%= form.label :days_of_validity, 'Valido durante',class:'col-form-label col-sm-3 col-md-4' %>
+    <div class="col-sm-9 col-md-6 ">
+      <%= form.text_field :days_of_validity, class: 'form-control', placeholder: 'Cada cuantos días hay que renovar el atributo' %>
+      <small class="form-control-feedback text-danger document_days_of_validity"></small>
+    </div>
+  </div>
+
+  <div class="form-group" style="display: none">
+    <label class="form-check-inline u-check g-pl-25">
+      <%= form.check_box :allow_modify_expiration, class: 'g-hidden-xs-up g-pos-abs g-top-0 g-left-0' %>
+      <div class="u-check-icon-checkbox-v6 g-absolute-centered--y g-left-0">
+        <i class="fa" data-check-icon="&#xf00c"></i>
+      </div>
+      Permite modificar proximo vencimiento  
+    </label>
+  </div>
+
+  <div class="form-group row">
+    <%= form.label :observations, 'Observaciones:', class:'col-form-label col-sm-3 col-md-4' %>
+    <div class="col-sm-9 col-md-6 ">
+      <%= form.text_area :observations, class: 'form-control u-textarea-expandable g-resize-none', rows: 3 %>
+      <small class="form-control-feedback text-danger document_observations"></small>
+    </div>
+  </div>
+
+  <div class="form-group row">
+    <%= form.label :renewal_methodology,'Metodología de renovación', class:'col-form-label col-sm-3 col-md-4' %>
+    <div class="col-sm-9 col-md-6 ">
+      <%= form.text_area :renewal_methodology, class: 'form-control u-textarea-expandable g-resize-none', rows: 3 %>
+      <small class="form-control-feedback text-danger document_renewal_methodology"></small>
+    </div>
+  </div>
+
+  <div class="form-group row">
+    <%= form.label :start_date, 'Inicio vigencia' ,class:'col-form-label col-sm-3 col-md-4', title: 'Cuando se empezo a pedir este documento' %>
+    <div class="col-9 col-md-6 input-group g-brd-primary--focus">
+      <%= form.date_field :start_date, class: 'form-control' %>
+      <small class="form-control-feedback text-danger document_start_date"></small>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label class="form-check-inline u-check g-pl-25">
+      <%= form.check_box :monthly_summary, class: 'g-hidden-xs-up g-pos-abs g-top-0 g-left-0' %>
+      <div class="u-check-icon-checkbox-v6 g-absolute-centered--y g-left-0">
+        <i class="fa" data-check-icon="&#xf00c"></i>
+      </div>
+      Presenta en resumen mensual
+    </label>
+  </div>
+
+  <div class="actions">
+    <%= form.submit 'Guardar', class: 'btn u-btn-primary mr-2' %>
+    <button type="button" class="btn u-btn-red" data-dismiss="modal">Cerrar</button>
+  </div>
+<% end %>

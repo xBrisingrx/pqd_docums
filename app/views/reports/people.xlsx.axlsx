@@ -1,0 +1,18 @@
+wb = xlsx_package.workbook
+wb.styles do |style|
+	highlight_cell = style.add_style(bg_color: "C4C4C4", border: Axlsx::STYLE_THIN_BORDER)
+	title_cell = style.add_style( :b => true, :sz => 12, :bg_color => "4BE9FF",
+		:alignment => { :horizontal=> :center }, 
+		border: Axlsx::STYLE_THIN_BORDER )
+
+		wb.add_worksheet(name: "Personas") do |sheet|
+		sheet.add_row ['Apellido', 'Nombre'], style: [title_cell, title_cell]
+	  @people.each_with_index do |person, index|
+	  	if index.odd?
+	  		sheet.add_row [person.last_name,person.name], style: [highlight_cell, highlight_cell]
+	  	else
+	  		sheet.add_row [person.last_name,person.name]
+	  	end
+	  end
+	end
+end

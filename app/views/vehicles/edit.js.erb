@@ -1,0 +1,17 @@
+$("#modal").html("<%= j (render partial: 'shared/modal', locals:{ size: 'lg', content: 'form' } ) %>")
+
+$('.select-vehicle-models').select2({ width: '100%',theme: "bootstrap4", placeholder: "Seleccione modelo (*)" })
+$('.select-vehicle-types').select2({ width: '100%',theme: "bootstrap4", placeholder: "Seleccione tipo (*)" })
+$('.select-vehicle-locations').select2({ width: '100%',theme: "bootstrap4", placeholder: "Seleccione lugar de patentamiento (*)" })
+
+$("#modal").modal('show')
+
+$("#form-vehicle").on("ajax:success", function(event) {
+    vehicles_table.ajax.reload(null,false)
+    let msg = JSON.parse(event.detail[2].response)
+    noty_alert(msg.status, msg.msg)
+    $("#modal").modal('hide')
+  }).on("ajax:error", function(event) {
+	let msg = JSON.parse( event.detail[2].response )
+	set_input_status_form('form-vehicle', 'vehicle', msg)
+})

@@ -1,0 +1,51 @@
+if ( <%= @people_profile.active %> ) {
+  $("#modal").html("<%= j (render partial: 'modal_disable', locals:{ assignment_profile_id: @people_profile.id }) %>")
+  set_disable_information()
+} else {
+  $("#modal").html("<%= j (render partial: 'modal_reactive_profile', locals:{ assignment_profile_id: @people_profile.id }) %>")
+  setInputDate('#form-person-profile #start_date')
+}
+
+$("#modal").modal('show')
+
+function set_disable_information(){
+  document.querySelector('#person_profile_data').innerHTML = `
+      <ul> 
+        <li><b>Asignado a:</b> <%= @people_profile.assignated.fullname%></li>
+        <li><b>Perfil:</b> <%= @people_profile.profile.name%> </li>
+      </ul>
+  `
+
+  document.getElementById('disable_info').innerHTML = `
+    <ul>
+      <% @documents.order(:name).each do |document| %>
+        <% if !@people_profile.shared_document(document.id) %>
+          <li><%= document.name %></li>
+        <% end %>
+      <% end %>
+    </ul>
+  `
+  setInputDate('#form-person-profile #end_date')
+}
+
+$("#form-person-profile").on("ajax:success", function(event) {
+    people_profiles_table.ajax.reload(null,false)
+    let msg = JSON.parse(event.detail[2].response)
+    noty_alert(msg.status, msg.msg)
+    $("#modal").modal('hide')
+  }).on("ajax:error", function(event) {
+	let msg = JSON.parse( event.detail[2].response )
+	$.each( msg, function( key, value ) {
+    if ( key == 'start_date' ) {
+      $(`#form-person-profile #${key}`).addClass('is-invalid')
+    } else if ( key == 'uniqueness' ) {
+      $('#form-person-profile #msg_errors').hide(500)
+      $('#form-person-profile #msg_errors').empty()
+      $('#form-person-profile #msg_errors').append( value )
+      $('#form-person-profile #msg_errors').show('slow')
+    } else {
+      $(`#form-person-profile #${key}_id`).addClass('is-invalid')
+    }
+    document.querySelector(`#form-person-profile .${key}`).innerHTML = value
+  })
+})

@@ -1,0 +1,11 @@
+<h1>Vehiculos dados de baja</h1>
+
+<%= link_to "<i class='fa fa-users'></i> Ir a unidades activas".html_safe, vehicles_path(), 
+            class: 'btn u-btn-outline-indigo u-btn-hover-v1-2 mb-2'%>
+
+<%= render( partial: 'shared/table', 
+            locals: { table_id: 'inactive_vehicles', 
+                      color: 'cyan', 
+                      icon: 'fa-address-card-o',
+                      title: "Listado de unidades dadas de baja", 
+                      col_names: [ 'Interno','Dominio','Año','Motivo','Fecha baja','Acciones' ] }) %>

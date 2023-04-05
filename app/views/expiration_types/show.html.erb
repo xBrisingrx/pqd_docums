@@ -1,0 +1,19 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @expiration_type.name %>
+</p>
+
+<p>
+  <strong>Description:</strong>
+  <%= @expiration_type.description %>
+</p>
+
+<p>
+  <strong>Active:</strong>
+  <%= @expiration_type.active %>
+</p>
+
+<%= link_to 'Edit', edit_expiration_type_path(@expiration_type) %> |
+<%= link_to 'Back', expiration_types_path %>

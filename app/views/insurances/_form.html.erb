@@ -1,0 +1,97 @@
+<%= form_with(model: @insurance, id: 'form-insurance', multipart: true, class: 'needs-validation g-brd-around g-brd-gray-light-v4 g-pa-10 g-mb-10') do |form| %>
+  <div class="form-group row">
+    <%= form.label :name, 'Nombre: ', class: 'col-form-label col-sm-3 col-md-4' %>
+    <div class="col-sm-9 col-md-6">
+      <%= form.text_field :name, class: 'form-control', required:true %>
+      <small class="invalid-feedback company_name"></small>
+    </div>
+  </div>
+  <div class="form-group row">
+    <%= form.label :description, 'Descripción:', class: 'col-form-label col-sm-3 col-md-4' %>
+    <div class="col-sm-9 col-md-6">
+      <%= form.text_area :description, class: 'form-control u-textarea-expandable g-resize-none', rows: 3 %>
+    </div>
+  </div>
+
+  <hr>
+  <p>Asignar vehiculo a la aseguradora: </p>
+  <div class="form-group row">
+    <div class="col-2">
+      <div class="col-12">
+        Vehiculo:
+      </div>
+      <div class="col-12">
+        <%= form.select(:vehicle_id, @vehicles.collect {|v| [v.code, v.id]}, { include_blank: true},
+                      class: 'form-control select-vehicle-insurance') %>
+        <small class="form-control-feedback text-danger vehicle_insurance"></small>
+      </div>
+    </div>
+    <div class="col-2">
+      <div class="col-12">
+        Poliza:
+      </div>
+      <div class="col-12">
+        <%= form.text_field :policy, class: 'form-control' %>
+        <small class="form-control-feedback text-danger vehicle_insurance_policy"></small>
+      </div>
+    </div>
+    <div class="col-2">
+      <div class="col-12">
+        Fecha inicio:
+      </div>
+      <div class="col-12">
+        <%= form.date_field :start_date, class: 'form-control' %>
+        <small class="form-control-feedback text-danger vehicle_insurance_start_date"></small>
+      </div>
+    </div>
+    <div class="col-2">
+      <div class="col-12">
+        Fecha vencimiento:
+      </div>
+      <div class="col-12">
+        <%= form.date_field :end_date, class: 'form-control' %>
+        <small class="form-control-feedback text-danger vehicle_insurance_endt_date"></small>
+      </div>
+    </div>
+    <div class="col-1">
+      <div class="col-12">
+        Archivos
+      </div>
+      <div class="col-12">
+        <label class="u-file-attach-v2 g-color-gray-dark-v5 mb-0">
+          <%= form.file_field :file, multiple: true%>
+          <i class="icon-cloud-upload g-font-size-16 g-pos-rel"></i>
+          <small class="form-control-feedback text-danger insurance_file"></small>
+        </label>
+      </div>
+    </div>
+    <div class="col-2">
+      <button id='add_vehicle_insurance' type="button" class="btn u-btn-purple"><i class="fa fa-plus"></i></button>
+    </div>
+  </div>
+
+  <table class="table table-sm table-hover col-10 mt-4 mb-4">
+    <thead class="thead-light"> 
+      <tr>
+        <th> Vehiculo </th>
+        <th> Poliza </th>
+        <th> Fecha inicio </th>
+        <th> Fecha vencimiento </th>
+      </tr>
+      <tbody id="vehicle_insurance">
+        <% @insurance.vehicle_insurances.each do |data| %>
+          <tr>
+            <td> <%= data.vehicle.code %> </td>
+            <td> <%= data.policy %> </td>
+            <td> <%= data.start_date %> </td>
+            <td> <%= data.end_date %> </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </thead>
+  </table>
+  <div class="actions">
+    <%= form.submit 'Guardar', class: 'btn u-btn-primary mr-2' %>
+    <button type="button" class="btn u-btn-red" data-dismiss="modal">Cerrar</button>
+  </div>
+<% end %>

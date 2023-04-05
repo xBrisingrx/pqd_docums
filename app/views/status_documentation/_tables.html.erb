@@ -1,0 +1,49 @@
+<%= render( partial: 'shared/table', 
+            locals: { table_id: 'assignments_assigned_profiles', 
+                      color: 'cyan', 
+                      icon: 'fa-address-card-o',
+                      title: "Perfiles asignados a la persona", 
+                      col_names: [ 'Perfil','Fecha inicio vigencia','Fecha fin vigencia', 'Estado' ] }) %>
+
+<%= link_to "<i class='fa fa-plus'></i> Asignar un documento".html_safe, 
+      new_assignments_document_path(assignated_type: 'Person'), 
+      class: 'btn u-btn-outline-indigo u-btn-hover-v1-2 mb-2', remote: true %>
+<input type="hidden" id='assignated_id'>
+<%= render( partial: 'shared/table', 
+            locals: { table_id: 'assignments_assigned_documents', 
+                      color: 'purple', 
+                      icon: 'fa-address-card-o',
+                      title: "Listado de documentos asignados", 
+                      col_names: [ 'Documento','Categoría','Vence','Fecha vencimiento','PDF','Acciones' ] }) %>
+
+<div class="modal fade" id="renovations_modal" role="dialog"
+     aria-labelledby="exampleModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+</div>
+
+<div class="modal fade" id="files_renovation_modal" tabindex="-1" role="dialog"></div>
+<div class="modal fade" id="modal_edit_renovation" tabindex="-1" role="dialog"></div>
+<div class="modal fade" id="people_clothes_modal" tabindex="-1" role="dialog"></div>
+
+<!-- Modal para eliminar renovation -->
+<div class="modal fade" id="modal-disable-renovation" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Eliminar renovacion</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>¿ Esta seguro de dar de baja esta renovacion ?</p>
+        <%= form_with(url: disable_document_renovation_path, id: 'form-disable-renovation') do |form| %>
+          <%= form.hidden_field :document_renovation_id %>
+          <%= form.submit 'Eliminar', class: 'btn u-btn-red g-mr-10' %>
+          <button type="button" data-dismiss="modal" class="btn u-btn-teal g-mr-10"> Cerrar </button>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Fin modal eliminar renovation -->
+<input type="hidden" id="assigned_type" value="<%= @assgined_type %>">

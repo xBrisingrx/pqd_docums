@@ -1,0 +1,10 @@
+<h1> Asignación de perfiles a vehiculos </h1>
+<%= link_to "<i class='fa fa-plus'></i> Asignar perfil".html_safe, new_vehicles_profile_path( d_type: params[:d_type] ), remote: true, 
+            class: 'btn u-btn-outline-indigo u-btn-hover-v1-2 mb-2' %>
+
+<%= render( partial: 'shared/table', 
+            locals: { table_id: 'vehicles_profiles', 
+                      color: 'purple', 
+                      icon: 'fa-gear',
+                      title: "Perfiles registrados", 
+                      col_names: [ 'Interno', 'Dominio','Perfil','Inicio vigencia', 'Fin vigencia','Estado','Acciones' ] }) %>

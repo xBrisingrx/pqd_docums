@@ -1,0 +1,66 @@
+$("#modal").html("<%= j (render partial: 'shared/modal', locals:{ size: 'lg', content: 'form' } ) %>")
+$("#modal").modal('show')
+
+form_person = $('#form-person')
+form_person.validate({
+  rules: {
+    'person[file]': {
+      number: true,
+      remote: {
+        url: "/person_dato_disponible",
+        type: "GET",
+        data: {
+              value: function() {
+                return $('#person_file').val()
+              },
+              attribute: function() {
+                  return 'file'
+              },
+              person_id: function() {
+                return $('#person_id').val()
+              },
+              authenticity_token: function(){
+                return $("input[name='authenticity_token']").val()
+              }
+        }
+      }
+    },
+    'person[name]': {
+      required: true,
+      minlength: 3,
+      alfanumOespacio: true
+    },
+    'person[last_name]': {
+      required: true,
+      minlength: 3,
+      alfanumOespacio: true
+    },
+    'person[dni]': {
+      minlength: 8,
+    },
+    'person[dni_file]': {
+       extension: "pdf|jpg|jpeg|png"
+    },
+    'person[cuil_file]': {
+       extension: "pdf|jpg|jpeg|png"
+    },
+    'person[start_activity_file]': {
+       extension: "pdf|jpg|jpeg|png"
+    },
+  },
+  messages: {
+    'person[file]': {
+      remote: 'Este número de legajo pertenece a otra persona'
+    }
+  }
+})
+
+$("#form-person").on("ajax:success", function(event) {
+    people_table.ajax.reload(null,false)
+    let msg = JSON.parse(event.detail[2].response)
+    noty_alert(msg.status, msg.msg)
+    $("#modal").modal('hide')
+  }).on("ajax:error", function(event) {
+	let msg = JSON.parse( event.detail[2].response )
+	set_input_status_form('form-person', 'person', msg)
+})

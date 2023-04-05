@@ -1,0 +1,49 @@
+<h1>Vehículos registados en el sistema</h1>
+<%= link_to "<i class='fa fa-plus'></i> Registrar vehículo".html_safe, new_vehicle_path( d_type: params[:d_type] ),remote: true, 
+            class: 'btn u-btn-outline-indigo u-btn-hover-v1-2 mb-2' %>
+<%= link_to "<i class='fa fa-car'></i> Ver vehiculos inactivos".html_safe, inactive_vehicles_path(), 
+            class: 'btn u-btn-outline-orange u-btn-hover-v1-2 mb-2'%>
+
+<%= render( partial: 'shared/table', 
+            locals: { table_id: 'vehicles', 
+                      color: 'blue', 
+                      icon: 'fa-gear',
+                      title: "Vehículos registrados", 
+                      col_names: [ 'Interno', 'Dominio', 'Año','Marca','Modelo','Tipo','Nº chasis','Nº motor','Asientos','Empresa','Observaciones','Acciones' ] }) %>
+<!-- Modal para eliminar vehicle -->
+<div class="modal fade" id="modal-disable-vehicle" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">¿ Esta seguro de dar de baja esta unidad ?</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <%= form_with(url: disable_vehicle_path, id: 'form-disable-vehicle') do |form| %>
+          <%= form.hidden_field :vehicle_id %>
+          <div class="form-group row g-mb-10">
+            <label class="col-sm-2 col-form-label g-mb-10">Fecha baja (*)</label>
+            <div class="col-sm-6">
+              <%= form.date_field :date, class: "form-control u-form-control"  %>
+            </div>
+          </div>
+          <div class="form-group row g-mb-10">
+            <label class="col-sm-2 col-form-label g-mb-10">Motivo baja (*)</label>
+            <%= form.select(:reasons_to_disable_id, @reasons_to_disable.collect {|r| [r.reason, r.id]}, 
+                          {:include_blank => "Seleccione motivo"},
+                          class: 'select-2-reasons form-control col-6 g-mb-10') %>
+            <div class="invalid-feedback reasons_to_disable"></div>
+          </div>
+          <div class="form-group">
+            <%= form.text_area :description, class: 'form-control form-control-md u-textarea-expandable', rows: 3, placeholder: 'Detalle de la baja' %>
+          </div>
+          <%= form.submit 'Eliminar', class: 'btn u-btn-red g-mr-10' %>
+          <button type="button" data-dismiss="modal" class="btn u-btn-teal g-mr-10"> Cerrar </button>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Fin modal eliminar vehicle -->

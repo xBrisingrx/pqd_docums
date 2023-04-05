@@ -1,0 +1,48 @@
+<%= form_with(model: @documents_profile, class: 'g-brd-around g-brd-gray-light-v4 g-pa-10 g-mb-10', id: 'form-document-profile') do |form| %>
+  <%= form.hidden_field :d_type, value: params[:d_type] %>
+  <div id="msg_errors" class="alert g-bg-red-opacity-0_1 g-color-lightred mb-2" style="display:none"></div>
+  <div class="form-group row">
+    <%= form.label :profile_id, 'Perfil (*)', class:'col-form-label col-sm-3 col-md-4' %>
+    <div class="col-sm-8 col-lg-6">
+      <%= form.select(:profile_id, @profiles.collect {|p| [p.name, p.id]}, { include_blank: true},
+                      class: 'form-control select-profile-document', required: true) %>
+      <small class="form-control-feedback text-danger profile"></small>
+    </div>
+  </div>
+
+   <div class="form-group row">
+    <%= form.label :document_id, 'Documento (*)', class:'col-form-label col-sm-3 col-md-4' %>
+    <div class="col-sm-8 col-lg-6">
+      <%= form.select(:document_id, @documents.collect {|d| [d.name, d.id]}, { include_blank: true},
+                      class: 'form-control select-document-profile') %>
+      <small class="form-control-feedback text-danger document"></small>
+    </div>
+  </div>
+
+  <div class="form-group row">
+    <%= form.label :start_date, 'Inicio vigencia' ,class:'col-form-label col-sm-3 col-md-4', title: 'Cuando se empezo a pedir este documento' %>
+    <div class="col-9 col-md-6 input-group g-brd-primary--focus">
+      <%= form.date_field :start_date, class: 'form-control' %>
+      <small class="form-control-feedback text-danger document_start_date"></small>
+    </div>
+    <button id="add_document_profile" class="btn u-btn-teal"> <i class="fa fa-plus"></i> </button>
+  </div>
+
+  <div id="table_list_documents" class="table-responsive mt-4">
+    <table class="table table-bordered table-hover u-table--v2 text-center text-uppercase g-col-border-side-0">
+      <thead>
+        <tr class="g-bg-primary g-color-white g-col-border-top-0">
+          <th class="g-brd-white-opacity-0_1">Documento</th>
+          <th class="g-brd-white-opacity-0_1">Fecha inicio vigencia</th>
+        </tr>
+      </thead>
+      <tbody id="table_list_documents_body" class="g-font-size-12 g-color-black-opacity-0_6 g-font-weight-600">
+      </tbody>
+    </table>
+  </div>
+
+  <div class="actions">
+    <%= form.submit 'Guardar', class: 'btn u-btn-primary mr-2' %>
+    <button type="button" class="btn u-btn-red" data-dismiss="modal">Cerrar</button>
+  </div>
+<% end %>

@@ -1,0 +1,49 @@
+<%= form_with(model: vehicle_insurance, multipart: true,class: 'g-brd-around g-brd-gray-light-v4 g-pa-10 g-mb-10', 
+              id: form_id) do |form| %>
+  <%= form.hidden_field :vehicle_id, value: vehicle_id %>
+  <div class="form-group  row">
+    <%= form.label :insurance_id, 'Perfil (*)', class:'col-form-label col-sm-3 col-md-4' %>
+    <div class="col-sm-8 col-lg-6">
+      <%= form.select(:insurance_id, Insurance.actives.collect {|insurance| [insurance.name, insurance.id]}, { include_blank: true},
+                      class: 'form-control select-insurance', required: true) %>
+      <small class="form-control-feedback text-danger vehicle_insurance"></small>
+    </div>
+  </div>
+
+  <div class="form-group row g-mb-10">
+    <%= form.label :policy, 'Poliza (*):',class: 'col-4' %>
+    <div class="col-12 col-sm-6">
+      <%= form.text_field :policy, class: 'form-control',required: true %>
+      <small id="error_policy" class='text-danger'></small>
+    </div>
+  </div>
+
+  <div class="form-group row g-mb-10">
+    <%= form.label :start_date, 'Fecha alta (*):',class: 'col-4' %>
+    <div class="col-12 col-sm-6">
+      <%= form.date_field :start_date, class: 'form-control',required: true %>
+      <small id="error_start_date" class='text-danger'></small>
+    </div>
+  </div>
+
+  <div class="form-group row g-mb-10">
+    <%= form.label :end_date, 'Fecha vencimiento (*):',class: 'col-4' %>
+    <div class="col-12 col-sm-6">
+      <%= form.date_field :end_date, class: 'form-control', required: true %>
+      <small id="error_end_date" class='text-danger'></small>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label class="u-file-attach-v2 g-color-gray-dark-v5 mb-0">
+      <%= form.file_field :file, multiple: true, required: true %>
+      <i class="icon-cloud-upload g-font-size-16 g-pos-rel g-top-2 g-mr-5"></i>
+      <span class="js-value">Anexar documento </span>
+      <small class="form-control-feedback text-danger error_renovation_file"></small>
+    </label>
+  </div>
+
+  <div class="actions">
+    <%= form.submit 'Cargar aseguradora' ,class: 'btn u-btn-primary mr-2' %>
+  </div>
+<% end %>

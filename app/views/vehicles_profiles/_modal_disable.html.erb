@@ -1,0 +1,27 @@
+<div class="modal-dialog" role="document">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h5 class="modal-title"> ¿ Esta seguro de desvincular este perfil ? </h5>
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+    	<div id="person_profile_data"></div>
+      <button data-toggle="collapse" href="#disable_info" 
+                role="button" aria-expanded="false" aria-controls="disable_info"  
+                class="button u-btn-xs badge badge-info">Ver documentos que se van a quitar...</button>
+      <div class="collapse multi-collapse" id="disable_info"></div>
+      <%= form_with(url: disable_assignment_profile_path, id: 'form-person-profile') do |form| %>
+        <%= form.hidden_field :assignment_profile_id, value: assignment_profile_id %>
+        <div class="form-group g-mb-10">
+          <%= form.label :end_date, 'Fecha finalización vigencia:', class: "col-form-label" %>
+          <%= form.date_field :end_date, class: "form-control u-form-control"%>
+          <small class="form-control-feedback text-danger end_date"></small>
+        </div>
+        <%= form.submit 'Eliminar', class: 'btn u-btn-red g-mr-10' %>
+        <button type="button" data-dismiss="modal" class="btn u-btn-teal g-mr-10"> Cerrar </button>
+      <% end %>
+    </div>
+  </div>
+</div>

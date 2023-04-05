@@ -1,0 +1,33 @@
+<%= form_with(model: document_renovation, multipart: true,class: 'g-brd-around g-brd-gray-light-v4 g-pa-10 g-mb-10', 
+              id: form_id) do |form| %>
+  <%= form.hidden_field :assignments_document_id, value: assignments_document %>
+  <div class="form-group row g-mb-10">
+    <%= form.label :renovation_date, 'Fecha renovación:',class: 'col-4' %>
+    <div class="col-12 col-sm-6">
+      <%= form.date_field :renovation_date, class: 'form-control',disabled: !document_expire %>
+      <small id="error_renovation_date" class='text-danger'></small>
+    </div>
+  </div>
+
+  <div class="form-group row g-mb-10">
+    <%= form.label :expiration_date, 'Fecha vencimiento:',class: 'col-4' %>
+    <div class="col-12 col-sm-6">
+      <%= form.date_field :expiration_date, class: 'form-control',disabled: !enable_expiration_date %>
+      <small id="error_expiration_date" class='text-danger'></small>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label class="u-file-attach-v2 g-color-gray-dark-v5 mb-0">
+      <%= form.file_field :file, multiple: true, required: true %>
+      <i class="icon-cloud-upload g-font-size-16 g-pos-rel g-top-2 g-mr-5"></i>
+      <span class="js-value">Anexar documento de la renovacion</span>
+      <small class="form-control-feedback text-danger error_renovation_file"></small>
+    </label>
+  </div>
+
+  <div class="actions">
+    <%= form.submit 'Cargar renovación' ,class: 'btn u-btn-primary mr-2', 
+          onclick: "document_renovation.send_renovation_data(#{assignments_document},#{document_expire}, '#{method}')" %>
+  </div>
+<% end %>

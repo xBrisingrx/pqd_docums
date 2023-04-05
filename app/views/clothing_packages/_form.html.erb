@@ -1,0 +1,69 @@
+<%= form_with(model: @clothing_package, id: 'form-clothing-package', 
+  class: 'needs-validation g-brd-around g-brd-gray-light-v4 g-pa-10 g-mb-10') do |form| %>
+  <div class="form-group row">
+    <%= form.label :name, 'Nombre: ', class: 'col-form-label col-sm-3 col-md-4' %>
+    <div class="col-sm-9 col-md-6">
+      <%= form.text_field :name, class: 'form-control', required:true %>
+      <small class="invalid-feedback company_name"></small>
+    </div>
+  </div>
+  
+  <div class="form-group row">
+    <%= form.label :expiration_type, 'Periodo de vencimiento' ,class:'col-form-label col-sm-3 col-md-4' %>
+    <div class="col-sm-8 col-lg-6">
+      <%= form.select(:expiration_type, ExpirationType.actives.collect { |e| [e.name, e.id, data: { days: e.days }] }, { include_blank: true},
+                      onchange: 'set_expiration_days()',
+                      class: 'form-control select-2-document-expiration') %>
+    <small class="form-control-feedback text-danger days_of_validity"></small>
+    </div>
+ </div>
+
+ <div class="form-group row" style="display: none">
+    <%= form.label :days_of_validity, 'Valido durante',class:'col-form-label col-sm-3 col-md-4' %>
+    <div class="col-sm-9 col-md-6 ">
+      <%= form.text_field :days_of_validity, class: 'form-control', placeholder: 'Cada cuantos días hay que entregar este pack' %>
+      <small class="form-control-feedback text-danger clothing_package_days_of_validity"></small>
+    </div>
+  </div>
+
+  <div class="form-group row">
+    <%= form.label :description, 'Descripción:', class: 'col-form-label col-sm-3 col-md-4' %>
+    <div class="col-sm-9 col-md-6">
+      <%= form.text_area :description, class: 'form-control u-textarea-expandable g-resize-none', rows: 3 %>
+    </div>
+  </div>
+
+  <div class="u-heading-v1-1 g-bg-main g-brd-primary g-mb-20">
+    <h2 class="h5 u-heading-v1__title">Agregar ropa</h2>
+  </div>
+
+  <div class="row">
+      <div class="col-8">
+        <%= form.select(:clothe_id, Clothe.actives.collect {|c| [c.name, c.id]}, { include_blank: true},
+                      class: 'form-control select-clothe') %>
+        <small class="form-control-feedback text-danger clothes"></small>
+      </div>
+      <div class="col-4">
+        <button id='add_clothe' type="button" class="btn u-btn-purple"><i class="fa fa-plus"></i></button>
+      </div>
+  </div>
+
+  <table class="table table-sm table-hover col-10 mt-4 mb-4">
+    <thead class="thead-light"> 
+      <tr>
+        <th> Ropa </th>
+      </tr>
+      <tbody id="list_clothes">
+        <% @clothing_package.clothes.each do |data| %>
+          <tr>
+            <td> <%= data.name %> </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </thead>
+  </table>
+  <div class="actions">
+    <%= form.submit 'Guardar', class: 'btn u-btn-primary mr-2' %>
+    <button type="button" class="btn u-btn-red" data-dismiss="modal">Cerrar</button>
+  </div>
+<% end %>

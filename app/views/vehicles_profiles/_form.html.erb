@@ -1,0 +1,35 @@
+<%= form_with(model: @vehicles_profile, class: 'needs-validation g-brd-around g-brd-gray-light-v4 g-pa-10 g-mb-10', id: 'form-vehicle-profile') do |form| %>
+    
+  <div id="msg_errors" class="alert g-bg-red-opacity-0_1 g-color-lightred mb-2" style="display:none"></div>
+  <%= form.hidden_field :assignated_type %>
+  <div class="form-group row">
+    <%= form.label :assignated_id, 'Vehiculo (*)', class:'col-form-label col-sm-3 col-md-4' %>
+    <div class="col-sm-8 col-lg-6">
+      <%= form.select(:assignated_id, @vehicles.collect {|p| ["#{p.code} #{p.domain}", p.id]}, { include_blank: true},
+                      class: 'form-control select-vehicle-profile', required: true) %>
+      <small class="form-control-feedback text-danger assignated"></small>
+    </div>
+  </div>
+
+  <div class="form-group  row">
+    <%= form.label :profile_id, 'Perfil (*)', class:'col-form-label col-sm-3 col-md-4' %>
+    <div class="col-sm-8 col-lg-6">
+      <%= form.select(:profile_id, @profiles.collect {|p| [p.name, p.id]}, { include_blank: true},
+                      class: 'form-control select-profile-vehicle', required: true) %>
+      <small class="form-control-feedback text-danger profile"></small>
+    </div>
+  </div>
+
+  <div class="form-group row">
+    <%= form.label :start_date, 'Inicio vigencia' ,class:'col-form-label col-sm-3 col-md-4', title: 'Cuando se empezo a pedir este documento' %>
+    <div class="col-9 col-md-6 input-group g-brd-primary--focus">
+      <%= form.date_field :start_date, class: 'form-control', required: true %>
+    </div>
+    <small class="offset-md-4 offset-sm-3 offset-1 form-control-feedback text-danger start_date"></small>
+  </div>
+
+  <div class="actions">
+    <%= form.submit 'Guardar', class: 'btn u-btn-primary mr-2' %>
+    <button type="button" class="btn u-btn-red" data-dismiss="modal">Cerrar</button>
+  </div>
+<% end %>

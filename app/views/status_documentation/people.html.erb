@@ -1,0 +1,67 @@
+<h1>Registro y renovación de documentación de personal</h1>
+
+<div class="g-mb-30">
+  <!-- Figure -->
+  <figure class="u-info-v7-1 u-info-v7-1__item g-bg-white g-rounded-4">
+		<div class="row justify-content-start ml-2 col-10 g-py-10">
+			<div class="col-6 col-md-4 col-lg-3">
+				<h3>Documentos de: </h3>	
+			</div>
+			<div class="col-4">
+				<%= form_with(url: '#', id: 'form_people_documentation') do |form| %>
+					<%= form.select(:person_select, @people.collect {|p| ["#{p.fullname}", p.id]}, {},
+				                    	required: :true, class: 'form-control assigned_select_data',
+				                    	onchange: 'status_documentation.populate_with_person_data()') %>
+				<% end %>
+			</div>
+		</div>
+    <div id="person_information" class="g-py-20 g-px-10 table-responsive" style="display:none">
+        <table class="">
+          <tbody>
+            <tr>
+              <td class="col-2"><b>Apellido y nombre</b></td>
+              <td><u id="person_fullname"></u></td>
+            </tr>
+            <tr>
+              <td class='col-2'><b>DNI: </b></td>
+              <td class='col-2'><u id="person_dni"></u></td>
+              <td class='col-2'><b>Fecha de vencimiento: </b></td>
+              <td class='col-2'><u id="person_expiration_dni"></u></td>
+              <td><a id="person_dni_file" href="#" class="btn btn-xs u-btn-hover-v1-2"></a></td>
+            </tr>
+            <tr>
+              <td class='col-2'><b>CUIL: </b></td>
+              <td class='col-2'><u id="person_cuil"></u></td>
+              <td><a id="person_cuil_file" href="#" class="btn btn-xs u-btn-hover-v1-2"></a></td>
+            </tr>
+              <td class='col-2'><b>Inicio actividad: </b></td>
+              <td class='col-2'><u id="person_start_activity"></u></td>
+              <td>
+                  <a id="person_start_activity_file" href="#" 
+                    class="btn btn-xs u-btn-hover-v1-2"></a>
+              </td>
+            <tr>
+              <td class='col-2'><b>Fecha de nacimiento: </b></td>
+              <td class='col-2'><u id="person_birth_date"></u></td>
+            </tr>
+            <tr>
+              <td class='col-2'><b>Nacionalidad: </b></td>
+              <td class='col-2'><u id="person_nationality"></u></td>
+            </tr>
+            <tr>
+              <td class='col-2'><b>Domicilio: </b></td>
+              <td class='col-2'><u id="person_direction"></u></td>
+            </tr>
+            <tr>
+              <td class='col-2'><b>Teléfono: </b></td>
+              <td class='col-2'><u id="person_phone"></u></td>
+            </tr>
+          </tbody>
+        </table>
+    </div>
+    <!-- End Figure List -->
+  </figure>
+  <!-- End Figure -->
+</div>
+
+<%= render 'tables' %>

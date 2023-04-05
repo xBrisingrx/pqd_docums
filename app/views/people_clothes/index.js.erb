@@ -1,0 +1,51 @@
+$("#people_clothes_modal").html("<%= j (render partial: 'people_clothes_modal') %>")
+
+$('.select-clothing-package').select2({ width: '100%',theme: "bootstrap4", placeholder: "Seleccione paquete de ropa (*)" })
+
+people_clothes_table = $("#people_clothes_table").DataTable({
+  'ajax': '/people_clothes?person_id=<%= @person.id%>',
+  'order': false,
+  'columns': [
+    {'data': 'pack'},
+    {'data': 'start_date'},
+    {'data': 'end_date'},
+    {'data': 'description'},
+    {'data': 'actions'}
+  ],
+  'language': {'url': datatables_lang}
+})
+
+$("#people_clothes_modal").modal('show')
+
+
+document.querySelector('#people_clothe_start_date').addEventListener('change', (e)=>{
+  set_end_date()
+})
+
+function set_person_clothe_date(){
+  let packs = document.getElementById('people_clothe_clothing_package_id')
+  let expires = packs.options[packs.selectedIndex].dataset.expires
+  setInputDate('#people_clothe_start_date')
+  if (expires) {
+    let days = parseInt( packs.options[packs.selectedIndex].dataset.days )
+    set_end_date(days)
+  }
+}
+
+function set_end_date(days) {
+  let start_date = document.querySelector('#people_clothe_start_date').value
+  let end_date = new Date( `${start_date}T00:00:00` )
+  end_date.setDate( end_date.getDate() +  days )
+  setInputDateWithValue('#form-people-clothes #people_clothe_end_date',end_date)
+}
+
+$("#form-people-clothes").on("ajax:success", function(event) {
+    people_clothes_table.ajax.reload(null,false)
+    let msg = JSON.parse(event.detail[2].response)
+    noty_alert(msg.status, msg.msg)
+    clean_form('form-people-clothes')
+    $('.select-clothing-package').val('').trigger('change')
+  }).on("ajax:error", function(event) {
+  let msg = JSON.parse( event.detail[2].response )
+  set_input_status_form('form-people-clothes', 'people_clothe', msg)
+})

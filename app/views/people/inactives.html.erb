@@ -1,0 +1,11 @@
+<h1>Personal dado de baja</h1>
+
+<%= link_to "<i class='fa fa-users'></i> Ir a personal activo".html_safe, people_path(), 
+            class: 'btn u-btn-outline-indigo u-btn-hover-v1-2 mb-2'%>
+
+<%= render( partial: 'shared/table', 
+            locals: { table_id: 'inactive_people', 
+                      color: 'cyan', 
+                      icon: 'fa-address-card-o',
+                      title: "Listado de personal dado de baja", 
+                      col_names: [ 'N° legajo','Nombre','DNI','Motivo','Fecha baja','Acciones' ] }) %>

@@ -1,0 +1,25 @@
+$("#modal").html("<%= j (render partial: 'modal_disable', locals:{ documents_profile_id: @documents_profile.id } ) %>")
+
+document.querySelector('#document_profile_data').innerHTML = `
+    <ul> 
+      <li><b>Perfil:</b> <%= @documents_profile.profile.name%> </li>
+      <li><b>Documento:</b> <%= @documents_profile.document.name%></li>
+    </ul>
+`
+
+setInputDate('#form-disable-document-profile #end_date')
+
+$("#modal").modal('show')
+
+$("#form-disable-document-profile").on("ajax:success", function(event) {
+  documents_profiles_table.ajax.reload(null,false)
+  let msg = JSON.parse(event.detail[2].response)
+  noty_alert(msg.status, msg.msg)
+  $("#modal").modal('hide')
+}).on("ajax:error", function(event) {
+  let msg = JSON.parse( event.detail[2].response )
+  $.each( msg, function( key, value ) {
+    $('#form-disable-document-profile #end_date').addClass('is-invalid')
+    $('#form-disable-document-profile .end_date').text( value ).show('slow')
+  })
+})

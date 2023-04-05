@@ -1,0 +1,1 @@
+let vehicle_insurances_table

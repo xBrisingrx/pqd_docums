@@ -1,0 +1,54 @@
+$("#modal").html("<%= j (render partial: 'shared/modal', locals:{ size: 'lg', content: 'show_images' } ) %>")
+$("#modal").modal('show')
+
+
+function remove_vehicle_image() {
+	event.preventDefault()
+	let element = event.target.parentElement
+	fetch('/vehicles/delete_image_attachment', {
+		method: 'POST',
+		headers: {           
+      'X-CSRF-Token': document.getElementsByName('csrf-token')[0].content,
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({ "id": event.target.dataset.id, vehicle_id: <%= @vehicle.id %> })
+	})
+	.then( response => response.json() )
+  .then( response => {
+  	console.log(response)
+    if (response.status === 'success') {
+      element.remove()
+      noty_alert(response.status, response.msg)
+    }
+  } )
+  .catch( error => noty_alert('error', 'Ocurrio un error, no se pudo eliminar la imagen') )
+}
+
+$("#form-vehicle-add-images").on("ajax:success", function(event) {
+    display_images()
+    let msg = JSON.parse(event.detail[2].response)
+    noty_alert(msg.status, 'Imagen agregada')
+  }).on("ajax:error", function(event) {
+		let msg = JSON.parse( event.detail[2].response )
+		noty_alert(msg.status, msg.msg)
+})
+
+function display_images() {
+  fetch( `/vehicles/<%= @vehicle.id %>/get_images`)
+  .then( response => response.json() )
+  .then( response => {
+    const images = response.images
+    vehicle_images = images
+    let body = document.getElementById('vehicle_images_galery')
+    body.innerHTML = ""
+    images.map( image => {
+      body.innerHTML += ` <div class='col-2 mr-1'>
+          <a target='_blank' href=${image.url} >
+            <image class='img-thumbnail' src=${image.url}> </image>
+          </a>
+          <a href="#" class="btn u-btn-red btn-xs" data-id=${image.id} onclick="remove_vehicle_image()"> Eliminar </a>
+        </div> `
+    } )
+  })
+}

@@ -1,0 +1,21 @@
+$("#renovations_modal").html("<%= j (render partial: 'modal_renovations') %>")
+
+document_renovations_table = $("#document_renovations_table").DataTable({
+  'ajax': '/document_renovations?assignments_document_id=<%= @assigned_document.id%>',
+  'order': false,
+  'columns': [
+    {'data': 'renovation_date'},
+    {'data': 'expiration_date'},
+    {'data': 'file'},
+    {'data': 'actions'}
+  ],
+  'language': {'url': datatables_lang}
+})
+
+$("#renovations_modal").modal('show')
+
+document.querySelector('#form-document-renovation #document_renovation_renovation_date').addEventListener('change', (e)=>{
+  let expiration_date = new Date( `${e.target.value}T00:00:00` )
+  expiration_date.setDate( expiration_date.getDate() + <%= @assigned_document.document.days_of_validity %> )
+  setInputDateWithValue('#form-document-renovation #document_renovation_expiration_date',expiration_date)
+})

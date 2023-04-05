@@ -1,0 +1,37 @@
+<h1>Documentos de <%= @document_type %></h1>
+<%= link_to "<i class='fa fa-plus'></i> Registrar documento".html_safe, new_document_path( d_type: params[:d_type] ),remote: true, 
+            class: 'btn u-btn-outline-indigo u-btn-hover-v1-2 mb-2' %>
+
+<%= render( partial: 'shared/table', 
+            locals: { table_id: 'documents', 
+                      color: 'purple', 
+                      icon: 'fa-folder-open-o',
+                      title: "Documentos registrados", 
+                      col_names: [ 'Nombre','Descripción','Categoría','Tiene venc.', 'Tipo venc.', 'Periodo venc.', 'Permite editar prox. venc.', 'Observaciones', 'Metodología de renovación', 'Presenta resumen mensual','Inicio vigencia', 'Fin vigencia' , 'Aplica a todos','Estado','Acciones' ] }) %>
+
+<!-- Modal para eliminar document -->
+<div class="modal fade" id="modal-disable-document" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">¿ Esta seguro de dar de baja este documento ?</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <%= form_with(url: disable_document_path, id: 'form-disable-document') do |form| %>
+          <%= form.hidden_field :document_id %>
+          <div class="form-group g-mb-10">
+            <%= form.label :end_date, 'Fecha finalización vigencia:', class: "col-form-label" %>
+            <%= form.date_field :end_date, class: "form-control u-form-control"%>
+            <small class="form-control-feedback text-danger end_date"></small>
+          </div>
+          <%= form.submit 'Eliminar', class: 'btn u-btn-red g-mr-10' %>
+          <button type="button" data-dismiss="modal" class="btn u-btn-teal g-mr-10"> Cerrar </button>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Fin modal eliminar document -->

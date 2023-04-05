@@ -1,0 +1,23 @@
+<%= form_with(model: @profile, class: 'g-brd-around g-brd-gray-light-v4 g-pa-10 g-mb-10', id: 'form-profile') do |form| %>
+  <%= form.hidden_field :d_type, value: params[:d_type] %>
+
+  <div class="form-group g-mb-10">
+    <%= form.label :name, 'Nombre (*):', class:"col-form-label" %>
+    <%= form.text_field :name, class: "form-control u-form-control", placeholder: 'Ingrese nombre de perfil' ,required: true  %>
+    <small class="form-control-feedback text-danger profile_name"></small>
+  </div>
+
+  <div class="form-group g-mb-10">
+    <%= form.label :start_date, 'Fecha inicio vigencia:', class: "col-form-label" %>
+    <%= form.date_field :start_date, class: "form-control u-form-control" %>
+  </div>
+
+  <div class="form-group">
+    <%= form.text_area :description, class: 'form-control col-12 u-textarea-expandable g-resize-none', rows: 3, placeholder:'Ingrese descripción del perfil' %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit 'Guardar', class: 'btn u-btn-primary mr-2' %>
+    <button type="button" class="btn u-btn-red" data-dismiss="modal">Cerrar</button>
+  </div>
+<% end %>

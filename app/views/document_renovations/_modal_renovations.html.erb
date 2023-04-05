@@ -1,0 +1,28 @@
+<div class="modal-dialog modal-lg" role="document">
+  <div class="modal-content">
+    <div class="modal-header g-brd-blue g-bg-blue">
+      <h5 class="modal-title text-white"><strong><%= @title_modal%></strong></h5>
+      <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <%= render partial: 'form', locals: { 
+                                    form_id: 'form-document-renovation',
+                                    method: 'POST',
+      															document_renovation: @document_renovation, 
+      															assignments_document: @assigned_document.id,
+      															document_expire: @assigned_document.document.expires?,
+																		enable_expiration_date: ( @assigned_document.document.expires? && @assigned_document.document.allow_modify_expiration? )
+      														} %>
+
+			<%= render( partial: 'shared/table', 
+			            locals: { table_id: 'document_renovations', 
+			                      color: 'purple', 
+			                      icon: 'fa-gear',
+			                      title: "Renovaciones", 
+			                      col_names: [ 'Fecha renovación', 'Fecha vencimiento', 'PDF','Acciones' ] }) %>
+			<button type="button" class="btn u-btn-red" data-dismiss="modal">Cerrar</button>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,59 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @document.name %>
+</p>
+
+<p>
+  <strong>Description:</strong>
+  <%= @document.description %>
+</p>
+
+<p>
+  <strong>Expires:</strong>
+  <%= @document.expires %>
+</p>
+
+<p>
+  <strong>Expiration type:</strong>
+  <%= @document.expiration_type %>
+</p>
+
+<p>
+  <strong>Days of validity:</strong>
+  <%= @document.days_of_validity %>
+</p>
+
+<p>
+  <strong>Allow modify expiration:</strong>
+  <%= @document.allow_modify_expiration %>
+</p>
+
+<p>
+  <strong>Observations:</strong>
+  <%= @document.observations %>
+</p>
+
+<p>
+  <strong>Renewal methodology:</strong>
+  <%= @document.renewal_methodology %>
+</p>
+
+<p>
+  <strong>Start date:</strong>
+  <%= @document.start_date %>
+</p>
+
+<p>
+  <strong>End date:</strong>
+  <%= @document.end_date %>
+</p>
+
+<p>
+  <strong>Active:</strong>
+  <%= @document.active %>
+</p>
+
+<%= link_to 'Edit', edit_document_path(@document) %> |
+<%= link_to 'Back', documents_path %>

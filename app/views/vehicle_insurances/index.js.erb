@@ -1,0 +1,31 @@
+$("#renovations_modal").html("<%= j (render partial: 'modal') %>")
+
+$('.select-insurance').select2({ width: '100%',theme: "bootstrap4", placeholder: "Seleccione aseguradora (*)" })
+
+vehicle_insurances_table = $("#vehicle_insurances_table").DataTable({
+  'ajax': '/vehicle_insurances?vehicle_id=<%= @vehicle.id%>',
+  'order': false,
+  'columns': [
+  	{'data': 'insurance'},
+  	{'data': 'policy'},
+    {'data': 'start_date'},
+    {'data': 'end_date'},
+    {'data': 'file'},
+    {'data': 'actions'}
+  ],
+  'language': {'url': datatables_lang}
+})
+
+setInputDate('#vehicle_insurance_start_date')
+
+$("#renovations_modal").modal('show')
+
+$("#form-vehicle-insurance").on("ajax:success", function(event) {
+    vehicle_insurances_table.ajax.reload(null,false)
+    let msg = JSON.parse(event.detail[2].response)
+    noty_alert(msg.status, msg.msg)
+    clean_form('form-vehicle-insurance')
+  }).on("ajax:error", function(event) {
+  let msg = JSON.parse( event.detail[2].response )
+  set_input_status_form('form-vehicle-insurance', 'vehicle_insurance', msg)
+})

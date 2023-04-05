@@ -1,0 +1,22 @@
+$("#modal").html("<%= j (render partial: 'shared/modal', locals:{ size: '', content: 'form' } ) %>")
+
+document.querySelector('#form-document-profile #documents_profile_profile_id').disabled = true
+document.querySelector('#form-document-profile #documents_profile_document_id').disabled = true
+
+$("#modal").modal('show')
+
+$("#form-document-profile").on("ajax:success", function(event) {
+  documents_profiles_table.ajax.reload(null,false)
+  let msg = JSON.parse(event.detail[2].response)
+  noty_alert(msg.status, msg.msg)
+  $("#modal").modal('hide')
+}).on("ajax:error", function(event) {
+  let msg = JSON.parse( event.detail[2].response )
+  let msg_errors = $('#form-document-profile #msg_errors')
+  msg_errors.hide(500)
+  msg_errors.empty()
+  $.each( msg, function( key, value ) {
+    msg_errors.append(`${value}`)
+  })
+  msg_errors.show('slow')
+})

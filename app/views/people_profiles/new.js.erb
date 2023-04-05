@@ -1,0 +1,30 @@
+$("#modal").html("<%= j (render partial: 'shared/modal', locals:{ size: 'lg', content: 'form' } ) %>")
+
+$('.select-person-profile').select2({ width: '100%',theme: "bootstrap4", placeholder: "Seleccione persona (*)" })
+$('.select-profile-person').select2({ width: '100%',theme: "bootstrap4", placeholder: "Seleccione perfil (*)" })
+
+setInputDate('#form-person-profile #assignments_profile_start_date')
+
+$("#modal").modal('show')
+
+$("#form-person-profile").on("ajax:success", function(event) {
+    people_profiles_table.ajax.reload(null,false)
+    let msg = JSON.parse(event.detail[2].response)
+    noty_alert(msg.status, msg.msg)
+    $("#modal").modal('hide')
+  }).on("ajax:error", function(event) {
+	let msg = JSON.parse( event.detail[2].response )
+	$.each( msg, function( key, value ) {
+    if ( key == 'start_date' ) {
+      $(`#form-person-profile #${key}`).addClass('is-invalid')
+    } else if ( key == 'uniqueness' ) {
+      $('#form-person-profile #msg_errors').hide(500)
+      $('#form-person-profile #msg_errors').empty()
+      $('#form-person-profile #msg_errors').append( value )
+      $('#form-person-profile #msg_errors').show('slow')
+    } else {
+      $(`#form-person-profile #${key}_id`).addClass('is-invalid')
+    }
+    document.querySelector(`#form-person-profile .${key}`).innerHTML = value
+  })
+})

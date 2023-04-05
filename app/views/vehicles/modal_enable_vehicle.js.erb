@@ -1,0 +1,15 @@
+$("#modal").html("<%= j (render partial: 'shared/modal', locals:{ size: 'lg', content: 'enable_vehicle' } ) %>")
+
+setInputDate('#form-enable-vehicle #date')
+
+$("#modal").modal('show')
+
+$("#form-enable-vehicle").on("ajax:success", function(event) {
+    inactive_vehicles_table.ajax.reload(null,false)
+    let msg = JSON.parse(event.detail[2].response)
+    noty_alert(msg.status, msg.msg)
+    $("#modal").modal('hide')
+  }).on("ajax:error", function(event) {
+	let msg = JSON.parse( event.detail[2].response )
+	set_input_status_form('form-enable-vehicle', 'vehicle', msg)
+})

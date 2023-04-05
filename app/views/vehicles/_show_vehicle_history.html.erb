@@ -1,0 +1,22 @@
+<table class="table table-sm table-hover dt-responsive w-100 u-table--v1 border">
+  <thead class="thead-light">
+    <tr>
+      <th>Estado</th>
+      <th>Motivo</th>
+      <th>Fecha</th>
+      <th>Detalle</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @activity.each do |a| %>
+      <tr>
+        <td><%= action_format(a.action) %></td>
+        <td><%= ( a.action == 'disable' ) ? a.reasons_to_disable.reason : '' %></td>
+        <td><%= date_format(a.date) %></td>
+        <td><%= a.description %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+<button type="button" class="btn u-btn-darkred" data-dismiss="modal">Cerrar</button>
