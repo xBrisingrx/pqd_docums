@@ -122,7 +122,6 @@ class VehiclesController < ApplicationController
       @brands = VehicleBrand.actives 
       @models = VehicleModel.actives.includes(:vehicle_brand)
       @locations = VehicleLocation.actives 
-      @companies = Company.where( d_type: :vehicles)
     end
 
     # Only allow a list of trusted parameters through.

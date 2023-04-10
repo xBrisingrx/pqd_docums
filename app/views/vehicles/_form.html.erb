@@ -74,15 +74,6 @@
     </div>
   </div>
 
-  <div class="form-group  row">
-    <%= form.label :company_id, 'Empresa (*)', class:'col-form-label col-2' %>
-    <div class="col-sm-6 col-lg-6">
-      <%= form.select(:company_id, @companies.collect {|m| [ m.name , m.id]}, { include_blank: true},
-                      class: 'form-control select-company', required: true) %>
-      <small class="form-control-feedback text-danger vehicle"></small>
-    </div>
-  </div>
-
   <div class='col-sm-6'>
     <label class="u-file-attach-v2 g-color-gray-dark-v5 mb-0">
       <%= form.file_field :images, multiple: true %>
