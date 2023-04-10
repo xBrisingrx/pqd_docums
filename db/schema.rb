@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_04_05_171533) do
+ActiveRecord::Schema.define(version: 2023_04_10_155134) do
 
   create_table "active_storage_attachments", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci", force: :cascade do |t|
     t.string "name", null: false
@@ -176,6 +176,16 @@ ActiveRecord::Schema.define(version: 2023_04_05_171533) do
     t.index ["fuel_truk_id"], name: "index_fuel_loads_on_fuel_truk_id"
   end
 
+  create_table "fuel_suppliers", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci", force: :cascade do |t|
+    t.string "name", null: false
+    t.string "description"
+    t.integer "supplier_type", null: false
+    t.boolean "fuel_unlimited", default: false
+    t.boolean "active", default: true
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "fuel_to_vehicles", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci", force: :cascade do |t|
     t.bigint "vehicle_id"
     t.bigint "fuel_truk_id"
@@ -323,7 +333,6 @@ ActiveRecord::Schema.define(version: 2023_04_05_171533) do
     t.string "domain"
     t.string "chassis"
     t.string "engine"
-    t.string "seats"
     t.integer "year", default: 0
     t.text "observations"
     t.boolean "active", default: true

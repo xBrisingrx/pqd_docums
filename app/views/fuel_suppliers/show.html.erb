@@ -1,0 +1,24 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @fuel_supplier.name %>
+</p>
+
+<p>
+  <strong>Description:</strong>
+  <%= @fuel_supplier.description %>
+</p>
+
+<p>
+  <strong>Supplier type:</strong>
+  <%= @fuel_supplier.supplier_type %>
+</p>
+
+<p>
+  <strong>Active:</strong>
+  <%= @fuel_supplier.active %>
+</p>
+
+<%= link_to 'Edit', edit_fuel_supplier_path(@fuel_supplier) %> |
+<%= link_to 'Back', fuel_suppliers_path %>

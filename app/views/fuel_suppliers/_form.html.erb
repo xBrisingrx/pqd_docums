@@ -1,0 +1,37 @@
+<%= form_with(model: fuel_supplier, local: true) do |form| %>
+  <% if fuel_supplier.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(fuel_supplier.errors.count, "error") %> prohibited this fuel_supplier from being saved:</h2>
+
+      <ul>
+      <% fuel_supplier.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :name %>
+    <%= form.text_field :name %>
+  </div>
+
+  <div class="field">
+    <%= form.label :description %>
+    <%= form.text_field :description %>
+  </div>
+
+  <div class="field">
+    <%= form.label :supplier_type %>
+    <%= form.number_field :supplier_type %>
+  </div>
+
+  <div class="field">
+    <%= form.label :active %>
+    <%= form.check_box :active %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>
