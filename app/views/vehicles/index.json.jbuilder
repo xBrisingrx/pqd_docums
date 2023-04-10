@@ -8,7 +8,6 @@ json.data @vehicles do |vehicle|
 	json.chassis vehicle.chassis   
 	json.engine vehicle.engine 
 	json.seats vehicle.seats 
-	json.company vehicle.company.name
 	json.observations vehicle.observations 
 	json.actions "#{ link_to '<i class="fa fa-edit"></i>'.html_safe, edit_vehicle_path(vehicle), 
                   class: 'btn btn-warning btn-sm',  data: {toggle: 'tooltip'}, title: 'Editar', remote: true }

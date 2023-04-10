@@ -7,13 +7,13 @@
 #  name                :string(255)      not null
 #  last_name           :string(255)      not null
 #  dni                 :string(255)
-#  tramit_number       :integer
+#  tramit_number       :bigint
 #  cuil                :string(255)
 #  email               :string(255)
-#  dni_has_expiration  :boolean
+#  dni_has_expiration  :boolean          default(TRUE)
 #  expiration_dni_date :date
 #  birth_date          :date
-#  nationality         :string(255)
+#  nationality         :string(255)      default("")
 #  direction           :string(255)
 #  phone               :string(255)
 #  start_activity      :date

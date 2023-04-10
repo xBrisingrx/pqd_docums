@@ -3,7 +3,7 @@
 # Table name: clothes_packs
 #
 #  id                  :bigint           not null, primary key
-#  clothes_id          :bigint
+#  clothe_id           :bigint
 #  clothing_package_id :bigint
 #  active              :boolean          default(TRUE)
 #  created_at          :datetime         not null

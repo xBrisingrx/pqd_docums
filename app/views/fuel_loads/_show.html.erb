@@ -1,0 +1,25 @@
+<div class="card g-brd-cyan rounded g-mb-30">
+  <h3 class="card-header g-bg-cyan g-brd-transparent g-color-white g-font-size-16 mb-2 rounded-0">
+    <i class="fa fa-truk"></i>
+    Cargas
+  </h3>
+   <div class="px-2  pb-2">
+    <table class="table table-sm table-hover dt-responsive w-100 u-table--v1" data-show='show'>
+      <thead>
+        <tr>
+          <th> Carga </th>
+          <th>Fecha</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <% @loads.each do |fuel| %>
+          <tr>
+            <td> <%= fuel.fueling %> </td>
+            <td> <%= date_format(fuel.date) %> </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>

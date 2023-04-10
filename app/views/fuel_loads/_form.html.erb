@@ -1,0 +1,21 @@
+<%= form_with(model: @fuel_load, id: 'form-fuel-load', class: 'needs-validation g-brd-around g-brd-gray-light-v4 g-pa-10 g-mb-10') do |form| %>
+  <%= form.hidden_field :fuel_truk_id, value: @fuel_truk.id %>
+  <div class="form-group row">
+    <%= form.label :fueling, 'Carga: ', class: 'col-form-label col-sm-3 col-md-4' %>
+    <div class="col-sm-9 col-md-6">
+      <%= form.number_field :fueling, class: 'form-control', required:true %>
+      <small class="invalid-feedback fuel_load_name"></small>
+    </div>
+  </div>
+  <div class="form-group row">
+    <%= form.label :date, 'Fecha:', class: 'col-form-label col-sm-3 col-md-4' %>
+    <div class="col-sm-9 col-md-6">
+      <%= form.date_field :date, class: 'form-control u-textarea-expandable g-resize-none', rows: 3 %>
+    </div>
+  </div>
+
+  <div class="actions">
+    <%= form.submit 'Guardar', class: 'btn u-btn-primary mr-2' %>
+    <button type="button" class="btn u-btn-red" data-dismiss="modal">Cerrar</button>
+  </div>
+<% end %>

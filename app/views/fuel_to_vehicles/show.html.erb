@@ -1,0 +1,34 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Vehicle:</strong>
+  <%= @fuel_to_vehicle.vehicle %>
+</p>
+
+<p>
+  <strong>Fueltruk:</strong>
+  <%= @fuel_to_vehicle.fuelTruk %>
+</p>
+
+<p>
+  <strong>Date:</strong>
+  <%= @fuel_to_vehicle.date %>
+</p>
+
+<p>
+  <strong>Fueling:</strong>
+  <%= @fuel_to_vehicle.fueling %>
+</p>
+
+<p>
+  <strong>Mileage:</strong>
+  <%= @fuel_to_vehicle.mileage %>
+</p>
+
+<p>
+  <strong>Active:</strong>
+  <%= @fuel_to_vehicle.active %>
+</p>
+
+<%= link_to 'Edit', edit_fuel_to_vehicle_path(@fuel_to_vehicle) %> |
+<%= link_to 'Back', fuel_to_vehicles_path %>

@@ -16,7 +16,7 @@
             <% link_to root_path, class: 'navbar-brand mr-4' do %>
               <%# image_tag('logo.png', alt: 'Logo') %>
             <% end %>
-            <%= link_to '<i class="fa fa-bus g-font-size-42"> </i>'.html_safe, root_path %>
+            <%= link_to '<i class=""> </i>'.html_safe, root_path %>
             <!-- End Logo -->
 
             <!-- Navigation -->
@@ -46,6 +46,7 @@
                     <li><%= link_to 'Asignación de perfiles', vehicles_profiles_path() %></li>
                     <li><%= link_to 'Admin. motivos de baja', reasons_to_disables_path(d_type: :vehicles) %></li>
                     <li><%= link_to 'Seguros', insurances_path() %></li>
+                    <li><%= link_to 'Cargas de combustible', fuel_truks_path() %></li>
                   </ul>
                 </li>
                 <li class="nav-item hs-has-sub-menu g-mx-20--lg g-mb-5 g-mb-0--lg">

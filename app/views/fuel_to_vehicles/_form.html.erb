@@ -1,0 +1,50 @@
+<%= form_with(model: @fuel_to_vehicle, class: 'g-brd-around g-brd-gray-light-v4 g-pa-10 g-mb-10', id: 'form-fuel-vehicle') do |form| %>
+
+
+  <div class="form-group row">
+    <%= form.label :vehicle_id, 'Vehiculo (*)', class:'col-form-label col-sm-3 col-md-4' %>
+    <div class="col-sm-8 col-lg-6">
+      <%= form.select(:vehicle_id, Vehicle.actives.collect {|v| [v.code, v.id]}, { include_blank: true},
+                      class: 'form-control select-profile-document', required: true) %>
+      <small class="form-control-feedback text-danger profile"></small>
+    </div>
+  </div>
+
+   <div class="form-group row">
+    <%= form.label :fuel_truk_id, 'Camion (*)', class:'col-form-label col-sm-3 col-md-4' %>
+    <div class="col-sm-8 col-lg-6">
+      <%= form.select(:fuel_truk_id, FuelTruk.actives.collect {|d| [d.name_with_fuel, d.id]}, { include_blank: true},
+                      class: 'form-control select-document-profile') %>
+      <small class="form-control-feedback text-danger document"></small>
+    </div>
+  </div>
+  
+  <div class="form-group row">
+    <%= form.label :date, 'Fecha' ,class:'col-form-label col-sm-3 col-md-4' %>
+    <div class="col-9 col-md-6 input-group g-brd-primary--focus">
+      <%= form.date_field :date, class: 'form-control' %>
+      <small class="form-control-feedback text-danger document_start_date"></small>
+    </div>
+  </div>
+
+  <div class="form-group row">
+    <%= form.label :fueling, 'Carga: ', class: 'col-form-label col-sm-3 col-md-4' %>
+    <div class="col-sm-9 col-md-6">
+      <%= form.number_field :fueling, class: 'form-control', required:true %>
+      <small class="invalid-feedback fuel_load_name"></small>
+    </div>
+  </div>
+
+  <div class="form-group row">
+    <%= form.label :mileage, 'Kilometraje: ', class: 'col-form-label col-sm-3 col-md-4' %>
+    <div class="col-sm-9 col-md-6">
+      <%= form.number_field :mileage, class: 'form-control', required:true %>
+      <small class="invalid-feedback fuel_load_name"></small>
+    </div>
+  </div>
+
+  <div class="actions">
+    <%= form.submit 'Guardar', class: 'btn u-btn-primary mr-2' %>
+    <button type="button" class="btn u-btn-red" data-dismiss="modal">Cerrar</button>
+  </div>
+<% end %>

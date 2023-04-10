@@ -1,0 +1,19 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Fueling:</strong>
+  <%= @fuel_load.fueling %>
+</p>
+
+<p>
+  <strong>Date:</strong>
+  <%= @fuel_load.date %>
+</p>
+
+<p>
+  <strong>Active:</strong>
+  <%= @fuel_load.active %>
+</p>
+
+<%= link_to 'Edit', edit_fuel_load_path(@fuel_load) %> |
+<%= link_to 'Back', fuel_loads_path %>

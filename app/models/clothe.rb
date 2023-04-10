@@ -17,7 +17,16 @@ class Clothe < ApplicationRecord
 		uniqueness: { case_sensitive: false, message: "Ya existe una prenda registrada con este nombre" }
 
 
+	after_create :create_individual_clothing_packages
 	scope :actives, -> { where(active: true) }
+
+	def create_individual_clothing_packages
+		clothing_package = ClothingPackage.create( name: "#{self.name}", 
+			days_of_validity: 0,
+			one_clothes: true,
+			expires: false, active: true )
+		clothing_package.clothes_packs.create( clothe_id: self.id )
+	end
 
 	def disable current_user
 		ActiveRecord::Base.transaction do

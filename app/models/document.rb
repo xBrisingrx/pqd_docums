@@ -7,8 +7,8 @@
 #  name                    :string(255)      not null
 #  description             :string(255)
 #  expires                 :boolean          default(FALSE)
-#  days_of_validity        :integer          default(1)
-#  allow_modify_expiration :integer          default(0)
+#  days_of_validity        :integer          default(0)
+#  allow_modify_expiration :boolean          default(FALSE)
 #  observations            :text(65535)
 #  renewal_methodology     :text(65535)
 #  monthly_summary         :boolean          default(TRUE)

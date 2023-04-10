@@ -8,13 +8,12 @@
 #  chassis             :string(255)
 #  engine              :string(255)
 #  seats               :string(255)
-#  year                :integer
+#  year                :integer          default(0)
 #  observations        :text(65535)
 #  active              :boolean          default(TRUE)
 #  vehicle_type_id     :bigint
 #  vehicle_model_id    :bigint
 #  vehicle_location_id :bigint
-#  company_id          :bigint
 #  created_at          :datetime         not null
 #  updated_at          :datetime         not null
 #
@@ -30,6 +29,7 @@ class Vehicle < ApplicationRecord
   has_many :activity_histories, as: :record
   has_many_attached :images
   has_many :vehicle_insurances
+  has_many :FuelToVehicles # son las cargas de combustible
 
   scope :actives, -> { where(active: true) }
   scope :inactives, -> { where(active: false) }
