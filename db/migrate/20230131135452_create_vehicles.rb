@@ -5,7 +5,6 @@ class CreateVehicles < ActiveRecord::Migration[5.2]
       t.string :domain
       t.string :chassis
       t.string :engine
-      t.string :seats
       t.integer :year, default: 0
       t.text :observations
       t.boolean :active, default: true

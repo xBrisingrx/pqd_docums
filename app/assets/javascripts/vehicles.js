@@ -21,7 +21,6 @@ $(document).ready(function(){
     {'data': 'type'},
     {'data': 'chassis'},
     {'data': 'engine'},
-    {'data': 'seats'},
     {'data': 'observations'},
     {'data': 'actions'}
     ],
