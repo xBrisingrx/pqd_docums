@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_04_10_155134) do
+ActiveRecord::Schema.define(version: 2023_04_05_160228) do
 
   create_table "active_storage_attachments", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci", force: :cascade do |t|
     t.string "name", null: false
@@ -101,7 +101,6 @@ ActiveRecord::Schema.define(version: 2023_04_10_155134) do
     t.boolean "active", default: true
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.boolean "one_clothes", default: false
   end
 
   create_table "document_categories", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci", force: :cascade do |t|
@@ -167,13 +166,13 @@ ActiveRecord::Schema.define(version: 2023_04_10_155134) do
   end
 
   create_table "fuel_loads", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci", force: :cascade do |t|
-    t.bigint "fuel_truk_id"
+    t.bigint "fuel_supplier_id"
     t.decimal "fueling", precision: 10, null: false
     t.date "date", null: false
     t.boolean "active", default: true
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["fuel_truk_id"], name: "index_fuel_loads_on_fuel_truk_id"
+    t.index ["fuel_supplier_id"], name: "index_fuel_loads_on_fuel_supplier_id"
   end
 
   create_table "fuel_suppliers", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci", force: :cascade do |t|
@@ -188,23 +187,19 @@ ActiveRecord::Schema.define(version: 2023_04_10_155134) do
 
   create_table "fuel_to_vehicles", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci", force: :cascade do |t|
     t.bigint "vehicle_id"
-    t.bigint "fuel_truk_id"
+    t.bigint "fuel_supplier_id"
+    t.bigint "load_id"
+    t.bigint "authorize_id"
     t.date "date", null: false
     t.decimal "fueling", precision: 10, null: false
     t.bigint "mileage", null: false
     t.boolean "active", default: true
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["fuel_truk_id"], name: "index_fuel_to_vehicles_on_fuel_truk_id"
+    t.index ["authorize_id"], name: "index_fuel_to_vehicles_on_authorize_id"
+    t.index ["fuel_supplier_id"], name: "index_fuel_to_vehicles_on_fuel_supplier_id"
+    t.index ["load_id"], name: "index_fuel_to_vehicles_on_load_id"
     t.index ["vehicle_id"], name: "index_fuel_to_vehicles_on_vehicle_id"
-  end
-
-  create_table "fuel_truks", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci", force: :cascade do |t|
-    t.string "name", null: false
-    t.string "description"
-    t.boolean "active", default: true
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
   end
 
   create_table "insurances", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci", force: :cascade do |t|
@@ -358,8 +353,10 @@ ActiveRecord::Schema.define(version: 2023_04_10_155134) do
   add_foreign_key "documents", "expiration_types"
   add_foreign_key "documents_profiles", "documents"
   add_foreign_key "documents_profiles", "profiles"
-  add_foreign_key "fuel_loads", "fuel_truks"
-  add_foreign_key "fuel_to_vehicles", "fuel_truks"
+  add_foreign_key "fuel_loads", "fuel_suppliers"
+  add_foreign_key "fuel_to_vehicles", "fuel_suppliers"
+  add_foreign_key "fuel_to_vehicles", "people", column: "authorize_id"
+  add_foreign_key "fuel_to_vehicles", "people", column: "load_id"
   add_foreign_key "fuel_to_vehicles", "vehicles"
   add_foreign_key "people_clothes", "clothing_packages"
   add_foreign_key "people_clothes", "people"
