@@ -1,37 +1,31 @@
-<%= form_with(model: fuel_supplier, local: true) do |form| %>
-  <% if fuel_supplier.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(fuel_supplier.errors.count, "error") %> prohibited this fuel_supplier from being saved:</h2>
-
-      <ul>
-      <% fuel_supplier.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
-      <% end %>
-      </ul>
+<%= form_with(model: @fuel_supplier, id: 'form-fuel-supplier', class: 'needs-validation g-brd-around g-brd-gray-light-v4 g-pa-10 g-mb-10') do |form| %>
+  <div class="form-group row">
+    <%= form.label :name, 'Nombre: ', class: 'col-form-label col-sm-3 col-md-4' %>
+    <div class="col-sm-9 col-md-6">
+      <%= form.text_field :name, class: 'form-control', required:true %>
+      <small class="invalid-feedback fuel_truk_name"></small>
     </div>
-  <% end %>
-
-  <div class="field">
-    <%= form.label :name %>
-    <%= form.text_field :name %>
   </div>
 
-  <div class="field">
-    <%= form.label :description %>
-    <%= form.text_field :description %>
+  <div class="form-group row">
+    <%= form.label :supplier_type, 'Tipo: ', class: 'col-form-label col-sm-3 col-md-4' %>
+    <select name="fuel_supplier[supplier_type]" id="fuel_supplier_supplier_type" required>
+      <option value="">Seleccione el tipo</option>
+      <option value="supplier">Abastecedor</option>
+      <option value="service_station">Estacion de servicio</option>
+    </select>
   </div>
 
-  <div class="field">
-    <%= form.label :supplier_type %>
-    <%= form.number_field :supplier_type %>
-  </div>
-
-  <div class="field">
-    <%= form.label :active %>
-    <%= form.check_box :active %>
+  <div class="form-group row">
+    <%= form.label :description, 'Descripción:', class: 'col-form-label col-sm-3 col-md-4' %>
+    <div class="col-sm-9 col-md-6">
+      <%= form.text_area :description, class: 'form-control u-textarea-expandable g-resize-none', rows: 3 %>
+    </div>
   </div>
 
   <div class="actions">
-    <%= form.submit %>
+    <%= form.submit 'Guardar', class: 'btn u-btn-primary mr-2' %>
+    <button type="button" class="btn u-btn-red" data-dismiss="modal">Cerrar</button>
   </div>
 <% end %>
+
