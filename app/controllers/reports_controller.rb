@@ -38,6 +38,6 @@ class ReportsController < ApplicationController
 		@page_name = "#{@month.capitalize}-#{Date.today.year}"
 
 		@fuel_to_vehicles = FuelToVehicle.where(date: start_date..end_date).actives.order(:date)
-		@total_lts = @fuel_to_vehicles.sum(:fueling).to_s
+		@total_lts = @fuel_to_vehicles.joins( "INNER JOIN vehicles ON vehicles.id = fuel_to_vehicles.vehicle_id AND vehicles.is_company = true" ).sum(:fueling).to_s
 	end
 end
