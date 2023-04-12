@@ -8,6 +8,7 @@ class CreateVehicles < ActiveRecord::Migration[5.2]
       t.integer :year, default: 0
       t.text :observations
       t.boolean :active, default: true
+      t.boolean :is_company, default: true
       t.references :vehicle_type, foreign_key: true
       t.references :vehicle_model, foreign_key: true
       t.references :vehicle_location, foreign_key: true
