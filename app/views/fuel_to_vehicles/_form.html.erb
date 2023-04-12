@@ -5,15 +5,15 @@
     <%= form.label :vehicle_id, 'Vehiculo (*)', class:'col-form-label col-sm-3 col-md-4' %>
     <div class="col-sm-8 col-lg-6">
       <%= form.select(:vehicle_id, Vehicle.actives.collect {|v| [v.code, v.id]}, { include_blank: true},
-                      class: 'form-control select-profile-document', required: true) %>
+                      class: 'form-control select-vehicle', required: true) %>
       <small class="form-control-feedback text-danger profile"></small>
     </div>
   </div>
 
    <div class="form-group row">
-    <%= form.label :fuel_truk_id, 'Camion (*)', class:'col-form-label col-sm-3 col-md-4' %>
+    <%= form.label :fuel_supplier_id, 'Abastecedor (*)', class:'col-form-label col-sm-3 col-md-4' %>
     <div class="col-sm-8 col-lg-6">
-      <%= form.select(:fuel_truk_id, FuelTruk.actives.collect {|d| [d.name_with_fuel, d.id]}, { include_blank: true},
+      <%= form.select(:fuel_supplier_id, FuelSupplier.actives.collect {|d| [d.name_with_fuel, d.id]}, { include_blank: true},
                       class: 'form-control select-document-profile') %>
       <small class="form-control-feedback text-danger document"></small>
     </div>
@@ -28,7 +28,18 @@
   </div>
 
   <div class="form-group row">
-    <%= form.label :fueling, 'Carga: ', class: 'col-form-label col-sm-3 col-md-4' %>
+    <%= form.label :fuel_type, 'Tipo: ', class: 'col-form-label col-sm-3 col-md-4' %>
+    <div class="col-sm-9 col-md-6">
+      <select name="fuel_to_vehicle[fuel_type]" id="fuel_to_vehicle_fuel_type" class="form-control" required>
+        <option value="">Seleccione el tipo</option>
+        <option value="gasoil">Gasoil</option>
+        <option value="nafta">Nafta</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="form-group row">
+    <%= form.label :fueling, 'Litros: ', class: 'col-form-label col-sm-3 col-md-4' %>
     <div class="col-sm-9 col-md-6">
       <%= form.number_field :fueling, class: 'form-control', required:true %>
       <small class="invalid-feedback fuel_load_name"></small>
@@ -39,6 +50,32 @@
     <%= form.label :mileage, 'Kilometraje: ', class: 'col-form-label col-sm-3 col-md-4' %>
     <div class="col-sm-9 col-md-6">
       <%= form.number_field :mileage, class: 'form-control', required:true %>
+      <small class="invalid-feedback fuel_load_name"></small>
+    </div>
+  </div>
+
+  <div class="form-group row">
+    <%= form.label :preson_load_id, 'Carga (*)', class:'col-form-label col-sm-3 col-md-4' %>
+    <div class="col-sm-8 col-lg-6">
+      <%= form.select(:person_load_id, Person.actives.collect {|p| [p.fullname, p.id]}, { include_blank: true},
+                      class: 'form-control select-person-load') %>
+      <small class="form-control-feedback text-danger document"></small>
+    </div>
+  </div>
+
+  <div class="form-group row">
+    <%= form.label :person_authorize_id, 'Autoriza (*)', class:'col-form-label col-sm-3 col-md-4' %>
+    <div class="col-sm-8 col-lg-6">
+      <%= form.select(:person_authorize_id, Person.actives.collect {|p| [p.fullname, p.id]}, { include_blank: true},
+                      class: 'form-control select-person-authorize') %>
+      <small class="form-control-feedback text-danger document"></small>
+    </div>
+  </div>
+
+  <div class="form-group row">
+    <%= form.label :ticket, 'N° de vale: ', class: 'col-form-label col-sm-3 col-md-4' %>
+    <div class="col-sm-9 col-md-6">
+      <%= form.number_field :ticket, class: 'form-control', required:true %>
       <small class="invalid-feedback fuel_load_name"></small>
     </div>
   </div>

@@ -8,16 +8,16 @@ class FuelLoadsController < ApplicationController
 
   # GET /fuel_loads/1 or /fuel_loads/1.json
   def show
-    @loads = FuelLoad.where( fuel_truk_id: params[:id] )
-    truk = FuelTruk.find params[:id]
-    @title_modal = "Cargas realizadas al camion #{ truk.name }"
+    @loads = FuelLoad.where( fuel_supplier_id: params[:id] )
+    supplier = FuelSupplier.find params[:id]
+    @title_modal = "Cargas realizadas al camion #{ supplier.name }"
   end
 
   # GET /fuel_loads/new
   def new
     @fuel_load = FuelLoad.new
-    @fuel_truk = FuelTruk.find params[:fuel_truk_id]
-    @title_modal = "Cargar combustible al camion #{ @fuel_truk.name}"
+    @fuel_supplier = FuelSupplier.find params[:fuel_supplier_id]
+    @title_modal = "Cargar combustible al camion #{ @fuel_supplier.name}"
   end
 
   # GET /fuel_loads/1/edit
@@ -70,6 +70,6 @@ class FuelLoadsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def fuel_load_params
-      params.require(:fuel_load).permit(:fueling, :date, :active, :fuel_truk_id)
+      params.require(:fuel_load).permit(:fueling, :date, :active, :fuel_supplier_id)
     end
 end

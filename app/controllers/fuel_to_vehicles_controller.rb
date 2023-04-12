@@ -64,6 +64,16 @@ class FuelToVehiclesController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def fuel_to_vehicle_params
-      params.require(:fuel_to_vehicle).permit(:vehicle_id, :fuel_truk_id, :date, :fueling, :mileage, :active, :date)
+      params.require(:fuel_to_vehicle).permit(
+        :vehicle_id, 
+        :fuel_supplier_id, 
+        :person_load_id, 
+        :person_authorize_id, 
+        :date, 
+        :fueling, 
+        :mileage, 
+        :ticket,
+        :fuel_type, 
+        :date )
     end
 end

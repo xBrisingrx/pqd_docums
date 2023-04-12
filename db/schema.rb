@@ -188,17 +188,19 @@ ActiveRecord::Schema.define(version: 2023_04_05_160228) do
   create_table "fuel_to_vehicles", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci", force: :cascade do |t|
     t.bigint "vehicle_id"
     t.bigint "fuel_supplier_id"
-    t.bigint "load_id"
-    t.bigint "authorize_id"
+    t.bigint "person_load_id"
+    t.bigint "person_authorize_id"
     t.date "date", null: false
     t.decimal "fueling", precision: 10, null: false
     t.bigint "mileage", null: false
+    t.bigint "ticket", null: false
+    t.integer "fuel_type", default: 1
     t.boolean "active", default: true
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["authorize_id"], name: "index_fuel_to_vehicles_on_authorize_id"
     t.index ["fuel_supplier_id"], name: "index_fuel_to_vehicles_on_fuel_supplier_id"
-    t.index ["load_id"], name: "index_fuel_to_vehicles_on_load_id"
+    t.index ["person_authorize_id"], name: "index_fuel_to_vehicles_on_person_authorize_id"
+    t.index ["person_load_id"], name: "index_fuel_to_vehicles_on_person_load_id"
     t.index ["vehicle_id"], name: "index_fuel_to_vehicles_on_vehicle_id"
   end
 
@@ -331,6 +333,7 @@ ActiveRecord::Schema.define(version: 2023_04_05_160228) do
     t.integer "year", default: 0
     t.text "observations"
     t.boolean "active", default: true
+    t.boolean "is_company", default: true
     t.bigint "vehicle_type_id"
     t.bigint "vehicle_model_id"
     t.bigint "vehicle_location_id"
@@ -355,8 +358,8 @@ ActiveRecord::Schema.define(version: 2023_04_05_160228) do
   add_foreign_key "documents_profiles", "profiles"
   add_foreign_key "fuel_loads", "fuel_suppliers"
   add_foreign_key "fuel_to_vehicles", "fuel_suppliers"
-  add_foreign_key "fuel_to_vehicles", "people", column: "authorize_id"
-  add_foreign_key "fuel_to_vehicles", "people", column: "load_id"
+  add_foreign_key "fuel_to_vehicles", "people", column: "person_authorize_id"
+  add_foreign_key "fuel_to_vehicles", "people", column: "person_load_id"
   add_foreign_key "fuel_to_vehicles", "vehicles"
   add_foreign_key "people_clothes", "clothing_packages"
   add_foreign_key "people_clothes", "people"

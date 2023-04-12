@@ -9,11 +9,13 @@
 
   <div class="form-group row">
     <%= form.label :supplier_type, 'Tipo: ', class: 'col-form-label col-sm-3 col-md-4' %>
-    <select name="fuel_supplier[supplier_type]" id="fuel_supplier_supplier_type" required>
-      <option value="">Seleccione el tipo</option>
-      <option value="supplier">Abastecedor</option>
-      <option value="service_station">Estacion de servicio</option>
-    </select>
+    <div class="col-sm-9 col-md-6">
+      <select name="fuel_supplier[supplier_type]" id="fuel_supplier_supplier_type" class="form-control" required>
+        <option value="">Seleccione el tipo</option>
+        <option value="supplier">Abastecedor</option>
+        <option value="service_station">Estacion de servicio</option>
+      </select>
+    </div>
   </div>
 
   <div class="form-group row">

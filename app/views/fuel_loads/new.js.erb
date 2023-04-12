@@ -5,7 +5,7 @@ setInputDate('#fuel_load_date')
 $("#modal").modal('show')
 
 $("#form-fuel-load").on("ajax:success", function(event) {
-    fuel_truks_table.ajax.reload(null,false)
+    fuel_suppliers_table.ajax.reload(null,false)
     let msg = JSON.parse(event.detail[2].response)
     noty_alert(msg.status, msg.msg)
     $("#modal").modal('hide')

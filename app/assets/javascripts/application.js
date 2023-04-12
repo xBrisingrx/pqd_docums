@@ -32,7 +32,7 @@
 //= require users
 //= require clothes
 //= require clothing_packages
-//= require fuel_truks
+//= require fuel_suppliers
 //= require fuel_to_vehicles
 
 $(document).on('ready', function () {

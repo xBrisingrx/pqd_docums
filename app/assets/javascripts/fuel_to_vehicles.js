@@ -9,10 +9,15 @@ $(document).ready(function(){
   fuel_vehicles_table = $("#fuel_vehicles_table").DataTable({
     'ajax': `fuel_to_vehicles`,
     'columns': [
-    {'data': 'vehicle'},
-    {'data': 'fueling'},
-    {'data': 'mileage'},
     {'data': 'date'},
+    {'data': 'vehicle'},
+    {'data': 'mileage'},
+    {'data': 'fueling'},
+    {'data': 'fuel_type'},
+    {'data': 'supplier'},
+    {'data': 'person_load'},
+    {'data': 'person_authorize'},
+    {'data': 'ticket'},
     {'data': 'actions'}
     ],
     'language': {'url': datatables_lang}

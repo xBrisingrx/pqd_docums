@@ -7,10 +7,10 @@
 #  domain              :string(255)
 #  chassis             :string(255)
 #  engine              :string(255)
-#  seats               :string(255)
 #  year                :integer          default(0)
 #  observations        :text(65535)
 #  active              :boolean          default(TRUE)
+#  is_company          :boolean          default(TRUE)
 #  vehicle_type_id     :bigint
 #  vehicle_model_id    :bigint
 #  vehicle_location_id :bigint
@@ -39,7 +39,6 @@ class Vehicle < ApplicationRecord
   end
 
   def disable end_date
-    pp end_date
     ActiveRecord::Base.transaction do
       self.update(active: false)
       self.assignments_profiles.where(active: true).each do |profile|

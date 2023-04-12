@@ -13,6 +13,7 @@ class FuelSuppliersController < ApplicationController
   # GET /fuel_suppliers/new
   def new
     @fuel_supplier = FuelSupplier.new
+    @title_modal = 'Registrar abastecedor'
   end
 
   # GET /fuel_suppliers/1/edit
@@ -25,11 +26,11 @@ class FuelSuppliersController < ApplicationController
 
     respond_to do |format|
       if @fuel_supplier.save
+        format.json { render json: { status: 'success', msg: 'Abastecedor registrado' }, status: :created }
         format.html { redirect_to fuel_supplier_url(@fuel_supplier), notice: "Fuel supplier was successfully created." }
-        format.json { render :show, status: :created, location: @fuel_supplier }
       else
-        format.html { render :new, status: :unprocessable_entity }
         format.json { render json: @fuel_supplier.errors, status: :unprocessable_entity }
+        format.html { render :new, status: :unprocessable_entity }
       end
     end
   end
@@ -38,11 +39,11 @@ class FuelSuppliersController < ApplicationController
   def update
     respond_to do |format|
       if @fuel_supplier.update(fuel_supplier_params)
+        format.json { render son: { status: 'success', msg: 'Datos actualizados' }, status: :ok }
         format.html { redirect_to fuel_supplier_url(@fuel_supplier), notice: "Fuel supplier was successfully updated." }
-        format.json { render :show, status: :ok, location: @fuel_supplier }
       else
-        format.html { render :edit, status: :unprocessable_entity }
         format.json { render json: @fuel_supplier.errors, status: :unprocessable_entity }
+        format.html { render :edit, status: :unprocessable_entity }
       end
     end
   end
@@ -65,6 +66,6 @@ class FuelSuppliersController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def fuel_supplier_params
-      params.require(:fuel_supplier).permit(:name, :description, :supplier_type, :active)
+      params.require(:fuel_supplier).permit(:name, :description, :supplier_type)
     end
 end
