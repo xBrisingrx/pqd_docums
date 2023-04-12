@@ -38,5 +38,6 @@ class ReportsController < ApplicationController
 		@page_name = "#{@month.capitalize}-#{Date.today.year}"
 
 		@fuel_to_vehicles = FuelToVehicle.where(date: start_date..end_date).actives.order(:date)
+		@total_lts = @fuel_to_vehicles.sum(:fueling).to_s
 	end
 end

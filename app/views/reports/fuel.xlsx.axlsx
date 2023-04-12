@@ -5,6 +5,12 @@ wb.styles do |style|
 		:alignment => { :horizontal=> :center }, 
 		border: Axlsx::STYLE_THIN_BORDER )
 
+	title_cell2 = style.add_style( :b => true, :sz => 12, :bg_color => "f8cbac",
+		:alignment => { :horizontal=> :center }, 
+		border: Axlsx::STYLE_THIN_BORDER )
+
+	bold_letter = style.add_style( b: true )
+
 		wb.add_worksheet(name: @page_name ) do |sheet|
 		sheet.add_row ['MES', 'FECHA CARGA', 'INTERNO', 'KM/HS', 'LITROS', 'TIPO', 'ESTACION', 'CARGA', 'AUTORIZA', 'N° VALE']
 	  @fuel_to_vehicles.each_with_index do |fuel, index|
@@ -38,5 +44,17 @@ wb.styles do |style|
 	  	end
 	  end # each 
 	  sheet.row_style 0,title_cell #set title style
+	  sheet.add_row []
+	  sheet.add_row ['MES', 'INTERNO', 'LITROS S/ VALES'], style: title_cell2
+	  @fuel_to_vehicles.each_with_index do |fuel, index|
+	  	if fuel.vehicle.is_company
+	  		sheet.add_row [
+		  		"#{@month}-#{@year}",
+			  	fuel.vehicle.code,
+			  	fuel.fueling
+			  ]
+	  	end
+	  end
+	  sheet.add_row ['', 'TOTAL', "#{@total_lts}"], style: [ bold_letter, bold_letter, title_cell2 ]
 	end
 end
