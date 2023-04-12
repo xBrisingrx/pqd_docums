@@ -1,0 +1,42 @@
+wb = xlsx_package.workbook
+wb.styles do |style|
+	highlight_cell = style.add_style(bg_color: "C4C4C4", border: Axlsx::STYLE_THIN_BORDER)
+	title_cell = style.add_style( :b => true, :sz => 12, :bg_color => "bc611b",
+		:alignment => { :horizontal=> :center }, 
+		border: Axlsx::STYLE_THIN_BORDER )
+
+		wb.add_worksheet(name: @page_name ) do |sheet|
+		sheet.add_row ['MES', 'FECHA CARGA', 'INTERNO', 'KM/HS', 'LITROS', 'TIPO', 'ESTACION', 'CARGA', 'AUTORIZA', 'N° VALE']
+	  @fuel_to_vehicles.each_with_index do |fuel, index|
+	  	if index.odd?
+	  		sheet.add_row [
+	  			"#{@month}-#{@year}",
+	  			date_format(fuel.date),
+	  			fuel.vehicle.code,
+	  			fuel.mileage,
+	  			fuel.fueling,
+	  			fuel.fuel_type_name,
+	  			fuel.fuel_supplier.name,
+	  			fuel.person_authorize.fullname,
+					fuel.person_load.fullname,
+					fuel.ticket
+	  		], 
+	  		style: highlight_cell
+	  	else
+	  		sheet.add_row [
+	  			"#{@month}-#{@year}",
+	  			date_format(fuel.date),
+	  			fuel.vehicle.code,
+	  			fuel.mileage,
+	  			fuel.fueling,
+	  			fuel.fuel_type_name,
+	  			fuel.fuel_supplier.name,
+	  			fuel.person_authorize.fullname,
+					fuel.person_load.fullname,
+					fuel.ticket
+	  		]
+	  	end
+	  end # each 
+	  sheet.row_style 0,title_cell #set title style
+	end
+end
