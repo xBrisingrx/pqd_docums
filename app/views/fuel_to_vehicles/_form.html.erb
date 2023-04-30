@@ -6,7 +6,7 @@
     <div class="col-sm-8 col-lg-6">
       <%= form.select(:vehicle_id, Vehicle.actives.collect {|v| [v.code, v.id]}, { include_blank: true},
                       class: 'form-control select-vehicle', required: true) %>
-      <small class="form-control-feedback text-danger profile"></small>
+      <small class="form-control-feedback text-danger fuel_to_vehicle_vehicle_id"></small>
     </div>
   </div>
 
@@ -15,7 +15,7 @@
     <div class="col-sm-8 col-lg-6">
       <%= form.select(:fuel_supplier_id, FuelSupplier.actives.collect {|d| [d.name_with_fuel, d.id]}, { include_blank: true},
                       class: 'form-control select-document-profile') %>
-      <small class="form-control-feedback text-danger document"></small>
+      <small class="form-control-feedback text-danger fuel_to_vehicle_fuel_supplier_id"></small>
     </div>
   </div>
   
@@ -23,7 +23,7 @@
     <%= form.label :date, 'Fecha' ,class:'col-form-label col-sm-3 col-md-4' %>
     <div class="col-9 col-md-6 input-group g-brd-primary--focus">
       <%= form.date_field :date, class: 'form-control' %>
-      <small class="form-control-feedback text-danger document_start_date"></small>
+      <small class="form-control-feedback text-danger fuel_to_vehicle_date"></small>
     </div>
   </div>
 
@@ -35,6 +35,7 @@
         <option value="gasoil">Gasoil</option>
         <option value="nafta">Nafta</option>
       </select>
+      <small class="form-control-feedback text-danger fuel_to_vehicle_fuel_type"></small>
     </div>
   </div>
 
@@ -42,7 +43,7 @@
     <%= form.label :fueling, 'Litros: ', class: 'col-form-label col-sm-3 col-md-4' %>
     <div class="col-sm-9 col-md-6">
       <%= form.number_field :fueling, class: 'form-control', required:true %>
-      <small class="invalid-feedback fuel_load_name"></small>
+      <small class="invalid-feedback fuel_to_vehicle_fueling"></small>
     </div>
   </div>
 
@@ -50,7 +51,7 @@
     <%= form.label :mileage, 'Kilometraje: ', class: 'col-form-label col-sm-3 col-md-4' %>
     <div class="col-sm-9 col-md-6">
       <%= form.number_field :mileage, class: 'form-control', required:true %>
-      <small class="invalid-feedback fuel_load_name"></small>
+      <small class="invalid-feedback fuel_to_vehicle_mileage"></small>
     </div>
   </div>
 
@@ -59,7 +60,7 @@
     <div class="col-sm-8 col-lg-6">
       <%= form.select(:person_load_id, Person.actives.collect {|p| [p.fullname, p.id]}, { include_blank: true},
                       class: 'form-control select-person-load') %>
-      <small class="form-control-feedback text-danger document"></small>
+      <small class="form-control-feedback text-danger fuel_to_vehicle_person_load"></small>
     </div>
   </div>
 
@@ -68,7 +69,7 @@
     <div class="col-sm-8 col-lg-6">
       <%= form.select(:person_authorize_id, Person.actives.collect {|p| [p.fullname, p.id]}, { include_blank: true},
                       class: 'form-control select-person-authorize') %>
-      <small class="form-control-feedback text-danger document"></small>
+      <small class="form-control-feedback text-danger fuel_to_vehicle_person_authorize"></small>
     </div>
   </div>
 
@@ -76,7 +77,7 @@
     <%= form.label :ticket, 'N° de vale: ', class: 'col-form-label col-sm-3 col-md-4' %>
     <div class="col-sm-9 col-md-6">
       <%= form.number_field :ticket, class: 'form-control', required:true %>
-      <small class="invalid-feedback fuel_load_name"></small>
+      <small class="invalid-feedback fuel_to_vehicle_ticket"></small>
     </div>
   </div>
 
