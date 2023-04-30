@@ -18,6 +18,7 @@ $(document).ready(function(){
     {'data': 'person_load'},
     {'data': 'person_authorize'},
     {'data': 'ticket'},
+    {'data': 'cost_center'},
     {'data': 'actions'}
     ],
     'language': {'url': datatables_lang}
