@@ -119,6 +119,13 @@
     </div>
   </div>
 
+  <div class="form-group row g-mb-10">
+    <%= form.label :can_authorize, 'Puede autorizar:', class: "col-sm-6 col-md-4 col-form-label g-mb-10" %>
+    <div class="col-sm-6 col-md-4">
+      <%= form.check_box :can_authorize, class: "form-check-input" %>
+    </div>
+  </div>
+
   <div class="actions">
     <%= form.submit 'Guardar', class: 'btn u-btn-primary g-mr-10' %>
     <button type="button" class="btn u-btn-darkred" data-dismiss="modal">Cerrar</button>

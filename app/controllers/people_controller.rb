@@ -124,6 +124,6 @@ class PeopleController < ApplicationController
     def person_params
       params.require(:person).permit(:file, :name, :last_name, :dni, :dni_has_expiration, 
         :date_expiration_dni, :birth_date, :nationality, :direction, :phone, :date_start_activity, 
-        :dni_file, :cuil_file, :start_activity_file, :tramit_number, :cuil, :start_activity, :email)
+        :dni_file, :cuil_file, :start_activity_file, :tramit_number, :cuil, :start_activity, :email, :can_authorize)
     end
 end
