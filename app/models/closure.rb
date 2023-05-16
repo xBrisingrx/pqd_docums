@@ -10,6 +10,8 @@
 #  updated_at :datetime         not null
 #
 class Closure < ApplicationRecord
+	has_many :closure_tickets
+	has_many :tickets, through: :closure_tickets
 	validates :start_date, :end_date, presence: true
 	validate :end_date_after_start_date
 	validate :start_date_after_last_closure

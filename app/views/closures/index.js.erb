@@ -1,0 +1,15 @@
+$("#ticket_books").html("<%= j (render partial: 'index' ) %>")
+
+$(document).ready(function(){
+	closures_table = $("#closures_table").DataTable({
+    'ajax': `closures`,
+    'columns': [
+    {'data': 'start_end_date'},
+    {'data': 'tickets'},
+    {'data': 'actions'}
+    ],
+    'language': {'url': datatables_lang}
+	})
+})
+
+$("#ticket_books").modal('show')

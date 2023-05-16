@@ -1,5 +1,6 @@
 class ClosuresController < ApplicationController
   def index
+    @closures = Closure.all
   end
 
   def new
