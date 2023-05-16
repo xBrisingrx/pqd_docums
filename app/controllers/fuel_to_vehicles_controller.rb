@@ -14,6 +14,7 @@ class FuelToVehiclesController < ApplicationController
   def new
     @fuel_to_vehicle = FuelToVehicle.new
     @title_modal = "Cargar combustible a vehiculo"
+    @closure_date = Closure.last&.until
   end
 
   # GET /fuel_to_vehicles/1/edit
@@ -23,7 +24,6 @@ class FuelToVehiclesController < ApplicationController
   # POST /fuel_to_vehicles or /fuel_to_vehicles.json
   def create
     @fuel_to_vehicle = FuelToVehicle.new(fuel_to_vehicle_params)
-
     respond_to do |format|
       if @fuel_to_vehicle.save
         format.json { render json: { status: 'success', msg: 'Carga registrada'}, status: :created, location: @fuel_to_vehicle }
@@ -74,6 +74,8 @@ class FuelToVehiclesController < ApplicationController
         :mileage, 
         :ticket,
         :fuel_type, 
-        :date )
+        :date,
+        :computable_date,
+        :ticket_id)
     end
 end

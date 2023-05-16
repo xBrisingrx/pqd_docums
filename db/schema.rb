@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_04_05_160228) do
+ActiveRecord::Schema.define(version: 2023_05_16_043337) do
 
   create_table "active_storage_attachments", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci", force: :cascade do |t|
     t.string "name", null: false
@@ -75,6 +75,23 @@ ActiveRecord::Schema.define(version: 2023_04_05_160228) do
     t.index ["profile_id"], name: "index_assignments_profiles_on_profile_id"
   end
 
+  create_table "closure_tickets", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci", force: :cascade do |t|
+    t.bigint "closure_id"
+    t.bigint "ticket_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["closure_id"], name: "index_closure_tickets_on_closure_id"
+    t.index ["ticket_id"], name: "index_closure_tickets_on_ticket_id"
+  end
+
+  create_table "closures", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci", force: :cascade do |t|
+    t.string "name", null: false
+    t.date "start_date", null: false
+    t.date "end_date", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "clothes", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci", force: :cascade do |t|
     t.string "name", null: false
     t.string "description"
@@ -98,6 +115,13 @@ ActiveRecord::Schema.define(version: 2023_04_05_160228) do
     t.text "description"
     t.integer "days_of_validity", default: 0, null: false
     t.boolean "expires", default: false
+    t.boolean "active", default: true
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "cost_centers", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci", force: :cascade do |t|
+    t.string "name", null: false
     t.boolean "active", default: true
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -193,14 +217,18 @@ ActiveRecord::Schema.define(version: 2023_04_05_160228) do
     t.date "date", null: false
     t.decimal "fueling", precision: 10, null: false
     t.bigint "mileage", null: false
-    t.bigint "ticket", null: false
     t.integer "fuel_type", default: 1
     t.boolean "active", default: true
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "cost_center_id"
+    t.bigint "ticket_id"
+    t.date "computable_date"
+    t.index ["cost_center_id"], name: "index_fuel_to_vehicles_on_cost_center_id"
     t.index ["fuel_supplier_id"], name: "index_fuel_to_vehicles_on_fuel_supplier_id"
     t.index ["person_authorize_id"], name: "index_fuel_to_vehicles_on_person_authorize_id"
     t.index ["person_load_id"], name: "index_fuel_to_vehicles_on_person_load_id"
+    t.index ["ticket_id"], name: "index_fuel_to_vehicles_on_ticket_id"
     t.index ["vehicle_id"], name: "index_fuel_to_vehicles_on_vehicle_id"
   end
 
@@ -230,6 +258,7 @@ ActiveRecord::Schema.define(version: 2023_04_05_160228) do
     t.boolean "active", default: true, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean "can_authorize", default: false
   end
 
   create_table "people_clothes", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci", force: :cascade do |t|
@@ -264,6 +293,25 @@ ActiveRecord::Schema.define(version: 2023_04_05_160228) do
     t.boolean "active", default: true
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "ticket_books", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci", force: :cascade do |t|
+    t.string "name", null: false
+    t.boolean "active", default: true
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.boolean "completed", default: false
+  end
+
+  create_table "tickets", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci", force: :cascade do |t|
+    t.integer "number", null: false
+    t.boolean "used", default: false
+    t.boolean "active", default: true
+    t.bigint "ticket_book_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.boolean "closed", default: false
+    t.index ["ticket_book_id"], name: "index_tickets_on_ticket_book_id"
   end
 
   create_table "users", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci", force: :cascade do |t|
@@ -349,6 +397,8 @@ ActiveRecord::Schema.define(version: 2023_04_05_160228) do
   add_foreign_key "activity_histories", "users"
   add_foreign_key "assignments_documents", "documents"
   add_foreign_key "assignments_profiles", "profiles"
+  add_foreign_key "closure_tickets", "closures"
+  add_foreign_key "closure_tickets", "tickets"
   add_foreign_key "clothes_packs", "clothes"
   add_foreign_key "clothes_packs", "clothing_packages"
   add_foreign_key "document_renovations", "assignments_documents"
@@ -357,12 +407,15 @@ ActiveRecord::Schema.define(version: 2023_04_05_160228) do
   add_foreign_key "documents_profiles", "documents"
   add_foreign_key "documents_profiles", "profiles"
   add_foreign_key "fuel_loads", "fuel_suppliers"
+  add_foreign_key "fuel_to_vehicles", "cost_centers"
   add_foreign_key "fuel_to_vehicles", "fuel_suppliers"
   add_foreign_key "fuel_to_vehicles", "people", column: "person_authorize_id"
   add_foreign_key "fuel_to_vehicles", "people", column: "person_load_id"
+  add_foreign_key "fuel_to_vehicles", "tickets"
   add_foreign_key "fuel_to_vehicles", "vehicles"
   add_foreign_key "people_clothes", "clothing_packages"
   add_foreign_key "people_clothes", "people"
+  add_foreign_key "tickets", "ticket_books"
   add_foreign_key "vehicle_insurances", "insurances"
   add_foreign_key "vehicle_insurances", "vehicles"
   add_foreign_key "vehicle_models", "vehicle_brands"

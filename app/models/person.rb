@@ -20,6 +20,7 @@
 #  active              :boolean          default(TRUE), not null
 #  created_at          :datetime         not null
 #  updated_at          :datetime         not null
+#  can_authorize       :boolean          default(FALSE)
 #
 class Person < ApplicationRecord
   has_one_attached :dni_file

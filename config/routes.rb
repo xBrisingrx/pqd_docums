@@ -1,4 +1,8 @@
 Rails.application.routes.draw do
+  resources :closures, only: [:index,:new,:create]
+  resources :ticket_books do 
+    get 'get_tickets', on: :member
+  end
   resources :fuel_suppliers
   resources :fuel_to_vehicles
   resources :fuel_loads

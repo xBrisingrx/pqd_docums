@@ -34,6 +34,7 @@
 //= require clothing_packages
 //= require fuel_suppliers
 //= require fuel_to_vehicles
+//= require ticket_books
 
 $(document).on('ready', function () {
   // initialization of header

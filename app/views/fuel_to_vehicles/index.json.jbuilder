@@ -7,7 +7,7 @@ json.data @fuel_to_vehicles do |fuel_vehicle|
 	json.supplier fuel_vehicle.fuel_supplier.name 
 	json.person_load fuel_vehicle.person_load.fullname
 	json.person_authorize fuel_vehicle.person_authorize.fullname
-	json.ticket fuel_vehicle.ticket
+	json.ticket fuel_vehicle.ticket.number
 	json.cost_center fuel_vehicle.cost_center.name
 	json.actions ""
 end

@@ -6,7 +6,10 @@
     class: 'btn u-btn-outline-indigo u-btn-hover-v1-2 mb-2 mr-4' %>
 
   <%= link_to "Reporte del mes ".html_safe, fuel_reports_path(format: :xlsx ), 
-                class: 'btn u-btn-outline-cyan u-btn-hover-v1-2 mb-2'%>
+                class: 'btn u-btn-outline-cyan u-btn-hover-v1-2 mb-2 mr-4'%>
+
+  <%= link_to "<i class='fa fa-book'></i> Talonarios".html_safe, ticket_books_path(), remote: true,
+    class: 'btn u-btn-outline-pink u-btn-hover-v1-2 mb-2 mr-4' %>
 </div>
 
 <%= render( partial: 'shared/table', 
@@ -17,8 +20,13 @@
                       col_names: [ 'Nombre', 'Tipo','Carga actual' ,'Descripcion', 'Acciones' ] }) %>
 
 
-<%= link_to "<i class='fa fa-plus'></i> Carga a vehiculo".html_safe, new_fuel_to_vehicle_path(),remote: true, data: { toggle: :modal, target: '#modal' }, 
-  class: 'btn u-btn-outline-indigo u-btn-hover-v1-2 mb-2' %>
+<%= link_to "<i class='fa fa-plus'></i> Carga a vehiculo".html_safe, new_fuel_to_vehicle_path(),
+      remote: true,
+      class: 'btn u-btn-outline-indigo u-btn-hover-v1-2 mb-2' %>
+
+<%= link_to "<i class='fa fa-book'></i> Generar cierre".html_safe, new_closure_path(),
+              remote: true, 
+              class: 'btn u-btn-outline-brown u-btn-hover-v1-2 mb-2 ml-4' %>
 
 <%= render( partial: 'shared/table', 
             locals: { table_id: 'fuel_vehicles', 
@@ -26,4 +34,12 @@
                       icon: 'fa-gear',
                       title: "Cargas a vehiculos", 
                       col_names: [ 'Fecha','Vehiculo','KM/HS' ,'Litros','Tipo', 'Estación','Carga','Autoriza','Ticket','Centro de costos','Acciones' ] }) %>
-                    
+
+
+<div class="modal fade" id="ticket_books" role="dialog"
+     aria-labelledby="exampleModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+</div>
+
+<div class="modal fade" id="ticket_book_create" role="dialog"
+     aria-labelledby="exampleModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+</div>

@@ -2,7 +2,18 @@ $("#modal").html("<%= j (render partial: 'shared/modal', locals:{ size: 'lg', co
 $('.select-vehicle').select2({ width: '100%',theme: "bootstrap4", placeholder: "Seleccione vehiculo (*)" })
 $('.select-person-load').select2({ width: '100%',theme: "bootstrap4", placeholder: "Quien carga (*)" })
 $('.select-person-authorize').select2({ width: '100%',theme: "bootstrap4", placeholder: "Quien autoriza (*)" })
+$('.select-ticket-book').select2({ width: '100%',theme: "bootstrap4", placeholder: "Talonario (*)" })
+$('.select-ticket').select2({ width: '100%',theme: "bootstrap4", placeholder: "Ticket (*)" })
 $("#modal").modal('show')
+
+
+// document.getElementById('form-fuel-vehicle').addEventListener('submit', (e) => {
+//   e.preventDefault()
+//   e.preventDefault()
+//   const form = new FormData()
+//   form.append('fuel_to_vehicle[ticket_id]', '1' )
+//   comodin = e.target
+// })
 
 $("#form-fuel-vehicle").on("ajax:success", function(event) {
     fuel_suppliers_table.ajax.reload(null,false)
@@ -12,5 +23,30 @@ $("#form-fuel-vehicle").on("ajax:success", function(event) {
     $("#modal").modal('hide')
   }).on("ajax:error", function(event) {
 	let msg = JSON.parse( event.detail[2].response )
+  comodin = msg
 	set_input_status_form('form-fuel-vehicle', 'fuel_to_vehicle', msg)
 })
+
+function get_tickets() {
+  const ticket_book_id = document.getElementById('fuel_to_vehicle_ticket_book_id').value
+  fetch(`/ticket_books/${ticket_book_id}/get_tickets`)
+  .then( response => response.json() )
+  .then( data => {
+    const ticket_select = document.getElementById('fuel_to_vehicle_ticket_id')
+    ticket_select.innerHTML = ''
+    data.tickets.map( ticket => {
+      ticket_select.innerHTML += `<option value=${ticket.id}>${ticket.number}</option>`
+    } )
+  })
+}
+
+document.getElementById('fuel_to_vehicle_date').addEventListener('change', e => {
+  if (<%= !@closure_date.nil? %>) {
+    const until_date = new Date( <%= @closure_date %> )
+    console.log(until_date)
+  } else {
+    document.getElementById('fuel_to_vehicle_computable_date').value = e.target.value
+  }
+})
+
+

@@ -25,7 +25,15 @@
       <%= form.date_field :date, class: 'form-control' %>
       <small class="form-control-feedback text-danger fuel_to_vehicle_date"></small>
     </div>
-  </div>
+  </div> 
+
+  <div class="form-group row" style="display:none">
+    <%= form.label :computable_date, 'Fecha computable', class:'col-form-label col-sm-3 col-md-4' %>
+    <div class="col-9 col-md-6 input-group g-brd-primary--focus">
+      <%= form.date_field :computable_date, class: 'form-control' %>
+      <small class="form-control-feedback text-danger fuel_to_vehicle_computable_date"></small>
+    </div>
+  </div> 
 
   <div class="form-group row">
     <%= form.label :fuel_type, 'Tipo: ', class: 'col-form-label col-sm-3 col-md-4' %>
@@ -74,10 +82,17 @@
   </div>
 
   <div class="form-group row">
-    <%= form.label :ticket, 'N° de vale: ', class: 'col-form-label col-sm-3 col-md-4' %>
-    <div class="col-sm-9 col-md-6">
-      <%= form.number_field :ticket, class: 'form-control', required:true %>
-      <small class="invalid-feedback fuel_to_vehicle_ticket"></small>
+    <%= form.label :ticket_book_id, 'N° de vale: ', class: 'col-form-label col-2' %>
+    <div class="col-4">
+      <%= form.select(:ticket_book_id, TicketBook.actives.where(completed: false).collect {|p| [p.name, p.id]}, 
+                      { include_blank: true},
+                      class: 'form-control select-ticket-book',
+                      onchange: 'get_tickets()') %>
+      <small class="invalid-feedback fuel_to_vehicle_ticket_book"></small>
+    </div>
+    <div class="col-4">
+      <select name="fuel_to_vehicle[ticket_id]" id="fuel_to_vehicle_ticket_id" class="form-control select-ticket"></select>
+      <small class="text-danger fuel_to_vehicle_ticket"></small>
     </div>
   </div>
 
