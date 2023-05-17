@@ -95,5 +95,6 @@ Rails.application.routes.draw do
     get 'people', on: :collection
     get 'matriz', on: :collection
     get 'fuel', on: :collection
+    get 'by_closure', on: :collection
   end
 end

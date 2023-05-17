@@ -28,7 +28,7 @@ class ReportsController < ApplicationController
 		end
 	end
 
-	def fuel 
+	def fuel
 		start_date = Date.today.at_beginning_of_month
 		end_date = start_date + 45.day
 		@month = I18n.t("date.month_names")[Date.today.month]
@@ -37,7 +37,16 @@ class ReportsController < ApplicationController
 		@abbr_month = "#{I18n.t("date.abbr_month_names")[Date.today.month]}-#{@abbr_year}"
 		@page_name = "#{@month.capitalize}-#{Date.today.year}"
 
-		@fuel_to_vehicles = FuelToVehicle.where(date: start_date..end_date).actives.order(:date)
-		@total_lts = @fuel_to_vehicles.joins( "INNER JOIN vehicles ON vehicles.id = fuel_to_vehicles.vehicle_id AND vehicles.is_company = true" ).sum(:fueling).to_s
+		@fuel_to_vehicles = FuelToVehicle.where(computable_date: start_date..end_date).actives.order(:date)
+		@total_lts = @fuel_to_vehicles.sum(:fueling).to_s
+	end
+
+	def by_closure
+		closure = Closure.find(params[:closure_id])
+		tickets = closure.tickets.pluck(:id)
+		@fuel_to_vehicles = FuelToVehicle.where("ticket_id IN (?)", tickets).actives.order(:date)
+		@total_lts = @fuel_to_vehicles.sum(:fueling).to_s
+		@page_name = "Cierre #{I18n.t("date.abbr_month_names")[closure.start_date.month]}"
+		render :fuel
 	end
 end
