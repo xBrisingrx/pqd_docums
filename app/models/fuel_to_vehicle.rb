@@ -27,7 +27,10 @@ class FuelToVehicle < ApplicationRecord
   belongs_to :ticket
 
   before_validation :set_cost_center, on: :create
-
+  before_save :update_ticket, on: :update
+  validates :mileage, presence: true, numericality: { greater_than_or_equal_to: 0 }
+  validate :valid_dates
+  validate :greater_than_last_mileage, on: :create 
   after_create :set_ticket_to_used
   scope :actives, -> { where(active: true) }
 
@@ -51,6 +54,25 @@ class FuelToVehicle < ApplicationRecord
 
     def set_ticket_to_used
       self.ticket.update(used: true)
+    end
+
+    def valid_dates
+      closure_date = Closure.last_date
+      if (!closure_date.nil?) && closure_date > self.computable_date
+        errors.add(:computable_date, "No puede ingresar una fecha anterior al ultimo cierre.")
+      end
+    end
+
+    def greater_than_last_mileage
+      last_mileage = FuelToVehicle.where( vehicle_id: self.vehicle_id ).order( date: :asc ).last
+      if !last_mileage.mileage.nil? && last_mileage.mileage >= self.mileage
+        errors.add(:mileage, "El ultimo kilometraje registrado de esta unidad es de #{last_mileage.mileage}")
+      end
+    end
+
+    def update_ticket
+      puts "\n\n updateando el ticket #{self.ticket_id_changed?}\n\n"
+      self.ticket.update( used: false ) if self.ticket_id_changed?
     end
 
 end

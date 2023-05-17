@@ -14,11 +14,14 @@ class FuelToVehiclesController < ApplicationController
   def new
     @fuel_to_vehicle = FuelToVehicle.new
     @title_modal = "Cargar combustible a vehiculo"
-    @closure_date = Closure.last&.until
+    @closure_date = Closure.last&.end_date.to_s
   end
 
   # GET /fuel_to_vehicles/1/edit
   def edit
+    @title_modal = "Editar carga de combustible"
+    @diferents_dates = @fuel_to_vehicle.date != @fuel_to_vehicle.computable_date
+
   end
 
   # POST /fuel_to_vehicles or /fuel_to_vehicles.json
@@ -26,7 +29,7 @@ class FuelToVehiclesController < ApplicationController
     @fuel_to_vehicle = FuelToVehicle.new(fuel_to_vehicle_params)
     respond_to do |format|
       if @fuel_to_vehicle.save
-        format.json { render json: { status: 'success', msg: 'Carga registrada'}, status: :created, location: @fuel_to_vehicle }
+        format.json { render json: { status: 'success', msg: 'Carga registrada'}, status: :created }
       else
         format.json { render json: @fuel_to_vehicle.errors, status: :unprocessable_entity }
       end
@@ -35,12 +38,11 @@ class FuelToVehiclesController < ApplicationController
 
   # PATCH/PUT /fuel_to_vehicles/1 or /fuel_to_vehicles/1.json
   def update
+    # if @fuel.ticket != params[ticket] lo libero
     respond_to do |format|
       if @fuel_to_vehicle.update(fuel_to_vehicle_params)
-        format.html { redirect_to fuel_to_vehicle_url(@fuel_to_vehicle), notice: "Fuel to vehicle was successfully updated." }
-        format.json { render :show, status: :ok, location: @fuel_to_vehicle }
+        format.json { render json: { status: 'success', msg: 'Datos actualizados'}, status: :ok, location: @fuel_to_vehicle }
       else
-        format.html { render :edit, status: :unprocessable_entity }
         format.json { render json: @fuel_to_vehicle.errors, status: :unprocessable_entity }
       end
     end

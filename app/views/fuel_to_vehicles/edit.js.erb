@@ -4,28 +4,19 @@ $('.select-person-load').select2({ width: '100%',theme: "bootstrap4", placeholde
 $('.select-person-authorize').select2({ width: '100%',theme: "bootstrap4", placeholder: "Quien autoriza (*)" })
 $('.select-ticket-book').select2({ width: '100%',theme: "bootstrap4", placeholder: "Talonario (*)" })
 $('.select-ticket').select2({ width: '100%',theme: "bootstrap4", placeholder: "Ticket (*)" })
+
+$('#fuel_to_vehicle_fuel_type').val( "<%= @fuel_to_vehicle.fuel_type %>" )
+$('#fuel_to_vehicle_fuel_type').trigger('change')
+
+if (<%= @diferents_dates %>) {
+	document.getElementById('fuel_to_vehicle_computable_date').parentElement.parentElement.style.display = ''
+}
+
+$('#fuel_to_vehicle_ticket_book_id').val("<%= @fuel_to_vehicle.ticket.ticket_book.id %>")
+$('#fuel_to_vehicle_ticket_book_id').trigger('change')
+
 $("#modal").modal('show')
 
-
-// document.getElementById('form-fuel-vehicle').addEventListener('submit', (e) => {
-//   e.preventDefault()
-//   e.preventDefault()
-//   const form = new FormData()
-//   form.append('fuel_to_vehicle[ticket_id]', '1' )
-//   comodin = e.target
-// })
-
-$("#form-fuel-vehicle").on("ajax:success", function(event) {
-    fuel_suppliers_table.ajax.reload(null,false)
-    fuel_vehicles_table.ajax.reload(null,false)
-    let msg = JSON.parse(event.detail[2].response)
-    noty_alert(msg.status, msg.msg)
-    $("#modal").modal('hide')
-  }).on("ajax:error", function(event) {
-	let msg = JSON.parse( event.detail[2].response )
-  comodin = msg
-	set_input_status_form('form-fuel-vehicle', 'fuel_to_vehicle', msg)
-})
 
 function get_tickets() {
   const ticket_book_id = document.getElementById('fuel_to_vehicle_ticket_book_id').value
@@ -37,6 +28,12 @@ function get_tickets() {
     data.tickets.map( ticket => {
       ticket_select.innerHTML += `<option value=${ticket.id}>${ticket.number}</option>`
     } )
+
+    if (ticket_book_id == "<%= @fuel_to_vehicle.ticket.ticket_book.id %>") {
+	  	ticket_select.innerHTML += "<option value='<%= @fuel_to_vehicle.ticket.id %>'><%= @fuel_to_vehicle.ticket.number %></option>"
+	  	$('#fuel_to_vehicle_ticket_id').val("<%= @fuel_to_vehicle.ticket.id %>")
+			$('#fuel_to_vehicle_ticket_id').trigger('change')
+	  }
   })
 }
 
@@ -57,4 +54,14 @@ document.getElementById('fuel_to_vehicle_date').addEventListener('change', e => 
   }
 })
 
-
+$("#form-fuel-vehicle").on("ajax:success", function(event) {
+    fuel_suppliers_table.ajax.reload(null,false)
+    fuel_vehicles_table.ajax.reload(null,false)
+    let msg = JSON.parse(event.detail[2].response)
+    noty_alert(msg.status, msg.msg)
+    $("#modal").modal('hide')
+  }).on("ajax:error", function(event) {
+	let msg = JSON.parse( event.detail[2].response )
+  comodin = msg
+	set_input_status_form('form-fuel-vehicle', 'fuel_to_vehicle', msg)
+})

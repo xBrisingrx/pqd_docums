@@ -19,6 +19,10 @@ class Closure < ApplicationRecord
 	before_create :tickets_are_found
 	after_create :associate_tickets
 
+	def self.last_date
+		order(end_date: :desc).first.end_date
+	end
+
 	private 
 
 	def start_date_after_last_closure

@@ -9,5 +9,10 @@ json.data @fuel_to_vehicles do |fuel_vehicle|
 	json.person_authorize fuel_vehicle.person_authorize.fullname
 	json.ticket fuel_vehicle.ticket.number
 	json.cost_center fuel_vehicle.cost_center.name
-	json.actions ""
+	if fuel_vehicle.ticket.closed?
+		json.actions ""
+	else
+		json.actions " #{ link_to '<i class="fa fa-edit"></i>'.html_safe, edit_fuel_to_vehicle_path(fuel_vehicle), 
+                  class: 'btn btn-warning btn-sm', title: 'Editar', remote: true } "
+	end
 end

@@ -21,16 +21,16 @@
   
   <div class="form-group row">
     <%= form.label :date, 'Fecha' ,class:'col-form-label col-sm-3 col-md-4' %>
-    <div class="col-9 col-md-6 input-group g-brd-primary--focus">
-      <%= form.date_field :date, class: 'form-control' %>
+    <div class="col-9 col-md-6">
+      <%= form.date_field :date, class: 'form-control',required: true %>
       <small class="form-control-feedback text-danger fuel_to_vehicle_date"></small>
     </div>
   </div> 
 
   <div class="form-group row" style="display:none">
     <%= form.label :computable_date, 'Fecha computable', class:'col-form-label col-sm-3 col-md-4' %>
-    <div class="col-9 col-md-6 input-group g-brd-primary--focus">
-      <%= form.date_field :computable_date, class: 'form-control' %>
+    <div class="col-9 col-md-6">
+      <%= form.date_field :computable_date, class: 'form-control',required: true %>
       <small class="form-control-feedback text-danger fuel_to_vehicle_computable_date"></small>
     </div>
   </div> 
@@ -38,7 +38,7 @@
   <div class="form-group row">
     <%= form.label :fuel_type, 'Tipo: ', class: 'col-form-label col-sm-3 col-md-4' %>
     <div class="col-sm-9 col-md-6">
-      <select name="fuel_to_vehicle[fuel_type]" id="fuel_to_vehicle_fuel_type" class="form-control" required>
+      <select name="fuel_to_vehicle[fuel_type]" id="fuel_to_vehicle_fuel_type" class="form-control select-fuel-type" required>
         <option value="">Seleccione el tipo</option>
         <option value="gasoil">Gasoil</option>
         <option value="nafta">Nafta</option>
