@@ -5,8 +5,8 @@
     remote: true, data: { toggle: :modal, target: '#modal' }, 
     class: 'btn u-btn-outline-indigo u-btn-hover-v1-2 mb-2 mr-4' %>
 
-  <%= link_to "Reporte del mes ".html_safe, fuel_reports_path(format: :xlsx ), 
-                class: 'btn u-btn-outline-cyan u-btn-hover-v1-2 mb-2 mr-4'%>
+  <%= link_to "Reporte del mes ".html_safe, modal_fuel_report_reports_path(), 
+                remote: true, class: 'btn u-btn-outline-cyan u-btn-hover-v1-2 mb-2 mr-4'%>
 
   <%= link_to "<i class='fa fa-book'></i> Talonarios".html_safe, ticket_books_path(), remote: true,
     class: 'btn u-btn-outline-pink u-btn-hover-v1-2 mb-2 mr-4' %>

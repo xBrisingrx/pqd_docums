@@ -1,0 +1,20 @@
+$("#modal").html("<%= j (render partial: 'shared/modal', locals:{ size: 'lg', content: 'form_fuel_report' } ) %>")
+
+$("#modal").modal('show')
+
+
+document.getElementById('form-fuel-report').addEventListener('submit', e => {
+    e.preventDefault()
+    e.stopPropagation()
+    let start_date = e.target.querySelector('#start_date').value 
+    let end_date = e.target.querySelector('#end_date').value 
+    fetch(`/reports/fuel.xlsx?start_date=${start_date}&end_date=${end_date}`)
+    .then( response => response.blob())
+    .then( file => {
+        var a = document.createElement("a");
+        a.href = window.URL.createObjectURL(file);
+        a.download = "reporte_combustible_entre_fechas.xlsx";
+        a.click()
+        a.remove()
+    } )
+})

@@ -1,10 +1,12 @@
 Rails.application.routes.draw do
-  resources :closures, only: [:index,:new,:create]
+  resources :closures, only: [:index,:new,:create] do 
+    get 'show_tickets', on: :collection
+  end
   resources :ticket_books do 
     get 'get_tickets', on: :member
   end
   resources :fuel_suppliers
-  resources :fuel_to_vehicles
+  resources :fuel_to_vehicles 
   resources :fuel_loads
   root 'main#welcome'
   get 'main/welcome'
@@ -92,6 +94,7 @@ Rails.application.routes.draw do
   post 'disable_reason', to: 'reasons_to_disables#disable', as: 'disable_reason'
 
   resources :reports, only: [:index] do
+    get 'modal_fuel_report', on: :collection
     get 'people', on: :collection
     get 'matriz', on: :collection
     get 'fuel', on: :collection

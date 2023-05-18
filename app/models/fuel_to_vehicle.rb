@@ -65,7 +65,7 @@ class FuelToVehicle < ApplicationRecord
 
     def greater_than_last_mileage
       last_mileage = FuelToVehicle.where( vehicle_id: self.vehicle_id ).order( date: :asc ).last
-      if !last_mileage.mileage.nil? && last_mileage.mileage >= self.mileage
+      if !last_mileage.nil? && last_mileage.mileage >= self.mileage
         errors.add(:mileage, "El ultimo kilometraje registrado de esta unidad es de #{last_mileage.mileage}")
       end
     end

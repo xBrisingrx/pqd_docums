@@ -1,10 +1,12 @@
 class ClosuresController < ApplicationController
   def index
     @closures = Closure.all
+    @title_modal = 'Cierres registrados'
   end
 
   def new
     @closure = Closure.new
+    @title_modal = 'Registrar cierre'
   end
 
   def create
@@ -17,6 +19,11 @@ class ClosuresController < ApplicationController
         format.json { render json: @closure.errors, status: :unprocessable_entity }
       end
     end
+  end
+
+  def show_tickets
+    @closure = Closure.find( params[:closure_id] )
+    @tickets = @closure.tickets
   end
 
   private

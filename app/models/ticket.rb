@@ -13,6 +13,7 @@
 #
 class Ticket < ApplicationRecord
 	belongs_to :ticket_book
+	has_one :fuel_to_vehicle
 	after_update :check_ticket_book
 
 	scope :unused, -> { where(used: false) }

@@ -1,1 +1,1 @@
-let closures_table
+let closures_table, tickets_closure

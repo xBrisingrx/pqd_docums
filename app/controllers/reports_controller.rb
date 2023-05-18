@@ -28,9 +28,11 @@ class ReportsController < ApplicationController
 		end
 	end
 
+	def modal_fuel_report;end
+
 	def fuel
-		start_date = Date.today.at_beginning_of_month
-		end_date = start_date + 45.day
+		start_date = (params[:start_date]) ? params[:start_date] : Date.today.at_beginning_of_month
+		end_date = (params[:end_date]) ? params[:end_date] : start_date + 45.day
 		@month = I18n.t("date.month_names")[Date.today.month]
 		@year = Date.today.year
 		@abbr_year = (Time.now).strftime("%y")
@@ -39,6 +41,7 @@ class ReportsController < ApplicationController
 
 		@fuel_to_vehicles = FuelToVehicle.where(computable_date: start_date..end_date).actives.order(:date)
 		@total_lts = @fuel_to_vehicles.sum(:fueling).to_s
+		render xlsx: 'Resumen mensual', template: 'reports/fuel'
 	end
 
 	def by_closure
@@ -47,6 +50,6 @@ class ReportsController < ApplicationController
 		@fuel_to_vehicles = FuelToVehicle.where("ticket_id IN (?)", tickets).actives.order(:date)
 		@total_lts = @fuel_to_vehicles.sum(:fueling).to_s
 		@page_name = "Cierre #{I18n.t("date.abbr_month_names")[closure.start_date.month]}"
-		render :fuel
+		render xlsx: 'Cierre', template: 'reports/fuel'
 	end
 end

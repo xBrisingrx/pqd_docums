@@ -1,0 +1,22 @@
+<%= form_with(action: '#', class: 'g-brd-around g-brd-gray-light-v4 g-pa-10 g-mb-10', id: 'form-fuel-report') do |form| %>  
+  <div class="form-group row">
+    <%= form.label :start_date, 'Desde' ,class:'col-form-label col-sm-3 col-md-4' %>
+    <div class="col-9 col-md-6">
+      <%= form.date_field :start_date, class: 'form-control',required: true %>
+      <small class="form-control-feedback text-danger fuel_to_vehicle_date"></small>
+    </div>
+  </div> 
+
+  <div class="form-group row">
+    <%= form.label :end_date, 'Hasta', class:'col-form-label col-sm-3 col-md-4' %>
+    <div class="col-9 col-md-6">
+      <%= form.date_field :end_date, class: 'form-control',required: true %>
+      <small class="form-control-feedback text-danger fuel_to_vehicle_computable_date"></small>
+    </div>
+  </div> 
+
+  <div class="actions">
+    <%= form.submit 'Exportar', class: 'btn u-btn-primary mr-2' %>
+    <button type="button" class="btn u-btn-red" data-dismiss="modal">Cerrar</button>
+  </div>
+<% end %>

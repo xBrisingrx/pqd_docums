@@ -1,0 +1,22 @@
+$("#modal").html("<%= j (render partial: 'shared/modal', locals:{ size: 'xl', content: 'show_tickets' } ) %>")
+
+
+$(document).ready(function(){
+	tickets_closure_table = $("#tickets_closure_table").DataTable({
+    'ajax': `/closures/show_tickets?closure_id=<%= @closure.id %>`,
+    columns: [
+      {'data': 'date'},
+      {'data': 'vehicle'},
+      {'data': 'mileage'},
+      {'data': 'fueling'},
+      {'data': 'fuel_type'},
+      {'data': 'supplier'},
+      {'data': 'person_load'},
+      {'data': 'person_authorize'},
+      {'data': 'ticket'},
+      {'data': 'cost_center'}
+    ],
+    'language': {'url': datatables_lang}
+	})
+})
+$("#modal").modal('show')
