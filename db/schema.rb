@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_05_16_043337) do
+ActiveRecord::Schema.define(version: 2023_06_28_035813) do
 
   create_table "active_storage_attachments", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci", force: :cascade do |t|
     t.string "name", null: false
@@ -387,6 +387,7 @@ ActiveRecord::Schema.define(version: 2023_05_16_043337) do
     t.bigint "vehicle_location_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "kilometers_for_service"
     t.index ["vehicle_location_id"], name: "index_vehicles_on_vehicle_location_id"
     t.index ["vehicle_model_id"], name: "index_vehicles_on_vehicle_model_id"
     t.index ["vehicle_type_id"], name: "index_vehicles_on_vehicle_type_id"

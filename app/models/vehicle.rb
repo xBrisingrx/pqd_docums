@@ -33,6 +33,8 @@ class Vehicle < ApplicationRecord
 
   scope :actives, -> { where(active: true) }
   scope :inactives, -> { where(active: false) }
+
+  validates :kilometers_for_service, numericality: { only_integer: true, allow_nil: true }
   
   def brand
     self.vehicle_model.vehicle_brand.name
