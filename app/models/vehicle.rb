@@ -58,19 +58,6 @@ class Vehicle < ApplicationRecord
     self.update(active: true)
   end
 
-  # def need_service
-  #   next_service = self.vehicle_services.order(:date).last
-  #   last_load_fuel = self.fuel_to_vehicles.order(:date).last
-  #   return '' if next_service.blank? 
-  #   return '' if last_load_fuel.blank?
-
-  #   mileage = next_service.mileage_next_service - last_load_fuel.mileage
-    
-  #   return 'Esta unidad tiene el service vencido' if mileage < 0
-  #   #empezamos a avisar del service cuando le queda la mitad de km/hs que se necesitan
-  #   return "A esta unidad le faltan #{mileage} KM/HS para el próximo service" if mileage < self.mileage_for_service/2 
-  # end
-
   def status_mileage_for_service mileage_fuel_load = nil
     # verificamos si la unidad esta proxima a necesitar service
     # el aviso lo damos en vista documentos o al momento de cargar combustible, en el modal al colocar el km/hs avisamos 
