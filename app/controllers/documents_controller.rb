@@ -54,7 +54,7 @@ class DocumentsController < ApplicationController
       if @document.update(active:false, end_date: params[:end_date])
         format.json { render json: { status: 'success', msg: 'Documento eliminado' }, status: :ok }
       else
-        format.json { render json: @document.errors, status: :unprocessable_entity, status: :unprocessable_entity }
+        format.json { render json: @document.errors, status: :unprocessable_entity }
       end
     end
 
