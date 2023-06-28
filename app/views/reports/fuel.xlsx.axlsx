@@ -16,8 +16,8 @@ wb.styles do |style|
 	  @fuel_to_vehicles.each_with_index do |fuel, index|
 	  	if index.odd?
 	  		sheet.add_row [
-	  			"#{I18n.t("date.month_names")[fuel.date.month]}-#{fuel.date.year}",
-	  			date_format(fuel.date),
+	  			"#{I18n.t("date.month_names")[fuel.computable_date.month]}-#{fuel.computable_date.year}",
+	  			date_format(fuel.computable_date),
 	  			fuel.vehicle.code,
 	  			fuel.mileage,
 	  			fuel.fueling,
@@ -30,8 +30,8 @@ wb.styles do |style|
 	  		style: highlight_cell
 	  	else
 	  		sheet.add_row [
-	  			"#{I18n.t("date.month_names")[fuel.date.month]}-#{fuel.date.year}",
-	  			date_format(fuel.date),
+	  			"#{I18n.t("date.month_names")[fuel.computable_date.month]}-#{fuel.computable_date.year}",
+	  			date_format(fuel.computable_date),
 	  			fuel.vehicle.code,
 	  			fuel.mileage,
 	  			fuel.fueling,
@@ -49,7 +49,7 @@ wb.styles do |style|
 	  @fuel_to_vehicles.each_with_index do |fuel, index|
 	  	if fuel.vehicle.is_company
 	  		sheet.add_row [
-		  		"#{I18n.t("date.abbr_month_names")[fuel.date.month]}-#{fuel.date.year}",
+		  		"#{I18n.t("date.abbr_month_names")[fuel.computable_date.month]}-#{fuel.computable_date.year}",
 			  	fuel.vehicle.code,
 			  	fuel.fueling
 			  ]
