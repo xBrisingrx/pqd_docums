@@ -1,0 +1,34 @@
+<%= form_with(model: vehicle_service ,class: 'g-brd-around g-brd-gray-light-v4 g-pa-10 g-mb-10', id: form_id) do |form| %>
+<%= form.hidden_field :vehicle_id, value: vehicle_id %>
+  <div class="form-group row g-mb-10">
+    <%= form.label :date, 'Fecha:',class: 'col-8 col-sm-6 col-md-2' %>
+    <div class="col-12 col-sm-6 col-md-4">
+      <%= form.date_field :date, class: 'form-control',required: true %>
+      <small id="error_date" class='text-danger vehicle_service_date'></small>
+    </div>
+  </div>
+
+  <div class="form-group row g-mb-10">
+    <%= form.label :mileage, 'Kilometraje', class:'col-8 col-sm-6 col-md-2 col-form-label g-mb-10' %>
+    <div class="col-12 col-sm-6 col-md-4">
+      <%= form.text_field :mileage, class: 'form-control u-form-control', placeholder: 'KM/HS al momento del service', required: true %>
+      <small id="error_mileage" class='text-danger vehicle_service_mileage'></small>
+    </div>
+  </div>
+
+  <div class="form-group row g-mb-10">
+    <%= form.label :mileage_next_service, 'Kilometraje', class:'col-8 col-sm-6 col-md-2 col-form-label g-mb-10' %>
+    <div class="col-12 col-sm-6 col-md-4">
+      <%= form.text_field :mileage_next_service, class: 'form-control u-form-control', placeholder: 'KM/HS próximo service', required: true %>
+      <small id="error_mileage_next_service" class='text-danger vehicle_service_mileage_next_service'></small>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <%= form.text_area :comment, class: 'form-control col-12 u-textarea-expandable g-resize-none', rows: 3, placeholder:'Un comentario sobre este service ...' %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit 'Registrar service' ,class: 'btn u-btn-primary mr-2' %>
+  </div>
+<% end %>

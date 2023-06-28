@@ -98,6 +98,7 @@ function formatDateAR(_date){
 function clean_form(form_id) {
   $(`#${form_id} .form-control`).removeClass('is-invalid')
   $(`#${form_id} .form-control`).removeClass('is-valid')
+  $(`#${form_id} .text-danger`).empty()
   $(`#${form_id}`)[0].reset()
 }
 

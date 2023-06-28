@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_06_28_035813) do
+ActiveRecord::Schema.define(version: 2023_06_28_042417) do
 
   create_table "active_storage_attachments", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci", force: :cascade do |t|
     t.string "name", null: false
@@ -365,6 +365,18 @@ ActiveRecord::Schema.define(version: 2023_06_28_035813) do
     t.index ["vehicle_brand_id"], name: "index_vehicle_models_on_vehicle_brand_id"
   end
 
+  create_table "vehicle_services", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci", force: :cascade do |t|
+    t.date "date", null: false
+    t.bigint "vehicle_id"
+    t.bigint "mileage", null: false
+    t.bigint "mileage_next_service", null: false
+    t.text "comment"
+    t.boolean "active", default: true
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["vehicle_id"], name: "index_vehicle_services_on_vehicle_id"
+  end
+
   create_table "vehicle_types", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci", force: :cascade do |t|
     t.string "name", null: false
     t.string "description"
@@ -387,7 +399,7 @@ ActiveRecord::Schema.define(version: 2023_06_28_035813) do
     t.bigint "vehicle_location_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.bigint "kilometers_for_service"
+    t.bigint "mileage_for_service"
     t.index ["vehicle_location_id"], name: "index_vehicles_on_vehicle_location_id"
     t.index ["vehicle_model_id"], name: "index_vehicles_on_vehicle_model_id"
     t.index ["vehicle_type_id"], name: "index_vehicles_on_vehicle_type_id"
@@ -420,6 +432,7 @@ ActiveRecord::Schema.define(version: 2023_06_28_035813) do
   add_foreign_key "vehicle_insurances", "insurances"
   add_foreign_key "vehicle_insurances", "vehicles"
   add_foreign_key "vehicle_models", "vehicle_brands"
+  add_foreign_key "vehicle_services", "vehicles"
   add_foreign_key "vehicles", "vehicle_locations"
   add_foreign_key "vehicles", "vehicle_models"
   add_foreign_key "vehicles", "vehicle_types"

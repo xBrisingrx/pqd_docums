@@ -82,6 +82,19 @@ class AssignmentsDocumentsController < ApplicationController
           data-remote='true' href='/fuel_to_vehicles?vehicle_id=#{data.id}'><i class='fa fa-flask'></i></a>",                    
         custom: true
       }
+      @array << {
+        document: 'Services',
+        category: '',
+        expire: '',
+        expire_date: '',
+        last_renovation: '',
+        has_renovations: false,
+        vehicle_id: data.id,
+        file: "",
+        actions: "<a class='btn btn-sm u-btn-purple text-white' title='Ver services' 
+          data-remote='true' href='/vehicle_services?vehicle_id=#{data.id}'><i class='fa fa-tachometer'></i></a>",                    
+        custom: true
+      }
     end
     @documents = data.assignments_documents.actives
 

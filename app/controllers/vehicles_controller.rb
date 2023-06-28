@@ -111,6 +111,11 @@ class VehiclesController < ApplicationController
     end
   end
 
+  def status_mileage_for_service
+    vehicle = Vehicle.find(params[:id])
+    render json: { msg: vehicle.status_mileage_for_service( params[:mileage].to_i) }
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_vehicle

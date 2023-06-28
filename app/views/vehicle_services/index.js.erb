@@ -1,0 +1,31 @@
+$("#renovations_modal").html("<%= j (render partial: 'modal') %>")
+
+vehicle_services_table = $("#vehicle_services_table").DataTable({
+  'ajax': '/vehicle_services?vehicle_id=<%= @vehicle.id%>',
+  'order': false,
+  'columns': [
+  	{'data': 'date'},
+  	{'data': 'mileage'},
+    {'data': 'mileage_next_service'},
+    {'data': 'actions'}
+  ],
+  'language': {'url': datatables_lang}
+})
+
+setInputDate('#vehicle_service_date')
+
+$("#renovations_modal").modal('show')
+
+$("#form-vehicle-service").on("ajax:success", function(event) {
+    vehicle_services_table.ajax.reload(null,false)
+    let msg = JSON.parse(event.detail[2].response)
+    noty_alert(msg.status, msg.msg)
+    clean_form('form-vehicle-service')
+  }).on("ajax:error", function(event) {
+  let msg = JSON.parse( event.detail[2].response )
+  set_input_status_form('form-vehicle-service', 'vehicle_service', msg)
+})
+
+  document.getElementById('vehicle_service_mileage').addEventListener('change', e => {
+    document.getElementById('vehicle_service_mileage_next_service').value = parseInt(e.target.value) + <%= @mileage_for_service %>
+  })

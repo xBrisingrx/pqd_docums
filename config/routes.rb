@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :vehicle_services
   resources :closures, only: [:index,:new,:create] do 
     get 'show_tickets', on: :collection
   end
@@ -30,6 +31,7 @@ Rails.application.routes.draw do
     get 'modal_enable_vehicle', on: :member
     get 'inactive', on: :collection
     post :delete_image_attachment, on: :collection
+    get 'status_mileage_for_service', on: :member
   end
   post 'disable_vehicle', to: 'vehicles#disable', as: 'disable_vehicle'
 

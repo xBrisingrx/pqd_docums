@@ -1,0 +1,27 @@
+<div class="modal-dialog modal-xl" role="document">
+  <div class="modal-content">
+    <div class="modal-header g-brd-blue g-bg-blue">
+      <h5 class="modal-title text-white"><strong><%= @title_modal%></strong></h5>
+      <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <%= render partial: 'form', 
+            locals: { 
+              form_id: 'form-vehicle-service',
+              vehicle_service: @vehicle_service,
+              vehicle_id: @vehicle.id
+						} 
+      %>
+
+			<%= render( partial: 'shared/table', 
+			            locals: { table_id: 'vehicle_services', 
+			                      color: 'cyan', 
+			                      icon: 'fa-tachometer',
+			                      title: "Services", 
+			                      col_names: [ 'Fecha','Se hizo a los','Proximo service','Acciones' ] }) %>
+			<button type="button" class="btn u-btn-red" data-dismiss="modal">Cerrar</button>
+    </div>
+  </div>
+</div>

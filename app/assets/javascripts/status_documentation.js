@@ -92,6 +92,13 @@ const status_documentation = {
 				document.getElementById("vehicle_model").innerHTML = `${data.model}`
 				document.getElementById("vehicle_type").innerHTML = `${data.type}`
 
+				if ( data.need_service.length > 0 ) {
+					document.getElementById('status_alert').style.display = ''
+					document.querySelector('#status_alert .media-body').innerHTML = data.need_service
+				} else {
+					document.getElementById('status_alert').style.display = 'none'
+				}
+
 				$('#vehicle_information').show('slow')
 				document.getElementById("form_vehicle_documentation").reset()
 				assignments_assigned_profiles.ajax.url(`/assignments_profiles/${vehicle_id}?assignated=vehicle`)
