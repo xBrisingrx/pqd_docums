@@ -76,3 +76,20 @@ document.getElementById('fuel_to_vehicle_mileage').addEventListener('change', e 
 })
 
 
+$('#fuel_to_vehicle_vehicle_id').change( e => {
+  const vehicle_id = e.target.value 
+  const mileage = document.getElementById('fuel_to_vehicle_mileage').value 
+  if (mileage != '') {
+    fetch( `/vehicles/${vehicle_id}/status_mileage_for_service?mileage=${mileage}` )
+      .then( response => response.json())
+      .then( response => {
+        const alert = document.querySelector( '#form-fuel-vehicle #info_alert' )
+        if (response.msg.length != '') {
+          alert.style.display = ''
+          alert.querySelector('.media-body').innerHTML = response.msg
+        } else {
+          alert.style.display = 'none'
+        }
+      })
+  }
+} )
