@@ -66,7 +66,7 @@
   <div class="form-group row">
     <%= form.label :preson_load_id, 'Carga (*)', class:'col-form-label col-sm-3 col-md-4' %>
     <div class="col-sm-8 col-lg-6">
-      <%= form.select(:person_load_id, Person.actives.collect {|p| [p.fullname, p.id]}, { include_blank: true},
+      <%= form.select(:person_load_id, Person.actives.order(:last_name).collect {|p| [p.fullname, p.id]}, { include_blank: true},
                       class: 'form-control select-person-load') %>
       <small class="form-control-feedback text-danger fuel_to_vehicle_person_load"></small>
     </div>
@@ -75,7 +75,7 @@
   <div class="form-group row">
     <%= form.label :person_authorize_id, 'Autoriza (*)', class:'col-form-label col-sm-3 col-md-4' %>
     <div class="col-sm-8 col-lg-6">
-      <%= form.select(:person_authorize_id, Person.actives.where(can_authorize: true).collect {|p| [p.fullname, p.id]}, { include_blank: true},
+      <%= form.select(:person_authorize_id, Person.actives.where(can_authorize: true).order(:last_name).collect {|p| [p.fullname, p.id]}, { include_blank: true},
                       class: 'form-control select-person-authorize') %>
       <small class="form-control-feedback text-danger fuel_to_vehicle_person_authorize"></small>
     </div>
