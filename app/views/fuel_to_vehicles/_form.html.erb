@@ -1,6 +1,5 @@
 <%= form_with(model: @fuel_to_vehicle, class: 'g-brd-around g-brd-gray-light-v4 g-pa-10 g-mb-10', id: 'form-fuel-vehicle') do |form| %>
 
-
   <div class="form-group row">
     <%= form.label :vehicle_id, 'Vehiculo (*)', class:'col-form-label col-sm-3 col-md-4' %>
     <div class="col-sm-8 col-lg-6">
@@ -84,7 +83,7 @@
   <div class="form-group row">
     <%= form.label :ticket_book_id, 'N° de vale: ', class: 'col-form-label col-2' %>
     <div class="col-4">
-      <%= form.select(:ticket_book_id, TicketBook.actives.where(completed: false).collect {|p| [p.name, p.id]}, 
+      <%= form.select(:ticket_book_id, @ticket_books.collect {|p| [p.name, p.id]}, 
                       { include_blank: true},
                       class: 'form-control select-ticket-book',
                       onchange: 'get_tickets()') %>

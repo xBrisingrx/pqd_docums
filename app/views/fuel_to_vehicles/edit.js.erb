@@ -26,9 +26,9 @@ function get_tickets() {
     const ticket_select = document.getElementById('fuel_to_vehicle_ticket_id')
     ticket_select.innerHTML = ''
     data.tickets.map( ticket => {
+      console.log(ticket)
       ticket_select.innerHTML += `<option value=${ticket.id}>${ticket.number}</option>`
     } )
-
     if (ticket_book_id == "<%= @fuel_to_vehicle.ticket.ticket_book.id %>") {
 	  	ticket_select.innerHTML += "<option value='<%= @fuel_to_vehicle.ticket.id %>'><%= @fuel_to_vehicle.ticket.number %></option>"
 	  	$('#fuel_to_vehicle_ticket_id').val("<%= @fuel_to_vehicle.ticket.id %>")
