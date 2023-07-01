@@ -14,10 +14,17 @@
 class Ticket < ApplicationRecord
 	belongs_to :ticket_book
 	has_one :fuel_to_vehicle
+
+	validates :number, 
+		presence: true, 
+		uniqueness: true, 
+		numericality: { only_integer: true }
+
 	after_update :check_ticket_book
 
 	scope :unused, -> { where(used: false) }
 
+	private
 	def check_ticket_book
 		self.ticket_book.check_is_completed
 	end
