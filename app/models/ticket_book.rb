@@ -39,6 +39,10 @@ class TicketBook < ApplicationRecord
 	end
 
 	def check_is_completed
-		self.update(completed: true) if self.is_completed?
+		if self.is_completed?
+			self.update(completed: true) 
+		else 
+			self.update( completed: false )
+		end
 	end
 end

@@ -25,13 +25,16 @@ class FuelToVehicle < ApplicationRecord
   belongs_to :person_load, class_name: "Person"
   belongs_to :cost_center
   belongs_to :ticket
+  has_one :ticket_book, through: :ticket
 
   before_validation :set_cost_center, on: :create
-  before_save :update_ticket, on: :update
+  after_create :set_ticket_to_used
+  before_update :update_ticket
+
   validates :mileage, presence: true, numericality: { greater_than_or_equal_to: 0 }
   validate :valid_dates
   validate :greater_than_last_mileage, on: :create 
-  after_create :set_ticket_to_used
+  
   scope :actives, -> { where(active: true) }
 
   enum fuel_type: {
@@ -53,7 +56,8 @@ class FuelToVehicle < ApplicationRecord
     end
 
     def set_ticket_to_used
-      self.ticket.update(used: true)
+      ticket = Ticket.find( self.ticket.id )
+      ticket.update(used: true)
     end
 
     def valid_dates
@@ -71,8 +75,12 @@ class FuelToVehicle < ApplicationRecord
     end
 
     def update_ticket
-      puts "\n\n updateando el ticket #{self.ticket_id_changed?}\n\n"
-      self.ticket.update( used: false ) if self.ticket_id_changed?
+      if self.ticket_id_changed?
+        # lo instancio porque sino toma que se actualiza fuel_to_vehicle y genera un loop infinito
+        ticket = Ticket.find( self.ticket_id_was )
+        ticket.update( used: false )
+        set_ticket_to_used
+      end
     end
 
 end
