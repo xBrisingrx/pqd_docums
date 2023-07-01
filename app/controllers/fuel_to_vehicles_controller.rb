@@ -15,13 +15,14 @@ class FuelToVehiclesController < ApplicationController
     @fuel_to_vehicle = FuelToVehicle.new
     @title_modal = "Cargar combustible a vehiculo"
     @closure_date = Closure.last&.end_date.to_s
+    @ticket_books = TicketBook.actives.where(completed: false)
   end
 
   # GET /fuel_to_vehicles/1/edit
   def edit
     @title_modal = "Editar carga de combustible"
     @diferents_dates = @fuel_to_vehicle.date != @fuel_to_vehicle.computable_date
-
+    @ticket_books = TicketBook.actives.where(completed: false).or( TicketBook.where( id: @fuel_to_vehicle.ticket_book.id ) )
   end
 
   # POST /fuel_to_vehicles or /fuel_to_vehicles.json
