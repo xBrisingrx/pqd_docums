@@ -2,21 +2,21 @@
 #
 # Table name: vehicles
 #
-#  id                     :bigint           not null, primary key
-#  code                   :string(255)      not null
-#  domain                 :string(255)
-#  chassis                :string(255)
-#  engine                 :string(255)
-#  year                   :integer          default(0)
-#  observations           :text(65535)
-#  active                 :boolean          default(TRUE)
-#  is_company             :boolean          default(TRUE)
-#  vehicle_type_id        :bigint
-#  vehicle_model_id       :bigint
-#  vehicle_location_id    :bigint
-#  created_at             :datetime         not null
-#  updated_at             :datetime         not null
-#  kilometers_for_service :bigint
+#  id                  :bigint           not null, primary key
+#  code                :string(255)      not null
+#  domain              :string(255)
+#  chassis             :string(255)
+#  engine              :string(255)
+#  year                :integer          default(0)
+#  observations        :text(65535)
+#  active              :boolean          default(TRUE)
+#  is_company          :boolean          default(TRUE)
+#  vehicle_type_id     :bigint
+#  vehicle_model_id    :bigint
+#  vehicle_location_id :bigint
+#  created_at          :datetime         not null
+#  updated_at          :datetime         not null
+#  mileage_for_service :bigint
 #
 class Vehicle < ApplicationRecord
   belongs_to :vehicle_type

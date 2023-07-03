@@ -1,0 +1,4 @@
+$("#modal").html("<%= j (render partial: 'shared/modal', locals:{ size: 'lg', content: 'modal_send_report', closure_id: @closure.id } ) %>")
+$("#modal").modal('show')
+
+console.log( <%= @closure %> )

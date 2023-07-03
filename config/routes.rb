@@ -2,6 +2,8 @@ Rails.application.routes.draw do
   resources :vehicle_services
   resources :closures, only: [:index,:new,:create] do 
     get 'show_tickets', on: :collection
+    get 'modal_send_report', on: :member
+    post 'set_was_send', on: :member
   end
   resources :ticket_books do 
     get 'get_tickets', on: :member

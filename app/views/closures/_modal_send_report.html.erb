@@ -1,0 +1,9 @@
+¿ Este reporte ya fue enviado ?
+<%= form_with(url: set_was_send_closure_path, id: 'form-closure-was-send', class: 'needs-validation g-brd-around g-brd-gray-light-v4 g-pa-10 g-mb-10') do |form| %>
+	<%= form.hidden_field :closure_id, value: 1 %>
+	<%= form.hidden_field :was_send, value: true %>
+	<div class="actions">
+    <%= form.submit 'Si', class: 'btn u-btn-primary mr-2' %>
+    <button type="button" class="btn u-btn-red" data-dismiss="modal">No</button>
+  </div>
+<% end %>
