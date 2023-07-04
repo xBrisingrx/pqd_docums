@@ -29,10 +29,12 @@ class FuelToVehicle < ApplicationRecord
 
   before_validation :set_cost_center, on: :create
   after_create :set_ticket_to_used
+  after_create :verify_if_exist_closure
+  after_create :create_closure_ticket
   before_update :update_ticket
 
   validates :mileage, presence: true, numericality: { greater_than_or_equal_to: 0 }
-  validate :valid_dates
+  # validate :valid_dates
   validate :greater_than_last_mileage, on: :create 
   
   scope :actives, -> { where(active: true) }
@@ -58,14 +60,15 @@ class FuelToVehicle < ApplicationRecord
     def set_ticket_to_used
       ticket = Ticket.find( self.ticket.id )
       ticket.update(used: true)
+      ticket.check_ticket_book_is_completed
     end
 
-    def valid_dates
-      closure_date = Closure.last_date
-      if (!closure_date.nil?) && closure_date > self.computable_date
-        errors.add(:computable_date, "No puede ingresar una fecha anterior al ultimo cierre.")
-      end
-    end
+    # def valid_dates
+    #   closure_date = Closure.last_date
+    #   if (!closure_date.nil?) && closure_date > self.computable_date
+    #     errors.add(:computable_date, "No puede ingresar una fecha anterior al ultimo cierre.")
+    #   end
+    # end
 
     def greater_than_last_mileage
       last_mileage = FuelToVehicle.where( vehicle_id: self.vehicle_id ).order( date: :asc ).last
@@ -79,7 +82,33 @@ class FuelToVehicle < ApplicationRecord
         # lo instancio porque sino toma que se actualiza fuel_to_vehicle y genera un loop infinito
         ticket = Ticket.find( self.ticket_id_was )
         ticket.update( used: false )
+        ticket.check_ticket_book_is_completed
         set_ticket_to_used
+      end
+    end
+
+    def verify_if_exist_closure
+      # si cargamos combustible de un periodo donde no existe un cierre , hay que crear el cierre
+      closure = Closure.where( 'start_date <= ?', self.date ).where( 'end_date >= ?', self.date )
+      if closure.blank?
+        year = self.date.year
+        month = self.date.month
+        start_date = Date.new( year, self.date.month, 26 )
+        next_month = month + 1
+        end_date = Date.new( year, next_month, 25 )
+        Closure.create(
+          start_date: start_date, 
+          end_date: end_date,
+          name: "Cierre periodo #{I18n.t("date.month_names")[start_date.month]} #{start_date.year}")
+      end
+    end
+
+    def create_closure_ticket
+      closure = Closure.where( 'start_date <= ?', self.date ).where( 'end_date >= ?', self.date ).first
+      ClosureTicket.create( closure: closure, ticket: self.ticket )
+      if closure.was_send?
+        ticket = Ticket.find(self.ticket.id)
+        ticket.update( closed: true )
       end
     end
 

@@ -3,7 +3,6 @@ class ClosuresController < ApplicationController
   def index
     @closures = Closure.all.order(start_date: 'DESC')
     @title_modal = 'Cierres registrados'
-    gen_closures
   end
 
   def new
@@ -30,6 +29,15 @@ class ClosuresController < ApplicationController
 
   def modal_send_report
     @title_modal = "Marcar este reporte como enviado"
+  end
+
+  def set_was_send
+    closure = Closure.find( params[:closure_id] )
+    if closure.set_was_send
+      render json: {  status: 'success', msg: 'Cierre marcado como enviado' }
+    else
+      render json: {  status: 'error', msg: 'No se pudo marcar el cierre como enviado' }
+    end
   end
 
   private

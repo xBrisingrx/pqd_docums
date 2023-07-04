@@ -47,13 +47,11 @@ wb.styles do |style|
 	  sheet.add_row []
 	  sheet.add_row ['MES', 'INTERNO', 'LITROS S/ VALES'], style: title_cell2
 	  @fuel_to_vehicles.each_with_index do |fuel, index|
-	  	if fuel.vehicle.is_company
-	  		sheet.add_row [
-		  		"#{I18n.t("date.abbr_month_names")[fuel.computable_date.month]}-#{fuel.computable_date.year}",
-			  	fuel.vehicle.code,
-			  	fuel.fueling
-			  ]
-	  	end
+	  	sheet.add_row [
+	  		"#{I18n.t("date.abbr_month_names")[fuel.computable_date.month]}-#{fuel.computable_date.year}",
+		  	fuel.vehicle.code,
+		  	fuel.fueling
+		  ]
 	  end
 	  sheet.add_row ['', 'TOTAL', "#{@total_lts}"], style: [ bold_letter, bold_letter, title_cell2 ]
 	end

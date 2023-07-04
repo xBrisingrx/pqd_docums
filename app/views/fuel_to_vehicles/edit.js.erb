@@ -26,7 +26,6 @@ function get_tickets() {
     const ticket_select = document.getElementById('fuel_to_vehicle_ticket_id')
     ticket_select.innerHTML = ''
     data.tickets.map( ticket => {
-      console.log(ticket)
       ticket_select.innerHTML += `<option value=${ticket.id}>${ticket.number}</option>`
     } )
     if (ticket_book_id == "<%= @fuel_to_vehicle.ticket.ticket_book.id %>") {
@@ -39,15 +38,16 @@ function get_tickets() {
 
 document.getElementById('fuel_to_vehicle_date').addEventListener('change', e => {
   if (<%= !@closure_date.nil? %>) {
-    comodin = "<%= @closure_date %>"
     const date_in = new Date( `${e.target.value}T00:00:00` )
     const end_date = new Date( "<%= @closure_date %>T00:00:00" )
     if (date_in <= end_date) {
-      document.getElementById('fuel_to_vehicle_computable_date').value = ''
-      document.getElementById('fuel_to_vehicle_computable_date').parentElement.parentElement.style.display = ''
+      // document.getElementById('fuel_to_vehicle_computable_date').value = ''
+      // document.getElementById('fuel_to_vehicle_computable_date').parentElement.parentElement.style.display = ''
+      document.querySelector('.fuel_to_vehicle_date').innerHTML = `El ultimo cierre enviado tiene fecha ${end_date.toLocaleDateString('es-AR')}, esta carga se sumara al cierre correspondiente a la fecha` 
     } else {
       document.getElementById('fuel_to_vehicle_computable_date').parentElement.parentElement.style.display = 'none'
       document.getElementById('fuel_to_vehicle_computable_date').value = e.target.value
+      document.querySelector('.fuel_to_vehicle_date').innerHTML = ''
     }
   } else {
     document.getElementById('fuel_to_vehicle_computable_date').value = e.target.value

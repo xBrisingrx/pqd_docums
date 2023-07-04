@@ -7,9 +7,6 @@
       </button>
     </div>
     <div class="modal-body">
-      <%= link_to "<i class='fa fa-plus'></i> Generar cierre".html_safe, new_closure_path(),
-              remote: true, 
-              class: 'btn u-btn-outline-brown u-btn-hover-v1-2 mb-2 ml-4' %>
       <%= render( partial: 'shared/table', 
             locals: { table_id: 'closures', 
                       color: 'blue', 

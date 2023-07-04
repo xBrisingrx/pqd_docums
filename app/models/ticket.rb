@@ -20,28 +20,13 @@ class Ticket < ApplicationRecord
 		uniqueness: true, 
 		numericality: { only_integer: true }
 
-	after_create :verify_if_exist_closure
-	after_update :check_ticket_book
+	
+	# after_update :check_ticket_book
 
 	scope :unused, -> { where(used: false) }
 
-	private
-	def check_ticket_book
+	# private
+	def check_ticket_book_is_completed
 		self.ticket_book.check_is_completed
-	end
-
-	def verify_if_exist_closure
-		# si creamos un ticket de un periodo donde no existe un cierre , hay que crear el cierre
-		closure = Closure.where( 'extract(month  from start_date) = ?', self.date.month )
-                         .where( 'extract(year  from start_date) = ?', self.date.year )
-    if closure.blank?
-    	start_date = Date.new( self.date.year, self.date.month, 26 )
-      next_month = self.date.month + 1
-      end_date = Date.new( self.date.year, next_month, 25 )
-      Closure.create(
-        start_date: start_date, 
-        end_date: end_date,
-        name: "Cierre periodo #{I18n.t("date.month_names")[start_date.month]} #{start_date.year}")
-    end
 	end
 end

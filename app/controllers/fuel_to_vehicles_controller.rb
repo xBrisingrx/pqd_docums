@@ -14,7 +14,7 @@ class FuelToVehiclesController < ApplicationController
   def new
     @fuel_to_vehicle = FuelToVehicle.new
     @title_modal = "Cargar combustible a vehiculo"
-    @closure_date = Closure.last&.end_date.to_s
+    @closure_date = Closure.where( was_send: true ).order(end_date: :desc).first&.end_date&.to_s
     @ticket_books = TicketBook.actives.where(completed: false)
   end
 

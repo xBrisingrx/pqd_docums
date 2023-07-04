@@ -14,14 +14,23 @@ class Closure < ApplicationRecord
 	has_many :closure_tickets
 	has_many :tickets, through: :closure_tickets
 	validates :start_date, :end_date, presence: true
-	validate :end_date_after_start_date
-	validate :start_date_after_last_closure
+	validate :end_date_after_start_date, on: :create
+	validate :start_date_after_last_closure, on: :create
 
 	# before_create :tickets_are_found
 	# after_create :associate_tickets
 
 	def self.last_date
 		order(end_date: :desc).first.end_date
+	end
+
+	def set_was_send # seteamos el cierre como enviado y asociamos los tickets correspondientes
+		ActiveRecord::Base.transaction do
+			self.update(was_send: true)
+			self.tickets.each do |ticket|
+				ticket.update( closed: true )
+			end
+		end
 	end
 
 	private 
@@ -39,6 +48,7 @@ class Closure < ApplicationRecord
 			errors.add(:end_date, "Debe ser mayor a la fecha desde.")
 		end
 	end
+
 
 	# def tickets_are_found
 	# 	fuel_loads = FuelToVehicle.where( "computable_date BETWEEN ? AND ?", self.start_date, self.end_date )
