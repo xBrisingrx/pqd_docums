@@ -97,7 +97,6 @@ class VehiclesController < ApplicationController
     images = @vehicle.images.map do |image|
       { id: image.signed_id , url: rails_blob_path(image , only_path: true)}
     end
-    
     render json: { images: images }
   end
 

@@ -85,6 +85,6 @@ class DocumentRenovationsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def document_renovation_params
-      params.require(:document_renovation).permit(:renovation_date, :expiration_date, :comment, :assignments_document_id, file: [])
+      params.require(:document_renovation).permit(:renovation_date, :expiration_date, :comment, :assignments_document_id, files: [])
     end
 end

@@ -101,6 +101,7 @@ Rails.application.routes.draw do
     get 'modal_fuel_report', on: :collection
     get 'people', on: :collection
     get 'matriz', on: :collection
+    get 'matriz_vehicles', on: :collection
     get 'fuel', on: :collection
     get 'by_closure', on: :collection
   end

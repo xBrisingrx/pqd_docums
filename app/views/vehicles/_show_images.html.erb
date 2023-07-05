@@ -18,9 +18,13 @@
 	<div id="vehicle_images_galery" class="row">
 		<% @vehicle.images.each do |image| %>
 			<div class="col-2 mr-1">
-				<%= link_to image, target: '_blank' do %>
-			    <%= image_tag image.variant(resize: "100x100"), class: 'img-thumbnail' %>
-			  <%end%>
+				<% if image.image? %>
+					<%= link_to image, target: '_blank' do %>
+				    <%= image_tag image.variant(resize: "100x100"), class: 'img-thumbnail' %>
+				  <%end%>
+				<% else %>
+					<%= link_to '<i class="fa fa-file-pdf-o fa-2x"></i>'.html_safe, image, target: '_blank' %>
+				<% end %>
 			  <a href="#" class="btn u-btn-red btn-xs" data-id=<%= image.signed_id %> onclick="remove_vehicle_image()"> Eliminar </a>
 			</div>
 		<% end %>

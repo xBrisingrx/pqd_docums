@@ -12,7 +12,7 @@
 #  updated_at              :datetime         not null
 #
 class DocumentRenovation < ApplicationRecord
-	has_many_attached :file
+	has_many_attached :files
 	belongs_to :assignments_document
 	has_one :document, through: :assignments_document
 

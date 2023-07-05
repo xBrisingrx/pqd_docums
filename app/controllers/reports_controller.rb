@@ -28,6 +28,49 @@ class ReportsController < ApplicationController
 		end
 	end
 
+	def matriz_vehicles
+		@column_titles = ['Interno']
+		@index_name = {'code'=> '' }
+		@data = Array.new
+		@documents = Document.where(d_type: :vehicles).actives.pluck(:id, :name)
+		@insurances = Insurance.actives.pluck(:id, :name)
+		@title = 'Vencimientos vehiculos'
+		@documents.map { |document|
+			@index_name["#{document[0]}"] = ''
+			@column_titles << document[1]
+		} 
+
+		@insurances.map { |document|
+			@index_name["insurance_#{document[0]}"] = ''
+			@column_titles << document[1]
+		} 
+
+		row = @index_name.clone
+		vehicles = Vehicle.actives.order(:code)
+		vehicles.each do |vehicle|
+			documents = AssignmentsDocument.where( assignated: vehicle ).actives 
+			documents.map { |document| 
+				renovation = document.last_renovation
+				if renovation.blank?
+					row["#{document.document.id}"] = 'No cargado'
+				else
+					row["#{document.document.id}"] = ( document.document.expires? ) ? renovation.expiration_date.strftime('%d-%m-%y') : 'Cargado'
+				end
+			}
+
+			vehicle.vehicle_insurances.actives.order( :end_date ).map { |vehicle_insurance| 
+				row["insurance_#{vehicle_insurance.insurance.id}"] =vehicle_insurance.end_date.strftime('%d-%m-%y')
+			}
+
+			row['code'] = vehicle.code
+
+			@data.push(row) 
+			row = @index_name.clone
+
+		end
+		
+	end
+
 	def modal_fuel_report;end
 
 	def fuel

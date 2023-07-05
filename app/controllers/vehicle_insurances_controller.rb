@@ -73,6 +73,6 @@ class VehicleInsurancesController < ApplicationController
     end
 
     def vehicle_insurance_params
-      params.require(:vehicle_insurance).permit(:vehicle_id, :insurance_id, :policy, :start_date, :end_date, file: [])
+      params.require(:vehicle_insurance).permit(:vehicle_id, :insurance_id, :policy, :start_date, :end_date, files: [])
     end
 end

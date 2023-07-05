@@ -23,15 +23,15 @@ class Vehicle < ApplicationRecord
   belongs_to :vehicle_model
   belongs_to :vehicle_location
   has_one :vehicle_brand, through: :vehicle_model
-  has_many :assignments_profiles, as: :assignated # relacion entre perfil y vehiculo
+  has_many :assignments_profiles, as: :assignated,dependent: :destroy # relacion entre perfil y vehiculo
   has_many :profiles, through: :assignments_profiles
-  has_many :assignments_documents, as: :assignated
+  has_many :assignments_documents, as: :assignated, dependent: :destroy
   has_many :documents, through: :assignments_documents
-  has_many :activity_histories, as: :record
-  has_many_attached :images
-  has_many :vehicle_insurances
-  has_many :vehicle_services # services hechos al vehiculo
-  has_many :fuel_to_vehicles # son las cargas de combustible
+  has_many :activity_histories, as: :record, dependent: :destroy
+  has_many_attached :images, dependent: :destroy
+  has_many :vehicle_insurances, dependent: :destroy
+  has_many :vehicle_services, dependent: :destroy # services hechos al vehiculo
+  has_many :fuel_to_vehicles, dependent: :destroy # son las cargas de combustible
 
   scope :actives, -> { where(active: true) }
   scope :inactives, -> { where(active: false) }
