@@ -9,8 +9,9 @@ wb.styles do |style|
 		wb.add_worksheet(name: "Vencimientos") do |sheet|
 		sheet.add_row @column_titles, style: title_cell
 	  @data.each_with_index do |d, index|
+
 	  	if index.odd?
-	  		sheet.add_row d.values, style: grey_cell
+	  		sheet.add_row d.values, style: [ style.add_style(bg_color: "1C58D0"), style.add_style(bg_color: "3ADB70"), style.add_style(bg_color: "B0EF03"),  ]
 	  	else
 	  		sheet.add_row d.values, style: no_bg_cell
 	  	end
