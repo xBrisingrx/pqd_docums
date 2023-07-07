@@ -68,7 +68,8 @@ class ReportsController < ApplicationController
 			row = @index_name.clone
 
 		end
-		
+
+		render xlsx: "matriz_vehicles", disposition: "attachment", filename: "vencimientos_vehiculos.xlsx"
 	end
 
 	def modal_fuel_report;end
