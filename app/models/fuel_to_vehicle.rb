@@ -91,14 +91,17 @@ class FuelToVehicle < ApplicationRecord
       # si cargamos combustible de un periodo donde no existe un cierre , hay que crear el cierre
       closure = Closure.where( 'start_date <= ?', self.date ).where( 'end_date >= ?', self.date )
       if closure.blank?
-        year = self.date.year
-        month = self.date.month
-        start_date = Date.new( year, self.date.month, 26 )
-        next_month = month + 1
-        end_date = Date.new( year, next_month, 25 )
+        if self.date.day < 26 
+          start_date = self.date - 1.month  
+          end_date = self.date
+        else
+          start_date = self.date 
+          end_date = self.date + 1.month 
+        end
+
         Closure.create(
-          start_date: start_date, 
-          end_date: end_date,
+          start_date: Date.new( start_date.year, start_date.month, 26 ),
+          end_date: Date.new( end_date.year, end_date.month, 25 ),
           name: "Cierre periodo #{I18n.t("date.month_names")[start_date.month]} #{start_date.year}")
       end
     end
