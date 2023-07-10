@@ -108,7 +108,7 @@ class ReportsController < ApplicationController
 			row = @index_name.clone
 		end
 
-		render xlsx: "document_expirations_between_dates", tempalte: 'reports/document_expirations_between_dates'
+		render xlsx: "document_expirations_between_dates", template: 'reports/document_expirations_between_dates'
 		
 	end
 
