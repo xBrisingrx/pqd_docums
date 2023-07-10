@@ -72,6 +72,6 @@ class DocumentsController < ApplicationController
       params.require(:document).permit(:name, :description, :expires, :days_of_validity, :d_type, 
         :allow_modify_expiration, :observations, :renewal_methodology, :start_date, :end_date, :monthly_summary, :active,
         :document_category_id, 
-        :expiration_type_id)
+        :expiration_type_id, :apply_to_all)
     end
 end

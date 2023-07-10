@@ -27,6 +27,16 @@
 
   <div class="form-group">
     <label class="form-check-inline u-check g-pl-25">
+      <%= form.check_box :apply_to_all, class: 'g-hidden-xs-up g-pos-abs g-top-0 g-left-0' %>
+      <div class="u-check-icon-checkbox-v6 g-absolute-centered--y g-left-0">
+        <i class="fa" data-check-icon="&#xf00c"></i>
+      </div>
+      Aplica a todos
+    </label>
+  </div>
+
+  <div class="form-group">
+    <label class="form-check-inline u-check g-pl-25">
       <%= form.check_box :expires, class: 'g-hidden-xs-up g-pos-abs g-top-0 g-left-0' %>
       <div class="u-check-icon-checkbox-v6 g-absolute-centered--y g-left-0">
         <i class="fa" data-check-icon="&#xf00c"></i>
