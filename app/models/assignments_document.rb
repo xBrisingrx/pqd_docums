@@ -46,6 +46,27 @@ class AssignmentsDocument < ApplicationRecord
     self.document_renovations.actives.order(expiration_date: :DESC).first
   end
 
+  def last_renovation_between_dates start_date = nil, end_date = nil
+    renovation_date = self.document_renovations.actives
+
+    return '' if renovation_date.blank?
+    
+    if !start_date.blank?
+      renovation_date = renovation_date.where("expiration_date >= ?", start_date)
+    end
+
+    if !end_date.blank?
+      renovation_date = renovation_date.where("expiration_date <= ?", end_date)
+    end
+    renovation_date = renovation_date.order(expiration_date: :DESC).first
+
+    if renovation_date.blank?
+      return '---'
+    else
+      return renovation_date.expiration_date.strftime('%d-%m-%y')
+    end
+  end
+
   def has_renovations?
     self.document_renovations.actives.count > 0
   end

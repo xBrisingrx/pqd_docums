@@ -6,13 +6,13 @@ wb.styles do |style|
 		:alignment => { :horizontal=> :center }, 
 		border: Axlsx::STYLE_THIN_BORDER )
 
-	wb.add_worksheet(name: "Vencimientos") do |sheet|
+		wb.add_worksheet(name: "Vencimientos") do |sheet|
 		sheet.add_row [@title], style: title_cell
 		sheet.add_row @column_titles, style: title_cell
 	  @data.each_with_index do |d, index|
 	  	styles = []
 	  	d.each do |expire_date|
-	  		if expire_date[0] == 'code'
+	  		if expire_date[0] == 'file' || expire_date[0] == 'fullname'
 	  			styles << style.add_style( border: Axlsx::STYLE_THIN_BORDER, :alignment => { :horizontal=> :center } )
 	  		else
 	  			styles << style.add_style( bg_color: Report.set_color( expire_date[1] ), border: Axlsx::STYLE_THIN_BORDER, :alignment => { :horizontal=> :center } )

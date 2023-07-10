@@ -1,13 +1,14 @@
 <section class="container g-py-10">
-  <h1>Reportes</h1>
+  <h1>Reportes de vehiculos</h1>
   <h3>Seleccione el informe que desea descargar</h3>
-  <%= link_to "<i class='fa fa fa-file-excel-o'></i> Vencimientos de documentos".html_safe, matriz_reports_path(format: :xlsx ), 
+
+   <%= link_to "<i class='fa fa fa-file-excel-o'></i> Vencimientos de documentos".html_safe, reports_expiration_of_vehicle_documents_path(format: :xlsx ), 
               class: 'btn u-btn-outline-cyan u-btn-hover-v1-2 mb-2 ml-2'%>
-  <%= form_with( url: '', 
-        method: 'GET', 
-        id: 'report-between-dates', 
-        class: 'g-brd-around g-brd-gray-light-v4 g-pa-30 g-mb-30',
-        remote: true) do |form| %>
+
+	<%= form_with( url: '', 
+				id: 'report-between-dates', 
+				class: 'g-brd-around g-brd-gray-light-v4 g-pa-30 g-mb-30',
+				remote: true) do |form| %>
     <div class="row g-mb-10">
       <div class="col-4">
         <label  for="start_date">Desde </label>
@@ -24,15 +25,15 @@
           <label class="g-mb-10" for="document_id"> Documentos</label>
         </div>    
         <select class="form-control select_multiple_vehicle_documents" name="document_id[]" id="document_id" multiple="multiple">
-          <% @documents.each do |document| %>
-            <option value=<%= document.id %>> <%= document.name %> </option>
-          <% end %>>
+        	<% @documents.each do |document| %>
+        		<option value=<%= document.id %>> <%= document.name %> </option>
+        	<% end %>>
         </select>
       </div>
     </div>
     <div class="row ">
-      <button class="btn btn-md u-btn-primary rounded-0 g-ml-15" 
-        onclick="report_between_dates('/reports/document_expirations_between_dates', 'vencimientos_persona.xlsx');">Descargar </button>
+    	<button class="btn btn-md u-btn-primary rounded-0 g-ml-15" 
+      onclick="report_between_dates('<%= reports_expiration_of_vehicle_documents_between_dates_path %>', 'vencimientos_vehiculos.xlsx');">Descargar </button>
     </div>
     <small id="error-form" class="text-danger">  </small>
   <% end %>

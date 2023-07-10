@@ -104,5 +104,16 @@ Rails.application.routes.draw do
     get 'matriz_vehicles', on: :collection
     get 'fuel', on: :collection
     get 'by_closure', on: :collection
+    post 'document_expirations_between_dates', to: 'reports#document_expirations_between_dates', as: 'expiration_of_people_documents_between_dates', on: :collection
+  end
+
+  namespace :reports do
+    get 'document_expirations', to: 'vehicles#document_expirations', as: 'expiration_of_vehicle_documents'
+    post 'expiration_of_vehicle_documents_between_dates', to: 'vehicles#document_expirations_between_dates', as: 'expiration_of_vehicle_documents_between_dates'
+    resources :vehicles, only: [:index]
+    #   post 'disable_user', to: 'users#disable', as: 'disable_user'
+    # resources :sessions, only: [:create]
+    # get 'login', to: 'sessions#new', as: 'login'
+    # get 'logout', to: 'sessions#destroy', as: 'logout'
   end
 end

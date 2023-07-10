@@ -9,6 +9,9 @@ class Report < ApplicationRecord
 
 		return 	white if date.blank?
 		return white if date == 'code'
+		return white if date == 'file'
+		return white if date == 'fullname'
+		return white if date == '---'
 		return red if date == 'No cargado'
 
 		today = Date.today

@@ -36,6 +36,7 @@
 //= require fuel_to_vehicles
 //= require ticket_books
 //= require closures
+//= require reports
 
 $(document).on('ready', function () {
   // initialization of header

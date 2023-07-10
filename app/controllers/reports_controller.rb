@@ -1,6 +1,8 @@
 class ReportsController < ApplicationController
 
-	def index;end
+	def index
+		@documents = Document.where( d_type: 1 ).actives.order( :name )
+	end
 
 	def people
 		@people = Person.actives.order(last_name: :ASC)
@@ -13,42 +15,20 @@ class ReportsController < ApplicationController
 
 	def matriz
 		@column_titles = ['LEGAJO', 'APELLIDO/S, NOMBRE/S (DNI)']
-		@index_name = ['file', 'fullname']
-		@documents = Document.where(d_type: 1).actives.pluck(:id, :name)
-		@title = 'Excel title'
-		@documents.map { |document|
-			@index_name << "document_#{document[0]}"
-			@column_titles << document[1]
-		}
+		@index_name = {'file' => '', 'fullname' => ''}
 
-		respond_to do |format|
-			format.xlsx {
-        response.headers['Content-Disposition'] = 'attachment; filename="informe_matriz_personas.xlsx"'
-      }
-		end
-	end
-
-	def matriz_vehicles
-		@column_titles = ['Interno']
-		@index_name = {'code'=> '' }
 		@data = Array.new
-		@documents = Document.where(d_type: :vehicles).actives.pluck(:id, :name)
-		@insurances = Insurance.actives.pluck(:id, :name)
-		@title = 'Vencimientos vehiculos'
+		@documents = Document.where(d_type: :people).actives.order(:name).pluck(:id, :name)
+		@title = 'Vencimientos personas'
 		@documents.map { |document|
 			@index_name["#{document[0]}"] = ''
 			@column_titles << document[1]
 		} 
 
-		@insurances.map { |document|
-			@index_name["insurance_#{document[0]}"] = ''
-			@column_titles << document[1]
-		} 
-
 		row = @index_name.clone
-		vehicles = Vehicle.actives.order(:code)
-		vehicles.each do |vehicle|
-			documents = AssignmentsDocument.where( assignated: vehicle ).actives 
+		people = Person.actives.order(:file)
+		people.each do |person|
+			documents = AssignmentsDocument.where( assignated: person ).actives 
 			documents.map { |document| 
 				renovation = document.last_renovation
 				if renovation.blank?
@@ -58,18 +38,78 @@ class ReportsController < ApplicationController
 				end
 			}
 
-			vehicle.vehicle_insurances.actives.order( :end_date ).map { |vehicle_insurance| 
-				row["insurance_#{vehicle_insurance.insurance.id}"] =vehicle_insurance.end_date.strftime('%d-%m-%y')
-			}
-
-			row['code'] = vehicle.code
+			row['file'] = person.file
+			row['fullname'] = person.fullname
 
 			@data.push(row) 
 			row = @index_name.clone
 
 		end
 
-		render xlsx: "matriz_vehicles", disposition: "attachment", filename: "vencimientos_vehiculos.xlsx"
+		respond_to do |format|
+			format.xlsx {
+        response.headers['Content-Disposition'] = 'attachment; filename="informe_matriz_personas.xlsx"'
+      }
+		end
+	end
+
+	def document_expirations_between_dates
+		@column_titles = ['LEGAJO', 'APELLIDO/S, NOMBRE/S (DNI)']
+		@index_name = {'file' => '', 'fullname' => ''}
+		if params[:document_ids].blank?
+			@documents = Document.where(d_type: :people).actives.order(:name).pluck(:id, :name)
+		else
+			@documents = Document.where(id: params[:document_ids]).order(:name).pluck(:id, :name)
+		end
+
+		@title = 'Vencimientos documentos personas '
+		if !params[:start_date].blank?
+			start_date = Date.parse(params[:start_date])
+			@title += "desde #{ start_date.strftime('%d-%m-%y') }"
+		end
+		
+		if !params[:end_date].blank?
+			end_date = Date.parse(params[:end_date])
+			@title += " hasta #{ end_date.strftime('%d-%m-%y') }"
+		end
+
+		@data = Array.new
+
+		@documents.map { |document|
+			@index_name["#{document[0]}"] = ''
+			@column_titles << document[1]
+		}
+
+		row = @index_name.clone
+		people = Person.actives.order(:file)
+		people.each do |person|
+			if params[:document_ids].blank?
+				documents = AssignmentsDocument.where( assignated: person ).actives
+			else
+				documents = AssignmentsDocument.where( assignated: person ).where( document_id: params[:document_ids] ).actives
+			end
+			
+			documents.map { |document| 
+				renovation_date = document.last_renovation_between_dates( params[:start_date], params[:end_date] )
+				if renovation_date.blank?
+					row["#{document.document.id}"] = 'No cargado'
+				elsif renovation_date === '---'
+					# esta el documento cargado pero no hay vencimiento en estas fechas
+					row["#{document.document.id}"] = ''
+				else
+					row["#{document.document.id}"] = ( document.document.expires? ) ? renovation_date : 'Cargado'
+				end
+			}
+
+			row['file'] = person.file
+			row['fullname'] = person.fullname
+
+			@data.push(row) 
+			row = @index_name.clone
+		end
+
+		render xlsx: "document_expirations_between_dates", tempalte: 'reports/document_expirations_between_dates'
+		
 	end
 
 	def modal_fuel_report;end
