@@ -11,7 +11,7 @@
                                     form_id: 'form-document-renovation-edit',
                                     method: 'PATCH',
                                     document_renovation: @document_renovation, 
-                                    assignments_document: @document_renovation.document.id,
+                                    assignments_document: @document_renovation.assignments_document_id,
                                     document_expire: @document_renovation.document.expires?,
                                     enable_expiration_date: (  @document_renovation.document.expires? &&  @document_renovation.document.allow_modify_expiration? )
                                   } %>
