@@ -22,7 +22,7 @@ const document_renovation = {
 	    form.querySelector('#error_expiration_date').innerHTML = ''
 	  }
 
-	  if (form.querySelector('#document_renovation_file').value == '') {
+	  if ( !document_expire && form.querySelector('#document_renovation_file').value == '' ) {
 	    form.querySelector('#document_renovation_file').parentElement.classList.add('u-has-error-v1')
 	    form.querySelector('.error_renovation_file').innerHTML = 'Debe ingresar un documento'
 	    return
