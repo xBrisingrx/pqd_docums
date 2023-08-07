@@ -19,6 +19,7 @@
 #  expiration_type_id      :bigint
 #  created_at              :datetime         not null
 #  updated_at              :datetime         not null
+#  apply_to_all            :boolean          default(FALSE)
 #
 class Document < ApplicationRecord
 	# la expiracion la manejo con una tabla expiration_type, en base a esa tabla sacamos cuantos dias vale el documento

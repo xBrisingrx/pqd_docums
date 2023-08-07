@@ -8,8 +8,8 @@
 #  person_load_id      :bigint
 #  person_authorize_id :bigint
 #  date                :date             not null
-#  fueling             :decimal(10, )    not null
-#  mileage             :bigint           not null
+#  fueling             :decimal(15, 2)   not null
+#  mileage             :decimal(15, 2)   not null
 #  fuel_type           :integer          default("gasoil")
 #  active              :boolean          default(TRUE)
 #  created_at          :datetime         not null
