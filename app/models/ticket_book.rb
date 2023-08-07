@@ -45,4 +45,15 @@ class TicketBook < ApplicationRecord
 			self.update( completed: false )
 		end
 	end
+
+	def set_closed
+		tickets = self.tickets.where(used: false)
+		tickets.destroy_all
+		self.update(completed: true)
+	end
+
+	def ticket_range
+		tickets = self.tickets.order(:number)
+		"#{tickets.first.number} - #{tickets.last.number}"
+	end
 end

@@ -1,0 +1,14 @@
+$("#ticket_book_create").html("<%= j (render partial: 'shared/modal', locals:{ size: 'lg', content: 'form_set_closed', ticket_book_id: @ticket_book.id } ) %>")
+
+$("#ticket_book_create").modal('show')
+
+$("#ticket-book-form").on("ajax:success", function(event) {
+    ticket_books_table.ajax.reload(null,false)
+    let msg = JSON.parse(event.detail[2].response)
+    noty_alert(msg.status, msg.msg)
+    $("#ticket_book_create").modal('hide')
+  }).on("ajax:error", function(event) {
+	let msg = JSON.parse( event.detail[2].response )
+	console.info(msg)
+	set_input_status_form('ticket-book-form', 'ticket_book', msg)
+})

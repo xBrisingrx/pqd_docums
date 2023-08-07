@@ -1,0 +1,8 @@
+<%= form_with(url: set_closed_ticket_book_path(@ticket_book.id), id: 'ticket-book-form', method: 'PUT') do |form| %>
+	<p>Al cerrar el talonario no se pueden agregar mas cargas a este talonario.</p>
+  <div class="actions">
+    <%= form.submit 'Guardar', class: 'btn u-btn-primary mr-2' %>
+    <button type="button" class="btn u-btn-red" data-dismiss="modal">Cerrar</button>
+  </div>
+
+<% end %>

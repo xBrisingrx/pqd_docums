@@ -1,5 +1,5 @@
 class TicketBooksController < ApplicationController
-  before_action :set_ticket_book, only: %i[ show edit update destroy ]
+  before_action :set_ticket_book, only: %i[ show edit update destroy modal_closed set_closed]
 
   # GET /ticket_books or /ticket_books.json
   def index
@@ -46,13 +46,18 @@ class TicketBooksController < ApplicationController
     end
   end
 
-  # DELETE /ticket_books/1 or /ticket_books/1.json
-  def destroy
-    @ticket_book.destroy
+  def modal_closed
+    pp @ticket_book
+    @title_modal = "Cerrar talonario"
+  end
 
+  def set_closed
     respond_to do |format|
-      format.html { redirect_to ticket_books_url, notice: "Ticket book was successfully destroyed." }
-      format.json { head :no_content }
+      if @ticket_book.set_closed
+        format.json { render json: { status: 'success', msg: 'Talonario cerradi' }, status: :ok}
+      else
+        format.json { render json: @ticket_book.errors, status: :unprocessable_entity }
+      end
     end
   end
 

@@ -7,6 +7,8 @@ Rails.application.routes.draw do
   end
   resources :ticket_books do 
     get 'get_tickets', on: :member
+    get 'modal_closed', on: :member
+    put 'set_closed', on: :member
   end
   resources :fuel_suppliers
   resources :fuel_to_vehicles 
