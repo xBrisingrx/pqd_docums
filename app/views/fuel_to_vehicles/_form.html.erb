@@ -49,7 +49,7 @@
   <div class="form-group row">
     <%= form.label :fueling, 'Litros: ', class: 'col-form-label col-sm-3 col-md-4' %>
     <div class="col-sm-9 col-md-6">
-      <%= form.number_field :fueling, class: 'form-control', required:true %>
+      <%= form.number_field :fueling, step:'0.01', class: 'form-control', required: true %>
       <small class="invalid-feedback fuel_to_vehicle_fueling"></small>
     </div>
   </div>
@@ -57,7 +57,7 @@
   <div class="form-group row">
     <%= form.label :mileage, 'Kilometraje: ', class: 'col-form-label col-sm-3 col-md-4' %>
     <div class="col-sm-9 col-md-6">
-      <%= form.number_field :mileage, class: 'form-control', required:true %>
+      <%= form.number_field :mileage, step:'0.01', class: 'form-control', required: true %>
       <small class="invalid-feedback fuel_to_vehicle_mileage"></small>
     </div>
   </div>
