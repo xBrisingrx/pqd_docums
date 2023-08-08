@@ -54,7 +54,7 @@ class TicketBook < ApplicationRecord
 
 	def ticket_range
 		tickets = self.tickets.order(:number)
-		if ticket.blank?
+		if tickets.blank?
 			"--"
 		else
 			"#{tickets.first.number} - #{tickets.last.number}"
