@@ -1,12 +1,23 @@
 $("#modal").html("<%= j (render partial: 'shared/modal', locals:{ size: 'lg', content: 'form' } ) %>")
+$('.select-clothe').select2({ width: '100%',theme: "bootstrap4", placeholder: "Seleccione ropa a agregar" });
 $("#modal").modal('show')
 
-$("#form-company").on("ajax:success", function(event) {
-    companies_table.ajax.reload(null,false)
-    let msg = JSON.parse(event.detail[2].response)
-    noty_alert(msg.status, msg.msg)
-    $("#modal").modal('hide')
-  }).on("ajax:error", function(event) {
-	let msg = JSON.parse( event.detail[2].response )
-	set_input_status_form('form-company', 'company', msg)
+document.getElementById('form-clothing-package').addEventListener('submit', (e) => {
+  e.preventDefault()
+  e.stopPropagation()
+  clothing_package.submit( e.target.action, "PUT" )
+})
+
+$("#form-disable-clothes-pack").on("ajax:success", function(event) {
+  let msg = JSON.parse(event.detail[2].response)
+  noty_alert(msg.status, msg.msg)
+  document.querySelector(`#form-clothing-package #clothes_pack_${msg.id}`).remove()
+  clothing_packages_table.ajax.reload(null,false)
+  $("#modal-disable-clothe-pack").modal('hide')
+}).on("ajax:error", function(event) {
+  let msg = JSON.parse( event.detail[2].response )
+  $.each( msg, function( key, value ) {
+    $(`#form-clothe #clothe_${key}`).addClass('is-invalid')
+    $(`#form-clothe .clothe_${key}`).text( value ).show('slow')
+  })
 })

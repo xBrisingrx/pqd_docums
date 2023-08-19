@@ -22,6 +22,7 @@ Rails.application.routes.draw do
   post 'disable_clothe', to: 'clothes#disable', as: 'disable_clothe'
   resources :clothing_packages
   post 'disable_clothing_package', to: 'clothing_packages#disable', as: 'disable_clothing_package'
+  post 'disable_clothes_pack', to: "clothes_packs#disable", as: "disable_clothes_pack" # elimino una prenda de ropa de un package
   resources :insurances
   resources :vehicle_insurances do 
     get 'show_files', on: :collection

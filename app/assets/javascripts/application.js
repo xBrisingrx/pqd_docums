@@ -39,6 +39,7 @@
 //= require reports
 //= require vehicle_brands
 //= require vehicle_models
+//= require clothes_packs
 
 $(document).on('ready', function () {
   // initialization of header

@@ -3,6 +3,7 @@ $("#modal").modal('show')
 
 $("#form-clothe").on("ajax:success", function(event) {
     clothes_table.ajax.reload(null,false)
+    clothing_packages_table.ajax.reload(null,false)
     let msg = JSON.parse(event.detail[2].response)
     noty_alert(msg.status, msg.msg)
     $("#modal").modal('hide')

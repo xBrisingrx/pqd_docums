@@ -13,5 +13,6 @@ class ClothesPack < ApplicationRecord
   belongs_to :clothe
   belongs_to :clothing_package
 
+  validates :clothe_id, uniqueness: { scope: :clothing_package_id, message: "Esta prenda ya se encuentra agregada a este pack" }
   scope :actives, -> { where(active: true) }
 end
