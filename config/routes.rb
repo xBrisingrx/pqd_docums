@@ -44,7 +44,10 @@ Rails.application.routes.draw do
   post 'vehicles/enable_vehicle', to: 'vehicles#enable_vehicle', as: 'enable_vehicle'
   resources :vehicle_locations
   resources :vehicle_models
-  resources :vehicle_brands
+
+  resources :vehicle_brands, except: [:destroy]
+  post 'disable_vehicle_brand', to: 'vehicle_brands#disable', as: 'disable_vehicle_brand'
+  
   resources :vehicle_types
   
 

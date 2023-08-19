@@ -37,6 +37,7 @@
 //= require ticket_books
 //= require closures
 //= require reports
+//= require vehicle_brands
 
 $(document).on('ready', function () {
   // initialization of header

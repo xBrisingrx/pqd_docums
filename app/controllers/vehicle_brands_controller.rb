@@ -3,7 +3,8 @@ class VehicleBrandsController < ApplicationController
 
   # GET /vehicle_brands or /vehicle_brands.json
   def index
-    @vehicle_brands = VehicleBrand.all
+    @vehicle_brands = VehicleBrand.actives
+    @vehicle_brand = VehicleBrand.new
   end
 
   # GET /vehicle_brands/1 or /vehicle_brands/1.json
@@ -22,14 +23,15 @@ class VehicleBrandsController < ApplicationController
   # POST /vehicle_brands or /vehicle_brands.json
   def create
     @vehicle_brand = VehicleBrand.new(vehicle_brand_params)
-
+    activity_history = ActivityHistory.new( action: :create, description: "Se registro la marca de vehículo #{@vehicle_brand.name}", 
+      record: vehicle_brand, date: Time.now, user: current_user )
     respond_to do |format|
-      if @vehicle_brand.save
+      if @vehicle_brand.save && activity_history.save
+        format.json { render json: { status: 'success', msg: 'Marca registrada' }, status: :created}
         format.html { redirect_to vehicle_brand_url(@vehicle_brand), notice: "Vehicle brand was successfully created." }
-        format.json { render :show, status: :created, location: @vehicle_brand }
       else
-        format.html { render :new, status: :unprocessable_entity }
         format.json { render json: @vehicle_brand.errors, status: :unprocessable_entity }
+        format.html { render :new, status: :unprocessable_entity }
       end
     end
   end
@@ -38,23 +40,27 @@ class VehicleBrandsController < ApplicationController
   def update
     respond_to do |format|
       if @vehicle_brand.update(vehicle_brand_params)
+        format.json { render json: { status: 'success', msg: 'Marca actualizada' }, status: :ok}
         format.html { redirect_to vehicle_brand_url(@vehicle_brand), notice: "Vehicle brand was successfully updated." }
-        format.json { render :show, status: :ok, location: @vehicle_brand }
       else
-        format.html { render :edit, status: :unprocessable_entity }
         format.json { render json: @vehicle_brand.errors, status: :unprocessable_entity }
+        format.html { render :edit, status: :unprocessable_entity }
       end
     end
   end
 
-  # DELETE /vehicle_brands/1 or /vehicle_brands/1.json
-  def destroy
-    @vehicle_brand.destroy
-
+  def disable
+    vehicle_brand = VehicleBrand.find(params[:vehicle_brand_id])
+    activity_history = ActivityHistory.new( action: :disable, description: "Se dio de baja la marca de vehículo #{vehicle_brand.name}", 
+      record: vehicle_brand, date: Time.now, user: current_user )
+    
     respond_to do |format|
-      format.html { redirect_to vehicle_brands_url, notice: "Vehicle brand was successfully destroyed." }
-      format.json { head :no_content }
-    end
+      if vehicle_brand.update(active: false) && activity_history.save
+        format.json { render json: { status: 'success', msg: 'Marca dada de baja' }, status: :ok }
+      else
+        format.json { render json: { status: 'error', msg: 'No se pudo dar de baja la marca', errors: vehicle_brand.errors }, status: :unprocessable_entity }
+      end # commit
+    end # respond_to
   end
 
   private
