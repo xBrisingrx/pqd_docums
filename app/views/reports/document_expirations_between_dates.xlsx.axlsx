@@ -2,7 +2,8 @@ wb = xlsx_package.workbook
 wb.styles do |style|
 	grey_cell = style.add_style(bg_color: "C4C4C4", border: Axlsx::STYLE_THIN_BORDER, :alignment => { :horizontal=> :center })
 	no_bg_cell = style.add_style(border: Axlsx::STYLE_THIN_BORDER, :alignment => { :horizontal=> :center })
-	title_cell = style.add_style( :b => true, :sz => 18, :bg_color => "4BE9FF",
+	title_cell = style.add_style( :b => true, :sz => 14, :bg_color => "4BE9FF",
+		:alignment => { :horizontal=> :center },
 		border: Axlsx::STYLE_THIN_BORDER )
 
 	wb.add_worksheet(name: "Vencimientos") do |sheet|
