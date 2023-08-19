@@ -38,6 +38,7 @@
 //= require closures
 //= require reports
 //= require vehicle_brands
+//= require vehicle_models
 
 $(document).on('ready', function () {
   // initialization of header

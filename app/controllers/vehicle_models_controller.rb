@@ -3,7 +3,9 @@ class VehicleModelsController < ApplicationController
 
   # GET /vehicle_models or /vehicle_models.json
   def index
-    @vehicle_models = VehicleModel.all
+    @vehicle_models = VehicleModel.actives.includes(:vehicle_brand)
+    @vehicle_brands = VehicleBrand.actives
+    @vehicle_model = VehicleModel.new
   end
 
   # GET /vehicle_models/1 or /vehicle_models/1.json
@@ -25,11 +27,11 @@ class VehicleModelsController < ApplicationController
 
     respond_to do |format|
       if @vehicle_model.save
+        format.json { render json: { status: 'success', msg: 'Modelo registrado' }, status: :created }
         format.html { redirect_to vehicle_model_url(@vehicle_model), notice: "Vehicle model was successfully created." }
-        format.json { render :show, status: :created, location: @vehicle_model }
       else
-        format.html { render :new, status: :unprocessable_entity }
         format.json { render json: @vehicle_model.errors, status: :unprocessable_entity }
+        format.html { render :new, status: :unprocessable_entity }
       end
     end
   end
@@ -38,23 +40,26 @@ class VehicleModelsController < ApplicationController
   def update
     respond_to do |format|
       if @vehicle_model.update(vehicle_model_params)
-        format.html { redirect_to vehicle_model_url(@vehicle_model), notice: "Vehicle model was successfully updated." }
-        format.json { render :show, status: :ok, location: @vehicle_model }
+        format.json { render json: { status: 'success', msg: 'Modelo actualizado' }, status: :ok }
       else
-        format.html { render :edit, status: :unprocessable_entity }
         format.json { render json: @vehicle_model.errors, status: :unprocessable_entity }
+        format.html { render :edit, status: :unprocessable_entity }
       end
     end
   end
 
-  # DELETE /vehicle_models/1 or /vehicle_models/1.json
-  def destroy
-    @vehicle_model.destroy
-
+  def disable
+    vehicle_model = VehicleModel.find(params[:vehicle_model_id])
+    activity_history = ActivityHistory.new( action: :disable, description: "Se dio de baja la marca de vehículo #{vehicle_model.name}", 
+      record: vehicle_model, date: Time.now, user: current_user )
+    
     respond_to do |format|
-      format.html { redirect_to vehicle_models_url, notice: "Vehicle model was successfully destroyed." }
-      format.json { head :no_content }
-    end
+      if vehicle_model.update(active: false) && activity_history.save
+        format.json { render json: { status: 'success', msg: 'Marca dada de baja' }, status: :ok }
+      else
+        format.json { render json: { status: 'error', msg: 'No se pudo dar de baja la marca', errors: vehicle_model.errors }, status: :unprocessable_entity }
+      end # commit
+    end # respond_to
   end
 
   private

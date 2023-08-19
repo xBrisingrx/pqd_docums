@@ -43,14 +43,15 @@ Rails.application.routes.draw do
   # get 'vehicles/:id/modal_enable_vehicle', to: 'vehicles#modal_enable_vehicle', as: 'modal_enable_vehicle'
   post 'vehicles/enable_vehicle', to: 'vehicles#enable_vehicle', as: 'enable_vehicle'
   resources :vehicle_locations
+  
   resources :vehicle_models
-
+  post 'disable_vehicle_model', to: 'vehicle_models#disable', as: 'disable_vehicle_model'
+  
   resources :vehicle_brands, except: [:destroy]
   post 'disable_vehicle_brand', to: 'vehicle_brands#disable', as: 'disable_vehicle_brand'
   
   resources :vehicle_types
   
-
   namespace :authentication, path: '', as: '' do
     resources :users, only: [:index,:new, :create, :edit, :update]
       post 'disable_user', to: 'users#disable', as: 'disable_user'

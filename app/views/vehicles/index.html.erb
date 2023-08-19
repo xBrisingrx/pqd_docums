@@ -6,10 +6,13 @@
     <%= link_to "<i class='fa fa-car'></i> Ver vehiculos inactivos".html_safe, inactive_vehicles_path(), 
             class: 'btn u-btn-outline-orange u-btn-hover-v1-2 mb-2'%>
   </div>
-  <div>
-    <%= link_to "<i class='fa fa-car'></i> Modelos y marcas".html_safe, vehicle_brands_path(),
+  <div class="mb-2">
+    <%= link_to "<i class='fa fa-car'></i> Marcas".html_safe, vehicle_brands_path(),
             remote: true, 
-            class: 'btn u-btn-outline-pink u-btn-hover-v1-2 mb-2' %>
+            class: 'btn u-btn-outline-pink u-btn-hover-v1-2' %>
+    <%= link_to "<i class='fa fa-car'></i> Modelos".html_safe, vehicle_models_path(),
+            remote: true, 
+            class: 'btn u-btn-outline-teal u-btn-hover-v1-2' %>
   </div>
 </div>
 

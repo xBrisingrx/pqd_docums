@@ -13,6 +13,8 @@ $(document).ready(function(){
 	$("#form-vehicle-brand").on("ajax:success", function(event) {
 	    vehicles_brands_table.ajax.reload(null,false)
 	    clean_form('form-vehicle-brand')
+      let msg = JSON.parse(event.detail[2].response)
+      noty_alert(msg.status, msg.msg)
 	  }).on("ajax:error", function(event) {
 		let msg = JSON.parse( event.detail[2].response )
 		set_input_status_form('form-vehicle-brand', 'vehicle_brand', msg)
