@@ -1,7 +1,7 @@
 <section class="container g-py-10">
   <h1>Reportes</h1>
   <h3>Seleccione el informe que desea descargar</h3>
-  <%= link_to "<i class='fa fa fa-file-excel-o'></i> Vencimientos de documentos".html_safe, matriz_reports_path(format: :xlsx ), 
+  <%= link_to "<i class='fa fa fa-file-excel-o'></i> Vencimientos de documentos".html_safe, people_documents_reports_path(format: :xlsx ), 
               class: 'btn u-btn-outline-cyan u-btn-hover-v1-2 mb-2 ml-2'%>
   <%= form_with( url: '', 
         method: 'GET', 
@@ -32,7 +32,7 @@
     </div>
     <div class="row ">
       <button class="btn btn-md u-btn-primary rounded-0 g-ml-15" 
-        onclick="report_between_dates('/reports/document_expirations_between_dates.xlsx', 'vencimientos_persona.xlsx');">Descargar </button>
+        onclick="report_between_dates('<%= people_documents_reports_path %>', 'vencimientos_persona.xlsx');">Descargar </button>
     </div>
     <small id="error-form" class="text-danger">  </small>
   <% end %>

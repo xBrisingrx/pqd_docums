@@ -109,16 +109,16 @@ Rails.application.routes.draw do
   resources :reports, only: [:index] do
     get 'modal_fuel_report', on: :collection
     get 'people', on: :collection
-    get 'matriz', on: :collection
+    get 'people_documents', on: :collection
+    post 'people_documents', on: :collection
     get 'matriz_vehicles', on: :collection
     get 'fuel', on: :collection
     get 'by_closure', on: :collection
-    post 'document_expirations_between_dates', to: 'reports#document_expirations_between_dates', as: 'expiration_of_people_documents_between_dates', on: :collection
   end
 
   namespace :reports do
-    get 'document_expirations', to: 'vehicles#document_expirations', as: 'expiration_of_vehicle_documents'
-    post 'expiration_of_vehicle_documents_between_dates', to: 'vehicles#document_expirations_between_dates', as: 'expiration_of_vehicle_documents_between_dates'
+    get 'document_expirations', to: 'vehicles#document_expirations'
+    post 'document_expirations', to: 'vehicles#document_expirations'
     resources :vehicles, only: [:index]
     #   post 'disable_user', to: 'users#disable', as: 'disable_user'
     # resources :sessions, only: [:create]

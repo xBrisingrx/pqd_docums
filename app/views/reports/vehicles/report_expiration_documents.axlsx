@@ -2,23 +2,24 @@ wb = xlsx_package.workbook
 wb.styles do |style|
 	grey_cell = style.add_style(bg_color: "C4C4C4", border: Axlsx::STYLE_THIN_BORDER, :alignment => { :horizontal=> :center })
 	no_bg_cell = style.add_style(border: Axlsx::STYLE_THIN_BORDER, :alignment => { :horizontal=> :center })
-	title_cell = style.add_style( :b => true, :sz => 12, :bg_color => "4BE9FF",
-		:alignment => { :horizontal=> :center }, 
+	title_cell = style.add_style( :b => true, :sz => 18, :bg_color => "4BE9FF",
 		border: Axlsx::STYLE_THIN_BORDER )
 
 	wb.add_worksheet(name: "Vencimientos") do |sheet|
 		sheet.add_row [@title], style: title_cell
 		sheet.add_row @column_titles, style: title_cell
-
+		sheet.merge_cells("A1:#{@letter_title}1")
 	  @data.each_with_index do |d, index|
 	  	styles = []
+
 	  	d.each do |expire_date|
-	  		if expire_date[0] == 'code'
-	  			styles << style.add_style( border: Axlsx::STYLE_THIN_BORDER, :alignment => { :horizontal=> :center } )
-	  		else
+	  		if expire_date[0].to_i >= 1
 	  			styles << style.add_style( bg_color: Report.set_color( expire_date[1] ), border: Axlsx::STYLE_THIN_BORDER, :alignment => { :horizontal=> :center } )
+	  		else
+	  			styles << style.add_style( border: Axlsx::STYLE_THIN_BORDER, :alignment => { :horizontal=> :center } )
 	  		end
 	  	end
+
 	  	sheet.add_row d.values, style: styles
 	  end
 	end

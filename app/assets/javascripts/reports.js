@@ -1,27 +1,7 @@
-// let select_multiple_vehicle_documents
-// select_multiple_vehicle_documents = $('.select_multiple_vehicle_documents').select2({
-//       theme: 'bootstrap4',
-//       width: '90%'
-//   })
-
-
 $( document ).ready(function() {
 	 $('.select_multiple_vehicle_documents').select2({
-      theme: 'bootstrap4',
       width: '90%'
   })
-
-	// $("#vehicle-report-between-dates").on("ajax:success", function(event) {
-	//     const link = document.createElement('a')
-	//     const blob = new Blob( [event.detail[2].response], {type: 'text/xlsx' })
-	//     link.href = window.URL.createObjectURL(blob)
-	//     link.download = 'reporte.xlsx'
-	//     link.click()
-
-	//   }).on("ajax:error", function(event) {
-	// 	let msg = JSON.parse( event.detail[2].response )
-	// 	set_input_status_form('form-person', 'person', msg)
-	// })
 })
 
 let report_between_dates = (url, filename) => {
