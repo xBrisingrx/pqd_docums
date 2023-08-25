@@ -65,7 +65,7 @@ class ClothingPackagesController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def clothing_package_params
-      params.require(:clothing_package).permit(:name, :description, :days_of_validity, :active,
+      params.require(:clothing_package).permit(:name, :description, :days_of_validity, :expiration_type_id,:active,
         clothes_packs_attributes: [:id, :clothe_id])
     end
 end

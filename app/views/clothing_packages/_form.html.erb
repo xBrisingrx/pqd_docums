@@ -9,11 +9,11 @@
   </div>
   
   <div class="form-group row">
-    <%= form.label :expiration_type, 'Periodo de vencimiento' ,class:'col-form-label col-sm-3 col-md-4' %>
+    <%= form.label :expiration_type_id, 'Periodo de vencimiento' ,class:'col-form-label col-sm-3 col-md-4' %>
     <div class="col-sm-8 col-lg-6">
-      <%= form.select(:expiration_type, ExpirationType.actives.collect { |e| [e.name, e.id, data: { days: e.days }] }, { include_blank: true},
+      <%= form.select(:expiration_type_id, ExpirationType.actives.collect { |e| [e.name, e.id, data: { days: e.days }] }, { include_blank: true},
                       onchange: 'clothing_package.set_expiration_days()',
-                      class: 'form-control select-2-document-expiration') %>
+                      class: 'form-control select-2-expiration-type') %>
     <small class="form-control-feedback text-danger days_of_validity"></small>
     </div>
  </div>
@@ -55,11 +55,11 @@
       </tr>
       <tbody id="list_clothes">
         <% @clothing_package.clothes_packs.each do |data| %>
-          <tr id="clothes_pack_<%= data.clothe.id %>">
+          <tr id="clothes_pack_<%= data.id %>">
             <td> <%= data.clothe.name %> </td>
             <td><button type="button" class='btn btn-sm u-btn-red text-white' 
                   title='Eliminar' 
-                  onclick='modal_disable_clothes_pack( <%= data.clothe.id %> )'>
+                  onclick='modal_disable_clothes_pack( <%= data.id %> )'>
                   <i class='fa fa-trash-o' aria-hidden='true'></i></button></td>
           </tr>
         <% end %>

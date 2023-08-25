@@ -28,7 +28,7 @@ let clothing_package = {
     $(`#clothing_package_clothe_id option[value='${id}']`).attr('disabled', false)
   },
   set_expiration_days: () => {
-    let expiration_type = document.getElementById('clothing_package_expiration_type')
+    let expiration_type = document.getElementById('clothing_package_expiration_type_id')
     let days = expiration_type.options[expiration_type.selectedIndex].dataset.days
     if (days == 0) {
       document.getElementById('clothing_package_days_of_validity').value = ''
@@ -44,6 +44,7 @@ let clothing_package = {
     let clothe_index = 1
     form.append( `clothing_package[name]`, document.querySelector('#clothing_package_name').value )
     form.append( `clothing_package[description]`, document.querySelector('#clothing_package_description').value )
+    form.append( `clothing_package[expiration_type_id]`, document.querySelector('#clothing_package_expiration_type_id').value )
     form.append( `clothing_package[days_of_validity]`, document.querySelector('#clothing_package_days_of_validity').value )
     for (let data of clothes_list) {
       form.append( `clothing_package[clothes_packs_attributes][${clothe_index}][clothe_id]`, data.querySelector('#td_clothe_id').dataset.value )
