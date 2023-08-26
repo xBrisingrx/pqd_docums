@@ -2,14 +2,16 @@
 #
 # Table name: clothing_packages
 #
-#  id               :bigint           not null, primary key
-#  name             :string(255)      not null
-#  description      :text(65535)
-#  days_of_validity :integer          default(0), not null
-#  expires          :boolean          default(FALSE)
-#  active           :boolean          default(TRUE)
-#  created_at       :datetime         not null
-#  updated_at       :datetime         not null
+#  id                 :bigint           not null, primary key
+#  name               :string(255)      not null
+#  description        :text(65535)
+#  days_of_validity   :integer          default(0), not null
+#  expires            :boolean          default(FALSE)
+#  active             :boolean          default(TRUE)
+#  created_at         :datetime         not null
+#  updated_at         :datetime         not null
+#  one_clothes        :boolean          default(FALSE)
+#  expiration_type_id :bigint
 #
 class ClothingPackage < ApplicationRecord
 	has_many :clothes_packs

@@ -49,3 +49,20 @@ $("#form-people-clothes").on("ajax:success", function(event) {
   let msg = JSON.parse( event.detail[2].response )
   set_input_status_form('form-people-clothes', 'people_clothe', msg)
 })
+
+$("#form-disable-person-clothe").on("ajax:success", function(event) {
+  people_clothes_table.ajax.reload(null,false)
+  let msg = JSON.parse(event.detail[2].response)
+  noty_alert(msg.status, msg.msg)
+  $("#modal-disable-person-clothe").modal('hide')
+}).on("ajax:error", function(event) {
+  let msg = JSON.parse( event.detail[2].response )
+  if (msg.status == 'info') {
+    noty_alert(msg.status, msg.msg)
+  } else {
+    $.each( msg, function( key, value ) {
+      $(`#form-disable-person-clothe #job_${key}`).addClass('is-invalid')
+      $(`#form-disable-person-clothe .job_${key}`).text( value ).show('slow')
+    })
+  }
+})

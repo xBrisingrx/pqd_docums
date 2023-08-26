@@ -4,7 +4,7 @@ class PeopleClothesController < ApplicationController
   # GET /people_clothes or /people_clothes.json
   def index
     @person = Person.find params[:person_id]
-    @people_clothes = @person.people_clothes
+    @people_clothes = @person.people_clothes.actives
     @person_clothe = PeopleClothe.new( person_id: @person.id )
     @title_modal = "Ropa entregada a #{@person.fullname}"
   end
@@ -26,9 +26,12 @@ class PeopleClothesController < ApplicationController
   # POST /people_clothes or /people_clothes.json
   def create
     @people_clothe = PeopleClothe.new(people_clothe_params)
-
+    activity_history = ActivityHistory.new( action: :create_record, 
+      description: "El usuario #{current_user.username} hizo la entrega de ropa #{@people_clothe.clothing_package.name} a #{@people_clothe.person.fullname}", 
+      record: @people_clothe, 
+      date: Time.now, user: current_user )
     respond_to do |format|
-      if @people_clothe.save
+      if @people_clothe.save && activity_history.save
         format.json { render json: { status: 'success', msg: 'Registro exitoso' }, status: :created }
       else
         format.json { render json: @people_clothe.errors, status: :unprocessable_entity }
@@ -39,8 +42,12 @@ class PeopleClothesController < ApplicationController
 
   # PATCH/PUT /people_clothes/1 or /people_clothes/1.json
   def update
+    activity_history = ActivityHistory.new( action: :update_record, 
+      description: "El usuario #{current_user.username} actualizo la entrega de ropa #{@people_clothe.clothing_package.name} de #{@people_clothe.person.fullname}", 
+      record: @people_clothe, 
+      date: Time.now, user: current_user )
     respond_to do |format|
-      if @people_clothe.update(people_clothe_params)
+      if @people_clothe.update(people_clothe_params) && activity_history.save
         format.html { redirect_to people_clothe_url(@people_clothe), notice: "People clothe was successfully updated." }
         format.json { render :show, status: :ok }
       else
@@ -50,13 +57,18 @@ class PeopleClothesController < ApplicationController
     end
   end
 
-  # DELETE /people_clothes/1 or /people_clothes/1.json
-  def destroy
-    @people_clothe.destroy
-
+  def disable
+    people_clothe = PeopleClothe.find(params[:person_clothe_id])
+    activity_history = ActivityHistory.new( action: :disable, 
+      description: "El usuario #{current_user.username} elimino la entrega de ropa #{people_clothe.clothing_package.name} con fecha #{ people_clothe.start_date } a #{people_clothe.person.fullname}", 
+      record: people_clothe, 
+      date: Time.now, user: current_user )
     respond_to do |format|
-      format.html { redirect_to people_clothes_url, notice: "People clothe was successfully destroyed." }
-      format.json { head :no_content }
+      if people_clothe.update( active: false ) && activity_history.save
+        format.json { render json: { status: "success", msg: "Entrega eliminada" }, status: :ok }
+      else
+        format.json { render json: { status: "error", msg: @people_clothe.errors}, status: :unprocessable_entity }
+      end
     end
   end
 

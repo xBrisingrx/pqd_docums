@@ -18,7 +18,9 @@ Rails.application.routes.draw do
   root 'main#welcome'
   get 'main/welcome'
 
-  resources :people_clothes, only: [:index, :show,:new, :create, :edit, :update]
+  resources :people_clothes, only: [:index, :show,:new, :create, :edit, :update] do 
+    post "disble", on: :collection
+  end
   post 'disable_people_clothe', to: 'people_clothes#disable', as: 'disable_people_clothe'
   resources :clothes, only: [:index, :new, :create, :edit, :update]
   post 'disable_clothe', to: 'clothes#disable', as: 'disable_clothe'

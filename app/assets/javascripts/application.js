@@ -40,6 +40,7 @@
 //= require vehicle_brands
 //= require vehicle_models
 //= require clothes_packs
+//= require people_clothes
 
 $(document).on('ready', function () {
   // initialization of header
