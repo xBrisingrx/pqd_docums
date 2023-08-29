@@ -5,7 +5,6 @@ form_person = $('#form-person')
 form_person.validate({
   rules: {
     'person[file]': {
-      number: true,
       remote: {
         url: "/person_dato_disponible",
         type: "GET",
