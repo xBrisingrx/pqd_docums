@@ -41,7 +41,7 @@
             <div class="invalid-feedback reasons_to_disable"></div>
           </div>
           <div class="form-group">
-            <%= form.text_area :description, class: 'form-control form-control-md u-textarea-expandable', rows: 3, placeholder: 'Detalle de la baja' %>
+            <%= form.text_area :description, class: 'form-control form-control-md u-textarea-expandable', rows: 3, placeholder: 'Detalle de la baja', required: true %>
           </div>
           <%= form.submit 'Eliminar', class: 'btn u-btn-red g-mr-10' %>
           <button type="button" data-dismiss="modal" class="btn u-btn-teal g-mr-10"> Cerrar </button>
