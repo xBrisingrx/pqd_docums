@@ -28,7 +28,7 @@ $(document).ready(function(){
   })
 
   inactive_vehicles_table = $("#inactive_vehicles_table").DataTable({
-    'ajax': 'inactive_vehicles',
+    'ajax': 'inactives_vehicles',
     'columns': [
     {'data': 'code'},
     {'data': 'domain'},

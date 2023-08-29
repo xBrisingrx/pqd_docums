@@ -38,14 +38,14 @@ Rails.application.routes.draw do
     get 'get_images', on: :member
     get 'show_vehicle_history', on: :member
     get 'modal_enable_vehicle', on: :member
-    get 'inactive', on: :collection
     post :delete_image_attachment, on: :collection
     get 'status_mileage_for_service', on: :member
   end
   post 'disable_vehicle', to: 'vehicles#disable', as: 'disable_vehicle'
+  get 'inactives_vehicles', to: 'vehicles#inactives', as: 'inactives_vehicles'
 
-  # get 'vehicles/:id/show_vehicle_history', to: 'vehicles#show_vehicle_history', as: 'show_vehicle_history'
-  # get 'vehicles/:id/modal_enable_vehicle', to: 'vehicles#modal_enable_vehicle', as: 'modal_enable_vehicle'
+  get 'vehicles/:id/show_vehicle_history', to: 'vehicles#show_vehicle_history', as: 'show_vehicle_history'
+  get 'vehicles/:id/modal_enable_vehicle', to: 'vehicles#modal_enable_vehicle', as: 'modal_enable_vehicle'
   post 'vehicles/enable_vehicle', to: 'vehicles#enable_vehicle', as: 'enable_vehicle'
   resources :vehicle_locations
   
