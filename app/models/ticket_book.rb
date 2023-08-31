@@ -10,11 +10,13 @@
 #  completed  :boolean          default(FALSE)
 #
 class TicketBook < ApplicationRecord
-	has_many :tickets
+	has_many :tickets, dependent: :destroy
 
+	accepts_nested_attributes_for :tickets
+	
 	validates :name, 
 		presence: true, 
-		uniqueness: true
+		uniqueness: { case_sensitive: false, message: "Ya hay un talonario registrado con este nombre" }
 
 	scope :actives, -> { where(active: true) }
 	
@@ -27,13 +29,18 @@ class TicketBook < ApplicationRecord
 	end
 
 	def create_ticket_book number_from, number_until
+		if number_from >= number_until
+			errors.add(:base, 'El número de inicio debe ser menor al de fin')
+		end
 		ActiveRecord::Base.transaction do
-			if number_from >= number_until
-				errors.add(:base, 'El numero de inicio debe ser menor al de fin')
+			if !self.save
+				return false
 			end
-			self.save
 			for n in number_from..number_until do
-				self.tickets.create( number: n )
+				ticket = Ticket.new( ticket_book: self, number: n )
+				if !ticket.save
+					errors.add(:base, 'Hay tickets que pertenecen a otro talonario')
+				end
 			end
 		end
 	end
@@ -60,4 +67,14 @@ class TicketBook < ApplicationRecord
 			"#{tickets.first.number} - #{tickets.last.number}"
 		end
 	end
+
+	def disable
+		tickets = self.tickets.where(used: true)
+		if !tickets.blank?
+			errors.add(:base, 'Hay tickets usados en este talonario') 
+			return
+		end
+		self.destroy
+	end
+
 end

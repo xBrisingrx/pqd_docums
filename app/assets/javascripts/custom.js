@@ -21,6 +21,7 @@ function set_input_status_form( form_id, object_name, msg ){
       list_ids[i] = inputs[i].id
   }
   $.each( msg, function( key, value ) {
+    console.info(key, value)
     if ( value.length > 1 ) {
       error_msg = "<ul class='pl-2'>"
       value.forEach(element =>  error_msg += `<li>${element}</li>` );
@@ -38,7 +39,7 @@ function set_input_status_form( form_id, object_name, msg ){
     let input = document.querySelector(`#${form_id} #${list_ids[i]}`)
     input.classList.remove('is-invalid')
     if (document.querySelector(`#${form_id} .${list_ids[i]}`) == null) {
-      console.log('!!!!!esto es nulo => ',`#${form_id} .${list_ids[i]}`)
+      console.log('nodo nulo => ',`#${form_id} .${list_ids[i]}`)
     } else {
       document.querySelector(`#${form_id} .${list_ids[i]}`).textContent = ''
     }
@@ -116,4 +117,14 @@ function hide_table( table_id ) {
 
 function close_modal(modal_id){
   $(`#${modal_id}`).modal('hide')
+}
+
+function addClassValid( input ) {
+  input.classList.remove('is-invalid')
+  input.classList.add('is-valid')
+}
+
+function addClassInvalid( input ) {
+  input.classList.remove('is-valid')
+  input.classList.add('is-invalid')
 }

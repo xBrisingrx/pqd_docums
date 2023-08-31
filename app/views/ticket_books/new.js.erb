@@ -2,13 +2,70 @@ $("#ticket_book_create").html("<%= j (render partial: 'shared/modal', locals:{ s
 
 $("#ticket_book_create").modal('show')
 
-$("#ticket-book-form").on("ajax:success", function(event) {
-    ticket_books_table.ajax.reload(null,false)
-    let msg = JSON.parse(event.detail[2].response)
-    noty_alert(msg.status, msg.msg)
-    $("#ticket_book_create").modal('hide')
-  }).on("ajax:error", function(event) {
-	let msg = JSON.parse( event.detail[2].response )
-	console.info(msg)
-	set_input_status_form('ticket-book-form', 'ticket_book', msg)
+// $("#ticket-book-form").on("ajax:success", function(event) {
+//     ticket_books_table.ajax.reload(null,false)
+//     let msg = JSON.parse(event.detail[2].response)
+//     noty_alert(msg.status, msg.msg)
+//     $("#ticket_book_create").modal('hide')
+//   }).on("ajax:error", function(event) {
+// 	let msg = JSON.parse( event.detail[2].response )
+// 	console.info(msg)
+// 	set_input_status_form('ticket-book-form', 'ticket_book', msg)
+// })
+
+document.getElementById("ticket-book-form").addEventListener("submit", (e) => {
+  e.preventDefault()
+  e.stopPropagation()
+  let form = new FormData()
+  const ticket_from = document.querySelector('#ticket_book_ticket_from').value
+  const ticket_until = document.querySelector('#ticket_book_ticket_until').value
+
+  if (ticket_from > ticket_until) {
+    addClassInvalid( document.querySelector('#ticket_book_ticket_from') )
+    addClassInvalid( document.querySelector('#ticket_book_ticket_until') )
+    document.querySelector(`.ticket_book_ticket_from`).textContent = 'Rango inválido'
+    return
+  } else {
+    addClassValid( document.querySelector('#ticket_book_ticket_from') )
+    addClassValid( document.querySelector('#ticket_book_ticket_until') )
+    document.querySelector(`.ticket_book_ticket_from`).textContent = ''
+  }
+
+  let tickets_index = 0
+  form.append( "ticket_book[name]", document.querySelector('#ticket_book_name').value )
+  for (let i =  ticket_from; i <= ticket_until; i++) {
+      form.append( `ticket_book[tickets_attributes][${tickets_index}][number]`, i )
+    tickets_index++
+  }
+  fetch('/ticket_books/', {
+      method: 'POST',
+      headers: {           
+        'X-CSRF-Token': document.getElementsByName('csrf-token')[0].content,
+      },
+      body: form
+    })
+    .then( response => response.json() )
+    .then( response => {
+      if (response.status === 'success') {
+        ticket_books_table.ajax.reload(null,false)
+        $("#ticket_book_create").modal('hide')
+        noty_alert(response.status, response.msg)
+      } else {
+        document.querySelector('#ticket_book_ticket_from').classList.remove('is-invalid')
+        document.querySelector('#ticket_book_ticket_until').classList.remove('is-invalid')
+        document.querySelector('#ticket_book_name').classList.remove('is-invalid')
+        Object.entries(response.msg).forEach(([key, value]) => {
+          let error_class = key.split('.')
+          if (error_class[0] == "tickets") {
+            addClassInvalid( document.querySelector('#ticket_book_ticket_from') )
+            addClassInvalid( document.querySelector('#ticket_book_ticket_until') )
+            document.querySelector(".ticket_book_ticket_from").textContent = value
+          } else {
+            addClassInvalid( document.querySelector('#ticket_book_name') )
+            document.querySelector(".ticket_book_name").textContent = value
+          }
+        })
+      }
+    } )
+    .catch( error => noty_alert('error', 'No se pudo registrar el talonario') )
 })

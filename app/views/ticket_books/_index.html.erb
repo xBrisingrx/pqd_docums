@@ -18,3 +18,25 @@
     </div>
   </div>
 </div>
+
+<!-- Modal para eliminar talonario -->
+<div class="modal fade" id="modal-disable-ticket-book" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">¿ Esta seguro de dar de baja este talonario ?</h5>
+        <button type="button" class="close" onclick="close_modal('modal-disable-ticket-book')">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <%= form_with(url: disable_ticket_books_path, id: 'form-disable-ticket-book') do |form| %>
+          <%= form.hidden_field :ticket_book_id %>
+          <%= form.submit 'Eliminar', class: 'btn u-btn-red g-mr-10' %>
+          <button type="button" class="btn u-btn-teal g-mr-10" onclick="close_modal('modal-disable-ticket-book')"> Cerrar </button>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Fin modal eliminar talonario -->

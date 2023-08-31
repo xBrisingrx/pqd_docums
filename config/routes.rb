@@ -11,6 +11,7 @@ Rails.application.routes.draw do
     get 'get_tickets', on: :member
     get 'modal_closed', on: :member
     put 'set_closed', on: :member
+    post "disable", on: :collection
   end
   resources :fuel_suppliers
   resources :fuel_to_vehicles 
@@ -19,7 +20,7 @@ Rails.application.routes.draw do
   get 'main/welcome'
 
   resources :people_clothes, only: [:index, :show,:new, :create, :edit, :update] do 
-    post "disble", on: :collection
+    post "disable", on: :collection
   end
   post 'disable_people_clothe', to: 'people_clothes#disable', as: 'disable_people_clothe'
   resources :clothes, only: [:index, :new, :create, :edit, :update]

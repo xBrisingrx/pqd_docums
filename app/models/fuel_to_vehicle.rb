@@ -52,6 +52,11 @@ class FuelToVehicle < ApplicationRecord
     end
   end
 
+  def is_last_load?
+    last_load = FuelToVehicle.where( vehicle_id: self.vehicle_id ).actives.order(:mileage).last
+    self.id == last_load.id
+  end
+
   private 
     def set_cost_center
       self.cost_center_id = 1
@@ -114,5 +119,4 @@ class FuelToVehicle < ApplicationRecord
         ticket.update( closed: true )
       end
     end
-
 end

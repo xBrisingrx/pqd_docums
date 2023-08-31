@@ -17,7 +17,7 @@ class Ticket < ApplicationRecord
 
 	validates :number, 
 		presence: true, 
-		uniqueness: true, 
+		uniqueness: { message: "Este ticket pertenece a otro talonario" }, 
 		numericality: { only_integer: true }
 
 	
