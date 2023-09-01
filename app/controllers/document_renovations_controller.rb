@@ -1,7 +1,6 @@
 class DocumentRenovationsController < ApplicationController
   before_action :set_document_renovation, only: %i[ show edit update destroy ]
 
-  # GET /document_renovations or /document_renovations.json
   def index
     @assigned_document = AssignmentsDocument.find( params[:assignments_document_id] )
     @document_renovations = @assigned_document.document_renovations.actives.order(expiration_date: :DESC) 
@@ -9,25 +8,20 @@ class DocumentRenovationsController < ApplicationController
     @title_modal = "Renovaciones del documento #{@assigned_document.document.name}"
   end
 
-  # GET /document_renovations/1 or /document_renovations/1.json
   def show
   end
 
-  # GET /document_renovations/new
   def new
     @document_renovation = DocumentRenovation.new
   end
 
-  # GET /document_renovations/1/edit
   def edit
   end
 
-  # POST /document_renovations or /document_renovations.json
   def create
     @document_renovation = DocumentRenovation.new(document_renovation_params)
     respond_to do |format|
       if @document_renovation.save
-        byebug
         format.json { render json: { status: 'success', msg: 'Renovacion cargada' }, status: :created }
         format.html { redirect_to document_renovation_url(@document_renovation), notice: "Document renovation was successfully created." }
       else
@@ -37,7 +31,6 @@ class DocumentRenovationsController < ApplicationController
     end
   end
 
-  # PATCH/PUT /document_renovations/1 or /document_renovations/1.json
   def update
     respond_to do |format|
       if @document_renovation.update(document_renovation_params)
@@ -48,7 +41,6 @@ class DocumentRenovationsController < ApplicationController
     end
   end
 
-  # DELETE /document_renovations/1 or /document_renovations/1.json
   def destroy
     @document_renovation.destroy
 
@@ -79,12 +71,10 @@ class DocumentRenovationsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
     def set_document_renovation
       @document_renovation = DocumentRenovation.find(params[:id])
     end
 
-    # Only allow a list of trusted parameters through.
     def document_renovation_params
       params.require(:document_renovation).permit(:renovation_date, :expiration_date, :comment, :assignments_document_id, files: [])
     end
