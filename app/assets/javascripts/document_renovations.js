@@ -43,7 +43,7 @@ const document_renovation = {
 	    let totalFiles = files.files.length
 	    if (totalFiles > 0) {
 	      for (let n = 0; n < totalFiles; n++) {
-	        formData.append(`document_renovation[file][]`, files.files[n])
+	        formData.append(`document_renovation[files][]`, files.files[n])
 	      }
 	    }
 	  }

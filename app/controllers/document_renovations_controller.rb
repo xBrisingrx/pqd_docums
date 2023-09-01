@@ -27,6 +27,7 @@ class DocumentRenovationsController < ApplicationController
     @document_renovation = DocumentRenovation.new(document_renovation_params)
     respond_to do |format|
       if @document_renovation.save
+        byebug
         format.json { render json: { status: 'success', msg: 'Renovacion cargada' }, status: :created }
         format.html { redirect_to document_renovation_url(@document_renovation), notice: "Document renovation was successfully created." }
       else
