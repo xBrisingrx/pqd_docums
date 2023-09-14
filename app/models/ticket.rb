@@ -17,16 +17,7 @@ class Ticket < ApplicationRecord
 
 	validates :number, 
 		presence: true, 
-		uniqueness: { message: "Este ticket pertenece a otro talonario" }, 
 		numericality: { only_integer: true }
 
-	
-	# after_update :check_ticket_book
-
 	scope :unused, -> { where(used: false) }
-
-	# private
-	def check_ticket_book_is_completed
-		self.ticket_book.check_is_completed
-	end
 end
