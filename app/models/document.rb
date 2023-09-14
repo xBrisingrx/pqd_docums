@@ -41,7 +41,7 @@ class Document < ApplicationRecord
 
 	before_create :set_data_if_no_expire
 
-	before_save :check_apply_to_all
+	after_save :check_apply_to_all
 
 	enum d_type: {
 		people: 1, 
@@ -68,17 +68,21 @@ class Document < ApplicationRecord
 	end
 
 	def check_apply_to_all
-		if self.apply_to_all_changed? && self.apply_to_all
-			if self.d_type == 'people'
-				assignateds = Person.actives
-			else
-				assignateds = Vehicle.actives
-			end
-			assignateds.each do |assignated|
-				assignment_document = AssignmentsDocument.where( document: self, assignated: assignated ).first 
-				if assignment_document.blank?
-					assignated.assignments_documents.create( document: self, start_date: self.start_date )
-				end
+		if self.apply_to_all
+			set_document_to_all
+		end
+	end
+
+	def set_document_to_all
+		if self.d_type == 'people'
+			assignateds = Person.actives
+		else
+			assignateds = Vehicle.actives
+		end
+		assignateds.each do |assignated|
+			assignment_document = AssignmentsDocument.where( document: self, assignated: assignated ).first 
+			if assignment_document.blank?
+				assignated.assignments_documents.create( document: self, start_date: self.start_date )
 			end
 		end
 	end

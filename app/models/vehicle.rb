@@ -33,6 +33,8 @@ class Vehicle < ApplicationRecord
   has_many :vehicle_services, dependent: :destroy # services hechos al vehiculo
   has_many :fuel_to_vehicles, dependent: :destroy # son las cargas de combustible
 
+  after_create :assign_douments
+
   scope :actives, -> { where(active: true) }
   scope :inactives, -> { where(active: false) }
 
@@ -74,6 +76,14 @@ class Vehicle < ApplicationRecord
     return "A esta unidad le faltan #{mileage} KM/HS para el próximo service" if mileage <= self.mileage_for_service/2
 
     return '' if mileage > self.mileage_for_service/2  
+  end
+
+  private
+  def assign_douments
+    documents = Document.where( d_type: 'vehicles', apply_to_all: true )
+    documents.each do |document|
+      AssignmentsDocument.create( assignated: self, document: document )
+    end
   end
 
 end

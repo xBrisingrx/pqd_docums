@@ -51,6 +51,8 @@ class Person < ApplicationRecord
 	validates :tramit_number, uniqueness: { message: "Este número de tramite pertenece a otra persona" }, 
 	    allow_blank: true
 
+  after_create :assign_douments
+
   scope :actives, -> { where(active: true) }
   scope :inactives, -> { where(active: false) }
 
@@ -61,4 +63,13 @@ class Person < ApplicationRecord
   def enable
     self.update(active: true)
   end
+
+  private
+  def assign_douments
+    documents = Document.where( d_type: 'people', apply_to_all: true )
+    documents.each do |document|
+      AssignmentsDocument.create( assignated: self, document: document )
+    end
+  end
+
 end
