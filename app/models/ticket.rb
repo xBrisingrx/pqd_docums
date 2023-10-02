@@ -20,4 +20,8 @@ class Ticket < ApplicationRecord
 		numericality: { only_integer: true }
 
 	scope :unused, -> { where(used: false) }
+
+	def check_ticket_book_is_completed
+		self.ticket_book.check_is_completed
+	end
 end
