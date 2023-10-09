@@ -3,7 +3,8 @@ class VehicleTypesController < ApplicationController
 
   # GET /vehicle_types or /vehicle_types.json
   def index
-    @vehicle_types = VehicleType.all
+    @vehicle_types = VehicleType.actives
+    @vehicle_type = VehicleType.new
   end
 
   # GET /vehicle_types/1 or /vehicle_types/1.json
@@ -22,13 +23,12 @@ class VehicleTypesController < ApplicationController
   # POST /vehicle_types or /vehicle_types.json
   def create
     @vehicle_type = VehicleType.new(vehicle_type_params)
-
+    activity_history = ActivityHistory.new( action: :create_record, description: "Se registro la marca de vehículo #{@vehicle_type.name}", 
+      record: @vehicle_type, date: Time.now, user: current_user )
     respond_to do |format|
-      if @vehicle_type.save
-        format.html { redirect_to vehicle_type_url(@vehicle_type), notice: "Vehicle type was successfully created." }
-        format.json { render :show, status: :created, location: @vehicle_type }
+      if @vehicle_type.save && activity_history.save
+        format.json { render json: { status: 'success', msg: 'Tipo de vehiculo registrado' }, status: :created}
       else
-        format.html { render :new, status: :unprocessable_entity }
         format.json { render json: @vehicle_type.errors, status: :unprocessable_entity }
       end
     end
@@ -47,14 +47,18 @@ class VehicleTypesController < ApplicationController
     end
   end
 
-  # DELETE /vehicle_types/1 or /vehicle_types/1.json
-  def destroy
-    @vehicle_type.destroy
-
+  def disable
+    vehicle_type = VehicleType.find(params[:vehicle_type_id])
+    activity_history = ActivityHistory.new( action: :disable, description: "Se dio de baja el tipo de vehículo #{vehicle_type.name}", 
+      record: vehicle_type, date: Time.now, user: current_user )
+    
     respond_to do |format|
-      format.html { redirect_to vehicle_types_url, notice: "Vehicle type was successfully destroyed." }
-      format.json { head :no_content }
-    end
+      if vehicle_type.update(active: false) && activity_history.save
+        format.json { render json: { status: 'success', msg: 'Tipo de vehiculo dado de baja' }, status: :ok }
+      else
+        format.json { render json: { status: 'error', msg: 'No se pudo dar de baja el tipo', errors: vehicle_type.errors }, status: :unprocessable_entity }
+      end # commit
+    end # respond_to
   end
 
   private

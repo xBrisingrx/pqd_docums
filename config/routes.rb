@@ -56,7 +56,8 @@ Rails.application.routes.draw do
   resources :vehicle_brands, except: [:destroy]
   post 'disable_vehicle_brand', to: 'vehicle_brands#disable', as: 'disable_vehicle_brand'
   
-  resources :vehicle_types
+  resources :vehicle_types, except: [:destroy]
+  post 'disable_vehicle_type', to: 'vehicle_types#disable', as: 'disable_vehicle_type'
   
   namespace :authentication, path: '', as: '' do
     resources :users, only: [:index,:new, :create, :edit, :update]

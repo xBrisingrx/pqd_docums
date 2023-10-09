@@ -13,7 +13,11 @@
     <%= link_to "<i class='fa fa-car'></i> Modelos".html_safe, vehicle_models_path(),
             remote: true, 
             class: 'btn u-btn-outline-teal u-btn-hover-v1-2' %>
+    <%= link_to "<i class='fa fa-car'></i> Tipos".html_safe, vehicle_types_path(),
+            remote: true, 
+            class: 'btn u-btn-outline-aqua u-btn-hover-v1-2' %>
   </div>
+
 </div>
 
 <%= render( partial: 'shared/table', 

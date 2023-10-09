@@ -39,6 +39,7 @@
 //= require reports
 //= require vehicle_brands
 //= require vehicle_models
+//= require vehicle_types
 //= require clothes_packs
 //= require people_clothes
 
