@@ -23,8 +23,8 @@ class VehicleBrandsController < ApplicationController
   # POST /vehicle_brands or /vehicle_brands.json
   def create
     @vehicle_brand = VehicleBrand.new(vehicle_brand_params)
-    activity_history = ActivityHistory.new( action: :create, description: "Se registro la marca de vehículo #{@vehicle_brand.name}", 
-      record: vehicle_brand, date: Time.now, user: current_user )
+    activity_history = ActivityHistory.new( action: :create_record, description: "Se registro la marca de vehículo #{@vehicle_brand.name}", 
+      record: @vehicle_brand, date: Time.now, user: current_user )
     respond_to do |format|
       if @vehicle_brand.save && activity_history.save
         format.json { render json: { status: 'success', msg: 'Marca registrada' }, status: :created}
