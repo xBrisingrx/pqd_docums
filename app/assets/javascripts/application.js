@@ -35,6 +35,7 @@
 //= require fuel_suppliers
 //= require fuel_to_vehicles
 //= require ticket_books
+//= require tickets
 //= require closures
 //= require reports
 //= require vehicle_brands

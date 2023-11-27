@@ -13,6 +13,9 @@ Rails.application.routes.draw do
     put 'set_closed', on: :member
     post "disable", on: :collection
   end
+  resources :tickets, except: [:destroy] do
+    post "change_active", on: :member
+  end
   resources :fuel_suppliers
   resources :fuel_to_vehicles 
   resources :fuel_loads

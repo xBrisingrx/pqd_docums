@@ -66,7 +66,7 @@ class TicketBooksController < ApplicationController
 
   def get_tickets
     ticket_book = TicketBook.find(params[:id])
-    render json: { tickets: ticket_book.tickets.unused.order(number: :asc) }
+    render json: { tickets: ticket_book.tickets.unused.actives.order(number: :asc) }
   end
 
   def disable

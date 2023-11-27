@@ -1,0 +1,12 @@
+<%= form_with(url: "#", id: "ticket-change-active") do |form| %>
+  <!-- Toggles Views -->
+  <label class="form-check-inline u-check g-mr-20 mx-0 mb-0">
+    <input class="g-hidden-xs-up g-pos-abs g-top-0 g-right-0" name="radGroup1_1" type="checkbox" 
+      checked=<%= ticket.active %> 
+      onclick="tickets.changeActive( <%= ticket.id %> )" >
+    <div class="u-check-icon-radio-v7">
+      <i class="d-inline-block"></i>
+    </div>
+  </label>
+  <!-- End Toggles Views -->
+<% end %>
