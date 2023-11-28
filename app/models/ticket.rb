@@ -14,6 +14,7 @@
 class Ticket < ApplicationRecord
 	belongs_to :ticket_book
 	has_one :fuel_to_vehicle
+	has_one :closure_ticket
 
 	validates :number, 
 		presence: true, 

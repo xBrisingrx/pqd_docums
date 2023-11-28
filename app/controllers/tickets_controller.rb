@@ -14,10 +14,22 @@ class TicketsController < ApplicationController
   def edit
   end
 
+  def modal_change_status
+    @ticket = Ticket.find(params[:id])
+  end
+
   def update
     ticket = Ticket.find(params[:id])
     if ticket.update(ticket_params)
-      msg = ( ticket.active ) ? "Ticket habilitado" : "Ticket deshabilitado"
+      if ticket.active
+        msg = "Ticket habilitado"
+        action = :enable
+      else
+        msg = "Ticket deshabilitado"
+        action = :disable
+      end
+      ActivityHistory.create( action: action, description: params[:description], 
+        record: ticket, date: params[:date], user: current_user )
       render json: { status: "success", msg: msg }, status: :ok
     else
       render json: { status: "error", msg: "Estado no actualizado" }, status: :unprocessable_entity
