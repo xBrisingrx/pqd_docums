@@ -1,0 +1,26 @@
+<div class="modal-dialog modal-lg" role="document">
+  <div class="modal-content">
+    <div class="modal-header g-brd-aqua g-bg-aqua">
+      <h5 class="modal-title text-white"><strong><%= @title_modal%></strong></h5>
+      <button type="button" class="close text-white" onclick="close_modal('modal_change_status')" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <%= form_with(url: change_status_ticket_path(@ticket), id: "ticket-change-status") do |form| %>
+        <p><%= @text_modal%></p>
+        <div class="form-group row g-mb-10">
+          <label class="col-sm-2 col-form-label g-mb-10">Fecha reactivacion (*)</label>
+          <div class="col-sm-6">
+            <%= form.date_field :date, class: "form-control u-form-control"  %>
+          </div>
+        </div>
+        <div class="form-group">
+          <%= form.text_area :description, class: 'form-control form-control-md u-textarea-expandable', rows: 3, placeholder: 'Comentario...', required: true %>
+        </div>
+        <%= form.submit @text_submit_button, class: 'btn u-btn-aqua g-mr-10' %>
+        <button type="button" onclick="close_modal('modal_change_status')" class="btn u-btn-red g-mr-10"> Cerrar </button>
+      <% end %>
+    </div>
+  </div>
+</div>

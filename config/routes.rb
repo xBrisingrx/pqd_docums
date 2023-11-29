@@ -16,7 +16,7 @@ Rails.application.routes.draw do
   resources :tickets, except: [:destroy] do
     get "modal_change_status", on: :member
     post "change_status", on: :member
-    # post "disable", on: :member
+    get "modal_detail_disable", on: :member
   end
   resources :fuel_suppliers
   resources :fuel_to_vehicles 
