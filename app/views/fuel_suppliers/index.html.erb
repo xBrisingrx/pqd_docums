@@ -10,6 +10,8 @@
 
   <%= link_to "<i class='fa fa-book'></i> Talonarios".html_safe, ticket_books_path(), remote: true,
     class: 'btn u-btn-outline-pink u-btn-hover-v1-2 mb-2 mr-4' %>
+  <%= link_to "<i class='fa fa-users'></i> Config personas".html_safe, permission_fuel_load_people_path(), remote: true,
+    class: 'btn u-btn-outline-purple u-btn-hover-v1-2 mb-2 mr-4' %>
 </div>
 
 <%= render( partial: 'shared/table', 

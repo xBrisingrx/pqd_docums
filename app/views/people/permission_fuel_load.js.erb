@@ -1,0 +1,32 @@
+$("#modal").html("<%= j (render partial: 'shared/modal', locals:{ size: 'lg', content: 'permission_fuel_load' } ) %>")
+$("#modal").modal('show')
+
+$(document).ready(function(){
+  permission_fuel_load_people_table = $("#permission_fuel_load_people_table").DataTable({
+    'ajax': "<%= permission_fuel_load_people_path %>",
+    'columns': [
+    {'data': 'name'},
+    {'data': 'can_authorize'},
+    {'data': 'load_with_ticket'},
+    {'data': 'load_with_km'}
+    ],
+    'language': {'url': datatables_lang}
+  })
+
+
+  // $("#form-disable-ticket-book").on("ajax:success", function(event) {
+  //   ticket_books_table.ajax.reload(null,false)
+  //   let msg = JSON.parse(event.detail[2].response)
+  //   noty_alert(msg.status, msg.msg)
+  //   $("#modal-disable-ticket-book").modal('hide')
+  // }).on("ajax:error", function(event) {
+  //   let msg = JSON.parse(event.detail[2].response)
+  //   noty_alert("error", msg.msg.base[0])
+  // })
+
+})
+
+ function set_permission_person(){
+ 	debugger
+ 	<%# console.log(person_attribute, person_id) %>
+ }
