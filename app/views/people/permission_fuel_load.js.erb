@@ -24,26 +24,26 @@ $(document).ready(function(){
 })
 
 function set_permission_person(){
-  // const person_id = event.target.dataset.id
-  // const attribute = event.target.dataset.attr
-  const form = event.target.parentElement.parentElement.parentElement.parentElement.parentElement
-  form.requestSubmit()
+  const person_id = event.target.dataset.id
+  const attribute = event.target.dataset.attr
+  const form = new FormData()
+  form.append( `person[${attribute}]`, event.target.checked )
+  fetch( `/people/${person_id}`, {
+    method: 'PATCH',
+    headers: {           
+      'X-CSRF-Token': document.getElementsByName('csrf-token')[0].content,
+    },
+    body: form
+  })
+  .then( response => response.json() )
+  .then( response => {
+    if (response.status === 'success') {
+      noty_alert(response.status, response.msg)
+    } else {
+      noty_alert(response.status, response.msg)
+    }
+  } )
+  .catch( error => noty_alert('error', 'Ocurrio un error, no se pudo registrar el proyecto') )
 }
 
 
-<%# fetch('/projects/', {
-      method: 'POST',
-      headers: {           
-        'X-CSRF-Token': document.getElementsByName('csrf-token')[0].content,
-      },
-      body: this.form
-    })
-    .then( response => response.json() )
-    .then( response => {
-      if (response.status === 'success') {
-        noty_alert(response.status, response.msg)
-        window.location.replace("/projects"); 
-      }
-    } )
-    .catch( error => noty_alert('error', 'Ocurrio un error, no se pudo registrar el proyecto') )
-  }, %>
