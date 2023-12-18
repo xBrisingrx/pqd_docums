@@ -1,13 +1,6 @@
 json.data @people do |person|
 	json.name person.fullname 
-	json.can_authorize "#{ form_with( url: set_permission_person_path(person), remote:true ) do |form|
-		form.label :can_authorize, class: 'form-check-inline u-check g-mr-20 mx-0 mb-0' do
-			form.check_box :can_authorize, checked: person.can_authorize, class: 'g-hidden-xs-up g-pos-abs g-top-0 g-right-0'
-			tag.div( class: 'u-check-icon-radio-v7' ) do
-				tag.i(class: 'fa', data: { 'check-icon':'', 'uncheck-icon':''})
-			end
-		end
-	end}" 
+	json.can_authorize render(partial: "people/form_set_permission_can_authorize", locals: {person:person})
 	json.load_with_ticket "<label class='form-check-inline u-check g-mr-20 mx-0 mb-0'>
 		#{check_box( :person, :load_with_ticket, {class: 'g-hidden-xs-up g-pos-abs g-top-0 g-right-0', 
 			checked: person.load_with_ticket, 

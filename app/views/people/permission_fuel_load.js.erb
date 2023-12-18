@@ -14,19 +14,36 @@ $(document).ready(function(){
   })
 
 
-  // $("#form-disable-ticket-book").on("ajax:success", function(event) {
-  //   ticket_books_table.ajax.reload(null,false)
-  //   let msg = JSON.parse(event.detail[2].response)
-  //   noty_alert(msg.status, msg.msg)
-  //   $("#modal-disable-ticket-book").modal('hide')
-  // }).on("ajax:error", function(event) {
-  //   let msg = JSON.parse(event.detail[2].response)
-  //   noty_alert("error", msg.msg.base[0])
-  // })
+  $("#form-person-set-permission").on("ajax:beforeSend", function(event) {
+    console.log('beforeSend')
+  }).on("ajax:error", function(event) {
+    let msg = JSON.parse(event.detail[2].response)
+    noty_alert("error", msg.msg.base[0])
+  })
 
 })
 
- function set_permission_person(){
- 	debugger
- 	<%# console.log(person_attribute, person_id) %>
- }
+function set_permission_person(){
+  // const person_id = event.target.dataset.id
+  // const attribute = event.target.dataset.attr
+  const form = event.target.parentElement.parentElement.parentElement.parentElement.parentElement
+  form.requestSubmit()
+}
+
+
+<%# fetch('/projects/', {
+      method: 'POST',
+      headers: {           
+        'X-CSRF-Token': document.getElementsByName('csrf-token')[0].content,
+      },
+      body: this.form
+    })
+    .then( response => response.json() )
+    .then( response => {
+      if (response.status === 'success') {
+        noty_alert(response.status, response.msg)
+        window.location.replace("/projects"); 
+      }
+    } )
+    .catch( error => noty_alert('error', 'Ocurrio un error, no se pudo registrar el proyecto') )
+  }, %>

@@ -120,6 +120,11 @@ class PeopleController < ApplicationController
     @people = Person.actives
   end
 
+  def set_permission
+    person = Person.find(params[:id])
+    pp person
+  end
+
   private
     def set_person
       @person = Person.find(params[:id])
