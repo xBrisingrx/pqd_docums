@@ -5,7 +5,7 @@
 #  id                  :bigint           not null, primary key
 #  person_id           :bigint
 #  clothing_package_id :bigint
-#  description         :text(65535)      default("''")
+#  description         :text(65535)
 #  start_date          :date
 #  end_date            :date
 #  active              :boolean          default(TRUE)

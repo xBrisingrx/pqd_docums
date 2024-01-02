@@ -7,7 +7,6 @@
 #  table_id   :bigint
 #  column     :string(255)
 #  path       :string(255)
-#  exist_file :integer          default(1), not null
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
 #
