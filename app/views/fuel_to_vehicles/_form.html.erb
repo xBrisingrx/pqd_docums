@@ -3,7 +3,7 @@
   <div class="form-group row">
     <%= form.label :vehicle_id, 'Vehiculo (*)', class:'col-form-label col-sm-3 col-md-4' %>
     <div class="col-sm-8 col-lg-6">
-      <%= form.select(:vehicle_id, Vehicle.actives.collect {|v| [v.code, v.id]}, { include_blank: true},
+      <%= form.select(:vehicle_id, Vehicle.actives.collect {|v| [v.code, v.id, data: { unit: v.unit_load } ] }, { include_blank: true },
                       class: 'form-control select-vehicle', required: true) %>
       <small class="form-control-feedback text-danger fuel_to_vehicle_vehicle_id"></small>
     </div>
@@ -32,13 +32,17 @@
       <%= form.date_field :computable_date, class: 'form-control',required: true %>
       <small class="form-control-feedback text-danger fuel_to_vehicle_computable_date"></small>
     </div>
-  </div> 
+  </div>
 
   <div class="form-group row">
-    <%= form.label :fuel_type, 'Tipo: ', class: 'col-form-label col-sm-3 col-md-4' %>
+
+  </div>
+
+  <div class="form-group row d-none">
+    <%= form.label :fuel_type, 'Combustible: ', class: 'col-form-label col-sm-3 col-md-4' %>
     <div class="col-sm-9 col-md-6">
       <select name="fuel_to_vehicle[fuel_type]" id="fuel_to_vehicle_fuel_type" class="form-control select-fuel-type" required>
-        <option value="">Seleccione el tipo</option>
+        <option value="">Seleccione el tipo de combustible</option>
         <option value="gasoil">Gasoil</option>
         <option value="nafta">Nafta</option>
       </select>
