@@ -42,6 +42,7 @@ class Vehicle < ApplicationRecord
   validates :mileage_for_service, numericality: { only_integer: true, allow_nil: true }
 
   # I use this attribute to control with what type of unit we need measure to know when is the next vehicle service
+  # dont_apply means that in the fuel load form the input to kilometers doesn't required
   enum unit_load: %i( dont_apply kilometers hours both )
   
   def brand
