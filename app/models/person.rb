@@ -3,7 +3,7 @@
 # Table name: people
 #
 #  id                  :bigint           not null, primary key
-#  file                :integer          not null
+#  file                :string(255)      not null
 #  name                :string(255)      not null
 #  last_name           :string(255)      not null
 #  dni                 :string(255)
@@ -21,6 +21,8 @@
 #  created_at          :datetime         not null
 #  updated_at          :datetime         not null
 #  can_authorize       :boolean          default(FALSE)
+#  load_with_ticket    :boolean          default(TRUE)
+#  load_with_km        :boolean          default(TRUE)
 #
 class Person < ApplicationRecord
   has_one_attached :dni_file
