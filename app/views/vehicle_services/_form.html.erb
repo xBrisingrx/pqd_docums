@@ -8,19 +8,41 @@
     </div>
   </div>
 
-  <div class="form-group row g-mb-10">
-    <%= form.label :mileage, 'Kilometraje', class:'col-8 col-sm-6 col-md-2 col-form-label g-mb-10' %>
-    <div class="col-12 col-sm-6 col-md-4">
-      <%= form.text_field :mileage, class: 'form-control u-form-control', placeholder: 'KM/HS al momento del service', required: true %>
-      <small id="error_mileage" class='text-danger vehicle_service_mileage'></small>
-    </div>
-  </div>
+  <div class="row col-12">
+    <div class="col-6">
+      <div class="form-group row g-mb-10">
+        <%= form.label :mileage, 'Kilometraje', class:'col-8 col-sm-6 col-md-2 col-form-label g-mb-10' %>
+        <div class="col-12 col-sm-8 col-md-6">
+          <%= form.text_field :mileage, class: 'form-control u-form-control', placeholder: 'KM al momento del service', required: true %>
+          <small id="error_mileage" class='text-danger vehicle_service_mileage'></small>
+        </div>
+      </div>
 
-  <div class="form-group row g-mb-10">
-    <%= form.label :mileage_next_service, 'Kilometraje', class:'col-8 col-sm-6 col-md-2 col-form-label g-mb-10' %>
-    <div class="col-12 col-sm-6 col-md-4">
-      <%= form.text_field :mileage_next_service, class: 'form-control u-form-control', placeholder: 'KM/HS próximo service', required: true %>
-      <small id="error_mileage_next_service" class='text-danger vehicle_service_mileage_next_service'></small>
+      <div class="form-group row g-mb-10">
+        <%= form.label :mileage_next_service, 'Kilometraje', class:'col-8 col-sm-6 col-md-2 col-form-label g-mb-10' %>
+        <div class="col-12 col-sm-8 col-md-6">
+          <%= form.text_field :mileage_next_service, class: 'form-control u-form-control', placeholder: 'KM/HS próximo service', required: true %>
+          <small id="error_mileage_next_service" class='text-danger vehicle_service_mileage_next_service'></small>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-6">
+      <div class="form-group row g-mb-10">
+        <%= form.label :hours, 'Horas', class:'col-8 col-sm-6 col-md-2 col-form-label g-mb-10' %>
+        <div class="col-12 col-sm-8 col-md-6">
+          <%= form.text_field :hours, class: 'form-control u-form-control', placeholder: 'KM al momento del service', required: true %>
+          <small id="error_hours" class='text-danger vehicle_service_hours'></small>
+        </div>
+      </div>
+
+      <div class="form-group row g-mb-10">
+        <%= form.label :hours_next_service, 'Horas', class:'col-8 col-sm-6 col-md-2 col-form-label g-mb-10' %>
+        <div class="col-12 col-sm-8 col-md-6">
+          <%= form.text_field :hours_next_service, class: 'form-control u-form-control', placeholder: 'KM/HS próximo service', required: true %>
+          <small id="error_hours_next_service" class='text-danger vehicle_service_hours_next_service'></small>
+        </div>
+      </div>
     </div>
   </div>
 
