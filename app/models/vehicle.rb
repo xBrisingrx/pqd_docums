@@ -17,6 +17,7 @@
 #  created_at          :datetime         not null
 #  updated_at          :datetime         not null
 #  mileage_for_service :bigint
+#  unit_load           :integer          default(1), not null
 #
 class Vehicle < ApplicationRecord
   belongs_to :vehicle_type
@@ -39,6 +40,9 @@ class Vehicle < ApplicationRecord
   scope :inactives, -> { where(active: false) }
 
   validates :mileage_for_service, numericality: { only_integer: true, allow_nil: true }
+
+  # I use this attribute to control with what type of unit we need measure to know when is the next vehicle service
+  enum unit_load: %i( dont_apply kilometers hours both )
   
   def brand
     self.vehicle_model.vehicle_brand.name
