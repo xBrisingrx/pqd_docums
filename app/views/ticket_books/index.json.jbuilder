@@ -10,7 +10,7 @@ json.data @ticket_books do |ticket_book|
 										remote: :true, class: 'btn btn-sm u-btn-teal text-white mr-1', title: 'Cerrar talonario' } "
 	end
 	actions += "#{ link_to '<i class="fa fa fa-book"></i>'.html_safe, tickets_path(ticket_book_id: ticket_book.id), 
-									remote: :true, class: 'btn btn-sm u-btn-pink text-white mr-1', title: 'Cerrar talonario' }"
+									remote: :true, class: 'btn btn-sm u-btn-pink text-white mr-1', title: 'Ver vales del talonario' }"
 	actions +="<button class='btn btn-sm u-btn-red text-white' 
   								title='Eliminar' 
   								onclick='modal_disable_ticket_book( #{ ticket_book.id } )'>

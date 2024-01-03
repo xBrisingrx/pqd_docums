@@ -25,7 +25,7 @@ json.data @tickets do |ticket|
 	end
 	if !ticket.used && !ticket.closed && ticket.active
 		json.actions "#{link_to '<i class="fa fa-trash"></i>'.html_safe, 
-	                  modal_change_status_ticket_path( ticket ), 
+	                  edit_ticket_path( ticket ), 
 	                  remote: true, class: 'btn u-btn-red text-center text-white', title: 'Anular ticket' } "
 	elsif !ticket.active
 		json.actions "#{link_to '<i class="fa fa-eye"></i>'.html_safe, 

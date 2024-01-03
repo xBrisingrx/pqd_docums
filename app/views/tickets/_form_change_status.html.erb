@@ -7,7 +7,7 @@
       </button>
     </div>
     <div class="modal-body">
-      <%= form_with(url: change_status_ticket_path(@ticket), id: "ticket-change-status") do |form| %>
+      <%= form_with(model: @ticket, id: "ticket-change-status") do |form| %>
         <p><%= @text_modal%></p>
         <div class="form-group row g-mb-10">
           <label class="col-sm-2 col-form-label g-mb-10">Fecha reactivacion (*)</label>

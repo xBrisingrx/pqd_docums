@@ -58,11 +58,19 @@
     </div>
   </div>
 
-  <div class="form-group row">
+  <div class="form-group row d-none">
     <%= form.label :mileage, 'Kilometraje: ', class: 'col-form-label col-sm-3 col-md-4' %>
     <div class="col-sm-9 col-md-6">
       <%= form.number_field :mileage, step:'0.01', class: 'form-control', required: true %>
       <small class="invalid-feedback fuel_to_vehicle_mileage"></small>
+    </div>
+  </div>
+
+  <div class="form-group row d-none">
+    <%= form.label :hours, 'Horas: ', class: 'col-form-label col-sm-3 col-md-4' %>
+    <div class="col-sm-9 col-md-6">
+      <%= form.number_field :hours, step:'0.01', class: 'form-control', required: true %>
+      <small class="invalid-feedback fuel_to_vehicle_hours"></small>
     </div>
   </div>
 

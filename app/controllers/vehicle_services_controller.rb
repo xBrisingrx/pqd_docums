@@ -71,6 +71,6 @@ class VehicleServicesController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def vehicle_service_params
-      params.require(:vehicle_service).permit(:date, :vehicle_id, :mileage, :mileage_next_service, :comment)
+      params.require(:vehicle_service).permit(:date, :vehicle_id, :mileage, :mileage_next_service, :comment,:hours, :hours_next_service)
     end
 end

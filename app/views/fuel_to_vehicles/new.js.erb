@@ -72,7 +72,8 @@ document.getElementById('fuel_to_vehicle_mileage').addEventListener('change', e 
 
 
 $('#fuel_to_vehicle_vehicle_id').change( e => {
-  const vehicle_id = e.target.value 
+  const vehicle_id = e.target.value
+  check_units( e.target.options[e.target.selectedIndex].dataset.unit  )
   const mileage = document.getElementById('fuel_to_vehicle_mileage').value 
   if (mileage != '') {
     fetch( `/vehicles/${vehicle_id}/status_mileage_for_service?mileage=${mileage}` )
@@ -88,3 +89,11 @@ $('#fuel_to_vehicle_vehicle_id').change( e => {
       })
   }
 } )
+
+function check_units( unit ) {
+  const mileage = ( unit == "both" || unit == 'kilometers' )
+  const hours = ( unit == "both" || unit == 'hours' )
+  
+  document.getElementById('fuel_to_vehicle_mileage').parentElement.parentElement.classList.toggle('d-none', !mileage)
+  document.getElementById('fuel_to_vehicle_hours').parentElement.parentElement.classList.toggle('d-none', !hours)
+}
