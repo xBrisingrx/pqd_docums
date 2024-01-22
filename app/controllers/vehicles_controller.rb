@@ -126,7 +126,7 @@ class VehiclesController < ApplicationController
       @brands = VehicleBrand.actives 
       @models = VehicleModel.actives.includes(:vehicle_brand)
       @locations = VehicleLocation.actives
-      @units_load = { 0 => "No aplica", 1 => "KM", 2 => "HS", 3 => "KM y HS" }
+      @units_load = { :no_apply=> "No aplica", :kilometers => "KM", :hours => "HS", :both => "KM y HS" }
     end
 
     # Only allow a list of trusted parameters through.
