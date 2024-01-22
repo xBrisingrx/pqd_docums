@@ -125,12 +125,13 @@ class VehiclesController < ApplicationController
       @types = VehicleType.actives 
       @brands = VehicleBrand.actives 
       @models = VehicleModel.actives.includes(:vehicle_brand)
-      @locations = VehicleLocation.actives 
+      @locations = VehicleLocation.actives
+      @units_load = { 0 => "No aplica", 1 => "KM", 2 => "HS", 3 => "KM y HS" }
     end
 
     # Only allow a list of trusted parameters through.
     def vehicle_params
       params.require(:vehicle).permit(:code, :domain, :chassis, :engine, :observations,
-          :year, :vehicle_type_id, :vehicle_model_id, :vehicle_location_id, :mileage_for_service, :active, :is_company,images: [])
+          :year, :vehicle_type_id, :vehicle_model_id, :vehicle_location_id, :mileage_for_service, :active, :is_company,:unit_load,images: [])
     end
 end
