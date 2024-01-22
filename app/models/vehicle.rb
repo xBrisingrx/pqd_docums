@@ -17,7 +17,7 @@
 #  created_at          :datetime         not null
 #  updated_at          :datetime         not null
 #  mileage_for_service :bigint
-#  unit_load           :integer          default(1), not null
+#  unit_load           :integer          default("kilometers"), not null
 #
 class Vehicle < ApplicationRecord
   belongs_to :vehicle_type

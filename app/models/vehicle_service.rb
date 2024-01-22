@@ -11,6 +11,8 @@
 #  active               :boolean          default(TRUE)
 #  created_at           :datetime         not null
 #  updated_at           :datetime         not null
+#  hours                :bigint
+#  hours_next_service   :bigint
 #
 class VehicleService < ApplicationRecord
   belongs_to :vehicle
