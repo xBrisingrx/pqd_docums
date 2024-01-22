@@ -17,6 +17,7 @@
 #  cost_center_id      :bigint
 #  ticket_id           :bigint
 #  computable_date     :date
+#  hours               :bigint
 #
 class FuelToVehicle < ApplicationRecord
   belongs_to :vehicle
@@ -74,6 +75,31 @@ class FuelToVehicle < ApplicationRecord
     #     errors.add(:computable_date, "No puede ingresar una fecha anterior al ultimo cierre.")
     #   end
     # end
+
+    def unit_load_requireds
+      # if vehicle unit load is both, someone be present
+      vehicle = self.vehicle
+      if vehicle.unit_load == :both
+        if self.mileage.blank? && self.mileage.blank?
+          errors.add(:kilometers, "Debe ingresar los kilometros u horas actuales de la unidad.")
+          errors.add(:hours, "Debe ingresar los kilometros u horas actuales de la unidad.")
+        end
+      end
+    end
+
+    def mileage_required
+      vehicle = self.vehicle
+      if vehicle.unit_load == :kilometers && self.mileage.blank?
+        errors.add(:kilometers, "Debe ingresar los kilometros actuales de la unidad.")
+      end
+    end
+
+    def hours_required
+      vehicle = self.vehicle
+      if vehicle.unit_load == :hours && self.hours.blank?
+        errors.add(:hours, "Debe ingresar los horas actuales de la unidad.")
+      end
+    end
 
     def greater_than_last_mileage
       last_mileage = FuelToVehicle.where( vehicle_id: self.vehicle_id ).order( date: :asc ).last
