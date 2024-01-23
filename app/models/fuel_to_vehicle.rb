@@ -37,6 +37,7 @@ class FuelToVehicle < ApplicationRecord
   validates :mileage, presence: true, numericality: { greater_than_or_equal_to: 0 }
   # validate :valid_dates
   validate :greater_than_last_mileage, on: :create 
+  validate :unit_load_requireds,:mileage_required,:hours_required
   
   scope :actives, -> { where(active: true) }
 
@@ -77,6 +78,7 @@ class FuelToVehicle < ApplicationRecord
     # end
 
     def unit_load_requireds
+      byebug
       # if vehicle unit load is both, someone be present
       vehicle = self.vehicle
       if vehicle.unit_load == :both
@@ -88,6 +90,7 @@ class FuelToVehicle < ApplicationRecord
     end
 
     def mileage_required
+      byebug
       vehicle = self.vehicle
       if vehicle.unit_load == :kilometers && self.mileage.blank?
         errors.add(:kilometers, "Debe ingresar los kilometros actuales de la unidad.")
@@ -95,6 +98,7 @@ class FuelToVehicle < ApplicationRecord
     end
 
     def hours_required
+      byebug
       vehicle = self.vehicle
       if vehicle.unit_load == :hours && self.hours.blank?
         errors.add(:hours, "Debe ingresar los horas actuales de la unidad.")
