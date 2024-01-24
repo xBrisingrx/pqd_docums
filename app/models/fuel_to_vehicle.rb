@@ -81,9 +81,9 @@ class FuelToVehicle < ApplicationRecord
       byebug
       # if vehicle unit load is both, someone be present
       vehicle = self.vehicle
-      if vehicle.unit_load == :both
+      if vehicle.unit_load == "both"
         if self.mileage.blank? && self.mileage.blank?
-          errors.add(:kilometers, "Debe ingresar los kilometros u horas actuales de la unidad.")
+          errors.add(:mileage, "Debe ingresar los kilometros u horas actuales de la unidad.")
           errors.add(:hours, "Debe ingresar los kilometros u horas actuales de la unidad.")
         end
       end
@@ -92,15 +92,15 @@ class FuelToVehicle < ApplicationRecord
     def mileage_required
       byebug
       vehicle = self.vehicle
-      if vehicle.unit_load == :kilometers && self.mileage.blank?
-        errors.add(:kilometers, "Debe ingresar los kilometros actuales de la unidad.")
+      if vehicle.unit_load == "kilometers" && self.mileage.blank?
+        errors.add(:mileage, "Debe ingresar los kilometros actuales de la unidad.")
       end
     end
 
     def hours_required
       byebug
       vehicle = self.vehicle
-      if vehicle.unit_load == :hours && self.hours.blank?
+      if vehicle.unit_load == "hours" && self.hours.blank?
         errors.add(:hours, "Debe ingresar los horas actuales de la unidad.")
       end
     end
