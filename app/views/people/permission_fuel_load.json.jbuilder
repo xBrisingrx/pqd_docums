@@ -9,11 +9,11 @@ json.data @people do |person|
       <i class='fa' data-check-icon='' data-uncheck-icon=''></i>
     </div>
   </label>"
-	json.load_with_ticket "<label class='form-check-inline u-check g-mr-20 mx-0 mb-0'>
-		#{check_box( :person, :load_with_ticket, {class: 'g-hidden-xs-up g-pos-abs g-top-0 g-right-0', 
-			checked: person.load_with_ticket, 
+	json.load_without_ticket "<label class='form-check-inline u-check g-mr-20 mx-0 mb-0'>
+		#{check_box( :person, :load_without_ticket, {class: 'g-hidden-xs-up g-pos-abs g-top-0 g-right-0', 
+			checked: person.load_without_ticket, 
 			onclick: 'set_permission_person()',
-			data: { 'id': person.id, 'attr': 'load_with_ticket' } } )}
+			data: { 'id': person.id, 'attr': 'load_without_ticket' } } )}
     <div class='u-check-icon-radio-v7'>
       <i class='fa' data-check-icon='' data-uncheck-icon=''></i>
     </div>
