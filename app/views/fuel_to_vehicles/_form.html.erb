@@ -57,7 +57,7 @@
   <div class="form-group row d-none">
     <%= form.label :mileage, 'Kilometraje: ', class: 'col-form-label col-sm-3 col-md-4' %>
     <div class="col-sm-9 col-md-6">
-      <%= form.number_field :mileage, step:'0.01', class: 'form-control', required: true %>
+      <%= form.number_field :mileage, step:'0.01', class: 'form-control' %>
       <small class="invalid-feedback fuel_to_vehicle_mileage"></small>
     </div>
   </div>
@@ -65,7 +65,7 @@
   <div class="form-group row d-none">
     <%= form.label :hours, 'Horas: ', class: 'col-form-label col-sm-3 col-md-4' %>
     <div class="col-sm-9 col-md-6">
-      <%= form.number_field :hours, step:'0.01', class: 'form-control', required: true %>
+      <%= form.number_field :hours, step:'0.01', class: 'form-control' %>
       <small class="invalid-feedback fuel_to_vehicle_hours"></small>
     </div>
   </div>
@@ -73,7 +73,7 @@
   <div class="form-group row">
     <%= form.label :preson_load_id, 'Carga (*)', class:'col-form-label col-sm-3 col-md-4' %>
     <div class="col-sm-8 col-lg-6">
-      <%= form.select(:person_load_id, Person.actives.order(:last_name).collect {|p| [p.fullname, p.id]}, { include_blank: true},
+      <%= form.select(:person_load_id, Person.actives.order(:last_name).collect {|p| [p.fullname, p.id, data: { load_without_ticket: p.load_without_ticket } ]}, { include_blank: true},
                       class: 'form-control select-person-load') %>
       <small class="form-control-feedback text-danger fuel_to_vehicle_person_load"></small>
     </div>

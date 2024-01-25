@@ -25,7 +25,7 @@ class FuelToVehicle < ApplicationRecord
   belongs_to :person_authorize, class_name: "Person"
   belongs_to :person_load, class_name: "Person"
   belongs_to :cost_center
-  belongs_to :ticket
+  belongs_to :ticket, optional: :can_load_without_ticket?
   has_one :ticket_book, through: :ticket
 
   before_validation :set_cost_center, on: :create
@@ -34,9 +34,10 @@ class FuelToVehicle < ApplicationRecord
   after_create :create_closure_ticket
   before_update :update_ticket
 
-  validates :mileage, presence: true, numericality: { greater_than_or_equal_to: 0 }
+  # validates :ticket_id, presence: true, unless: :can_load_without_ticket?
+  # validates :mileage, presence: true, numericality: { greater_than_or_equal_to: 0 }
   # validate :valid_dates
-  validate :greater_than_last_mileage, on: :create 
+  # validate :greater_than_last_mileage, on: :create 
   validate :unit_load_requireds,:mileage_required,:hours_required
   
   scope :actives, -> { where(active: true) }
@@ -59,6 +60,10 @@ class FuelToVehicle < ApplicationRecord
     self.id == last_load.id
   end
 
+  def can_load_without_ticket?
+    self.person_load.load_without_ticket
+  end
+
   private 
     def set_cost_center
       self.cost_center_id = 1
@@ -78,7 +83,6 @@ class FuelToVehicle < ApplicationRecord
     # end
 
     def unit_load_requireds
-      byebug
       # if vehicle unit load is both, someone be present
       vehicle = self.vehicle
       if vehicle.unit_load == "both"
@@ -90,7 +94,6 @@ class FuelToVehicle < ApplicationRecord
     end
 
     def mileage_required
-      byebug
       vehicle = self.vehicle
       if vehicle.unit_load == "kilometers" && self.mileage.blank?
         errors.add(:mileage, "Debe ingresar los kilometros actuales de la unidad.")
@@ -98,7 +101,6 @@ class FuelToVehicle < ApplicationRecord
     end
 
     def hours_required
-      byebug
       vehicle = self.vehicle
       if vehicle.unit_load == "hours" && self.hours.blank?
         errors.add(:hours, "Debe ingresar los horas actuales de la unidad.")
