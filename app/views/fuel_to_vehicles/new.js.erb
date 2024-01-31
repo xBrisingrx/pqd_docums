@@ -1,7 +1,7 @@
 $("#modal").html("<%= j (render partial: 'shared/modal', locals:{ size: 'lg', content: 'form' } ) %>")
 $('.select-vehicle').select2({ width: '100%',theme: "bootstrap4", placeholder: "Seleccione vehiculo (*)" })
 $('.select-person-load').select2({ width: '100%',theme: "bootstrap4", placeholder: "Quien carga (*)" })
-$('.select-person-authorize').select2({ width: '100%',theme: "bootstrap4", placeholder: "Quien autoriza (*)" })
+select_person_authorize = $('.select-person-authorize').select2({ width: '100%',theme: "bootstrap4", placeholder: "Quien autoriza (*)" })
 $('.select-ticket-book').select2({ width: '100%',theme: "bootstrap4", placeholder: "Talonario (*)" })
 $('.select-ticket').select2({ width: '100%',theme: "bootstrap4", placeholder: "Ticket (*)" })
 $("#modal").modal('show')
@@ -97,3 +97,12 @@ function check_units( unit ) {
   document.getElementById('fuel_to_vehicle_mileage').parentElement.parentElement.classList.toggle('d-none', !mileage)
   document.getElementById('fuel_to_vehicle_hours').parentElement.parentElement.classList.toggle('d-none', !hours)
 }
+
+$("#fuel_to_vehicle_person_load_id").on('select2:select', function (e) {
+  let loadWithoutTicket = e.target.options[e.target.selectedIndex].dataset.loadWithoutTicket
+  let can_authorize = e.target.options[e.target.selectedIndex].dataset.canAuthorize
+  let person_id = (can_authorize) ? e.target.value : ""
+  select_person_authorize.val(person_id).trigger('change')
+  
+  // document.getElementById("fuel_to_vehicle_person_authorize_id").required = !loadWithoutTicket
+});

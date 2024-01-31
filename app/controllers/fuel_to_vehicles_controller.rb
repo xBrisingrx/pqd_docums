@@ -28,6 +28,8 @@ class FuelToVehiclesController < ApplicationController
   # POST /fuel_to_vehicles or /fuel_to_vehicles.json
   def create
     @fuel_to_vehicle = FuelToVehicle.new(fuel_to_vehicle_params)
+    byebug
+    raise 'none'
     respond_to do |format|
       if @fuel_to_vehicle.save
         format.json { render json: { status: 'success', msg: 'Carga registrada'}, status: :created }
