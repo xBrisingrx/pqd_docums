@@ -37,9 +37,12 @@ class FuelToVehicle < ApplicationRecord
   # validates :ticket_id, presence: true, unless: :can_load_without_ticket?
   # validates :mileage, presence: true, numericality: { greater_than_or_equal_to: 0 }
   # validate :valid_dates
-  # validate :greater_than_last_mileage, on: :create 
-  validate :unit_load_requireds,:mileage_required,:hours_required
-  
+ 
+  validates :person_load, presence: true
+  validate :unit_load_requireds,:mileage_required,:hours_required, :ticket_is_required
+  validate :greater_than_last_mileage, on: :create 
+  validate :greater_than_last_hours, on: :create
+
   scope :actives, -> { where(active: true) }
 
   enum fuel_type: {
@@ -70,7 +73,9 @@ class FuelToVehicle < ApplicationRecord
     end
 
     def set_ticket_to_used
-      ticket = Ticket.find( self.ticket.id )
+      # some registers can donesn't have a ticket
+      return if self.ticket_id.nil?
+      ticket = Ticket.find_by( id: self.ticket.id )
       ticket.update(used: true)
       ticket.check_ticket_book_is_completed
     end
@@ -108,9 +113,16 @@ class FuelToVehicle < ApplicationRecord
     end
 
     def greater_than_last_mileage
-      last_mileage = FuelToVehicle.where( vehicle_id: self.vehicle_id ).order( date: :asc ).last
-      if !last_mileage.nil? && last_mileage.mileage >= self.mileage
+      last_mileage = FuelToVehicle.where( vehicle_id: self.vehicle_id ).where.not(mileage: nil).order( date: :asc ).last
+      if !last_mileage.nil? && !self.mileage.blank? && last_mileage.mileage >= self.mileage
         errors.add(:mileage, "El ultimo kilometraje registrado de esta unidad es de #{last_mileage.mileage}")
+      end
+    end
+
+    def greater_than_last_hours
+      last_hours = FuelToVehicle.where( vehicle_id: self.vehicle_id ).where.not(hours: nil).order( date: :asc ).last
+      if !last_hours.nil? && last_hours.hours? && !self.hours.blank? && last_hours.hours >= self.hours
+        errors.add(:hours, "Las ultimas horas de esta unidad son #{last_hours.hours}")
       end
     end
 
@@ -149,6 +161,12 @@ class FuelToVehicle < ApplicationRecord
       if closure.was_send?
         ticket = Ticket.find(self.ticket.id)
         ticket.update( closed: true )
+      end
+    end
+
+    def ticket_is_required
+      if self.ticket_id.nil? && !self.can_load_without_ticket?
+        errors.add(:ticket_id, "Debe seleccionar el ticket usado")
       end
     end
 end

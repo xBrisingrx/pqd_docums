@@ -91,8 +91,8 @@ $('#fuel_to_vehicle_vehicle_id').change( e => {
 } )
 
 function check_units( unit ) {
-  const mileage = ( unit == "both" || unit == 'kilometers' )
-  const hours = ( unit == "both" || unit == 'hours' )
+  const mileage = ( unit == "both" || unit == 'kilometers' || 'no_apply')
+  const hours = ( unit == "both" || unit == 'hours' || 'no_apply')
   
   document.getElementById('fuel_to_vehicle_mileage').parentElement.parentElement.classList.toggle('d-none', !mileage)
   document.getElementById('fuel_to_vehicle_hours').parentElement.parentElement.classList.toggle('d-none', !hours)

@@ -74,7 +74,7 @@
     <%= form.label :preson_load_id, 'Carga (*)', class:'col-form-label col-sm-3 col-md-4' %>
     <div class="col-sm-8 col-lg-6">
       <%= form.select(:person_load_id, Person.actives.order(:last_name).collect {|p| [p.fullname, p.id, data: { load_without_ticket: p.load_without_ticket, can_authorize: p.can_authorize } ]}, { include_blank: true},
-                      class: 'form-control select-person-load') %>
+                      class: 'form-control select-person-load', required: true) %>
       <small class="form-control-feedback text-danger fuel_to_vehicle_person_load"></small>
     </div>
   </div>
@@ -99,7 +99,7 @@
     </div>
     <div class="col-4">
       <select name="fuel_to_vehicle[ticket_id]" id="fuel_to_vehicle_ticket_id" class="form-control select-ticket"></select>
-      <small class="text-danger fuel_to_vehicle_ticket"></small>
+      <small class="text-danger fuel_to_vehicle_ticket_id"></small>
     </div>
   </div>
 
