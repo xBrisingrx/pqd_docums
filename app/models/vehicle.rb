@@ -71,14 +71,14 @@ class Vehicle < ApplicationRecord
     # si nos llega mileage_fuel_load significa que estamos cargando combustible
     next_service = self.vehicle_services.order(:date).last
     last_load_fuel = ( mileage_fuel_load.nil? ) ? self.fuel_to_vehicles.order(:date)&.last&.mileage : mileage_fuel_load
-    return '' if next_service.blank?
+    return 'A esta unidad no se le han hecho services.' if next_service.blank?
     return '' if last_load_fuel.blank?
 
     mileage = next_service.mileage_next_service - last_load_fuel
     
     return 'Esta unidad tiene el service vencido' if mileage < 0
     #empezamos a avisar del service cuando le queda la mitad de km/hs que se necesitan
-    return "A esta unidad le faltan #{mileage} KM/HS para el próximo service" if mileage <= self.mileage_for_service/2
+    return "A esta unidad le faltan #{mileage} KM para el próximo service" if mileage <= self.mileage_for_service/2
 
     return '' if mileage > self.mileage_for_service/2  
   end
