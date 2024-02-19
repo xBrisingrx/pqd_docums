@@ -2,26 +2,23 @@ class VehiclesController < ApplicationController
   before_action :set_vehicle, only: %i[ show edit update destroy show_vehicle_history modal_enable_vehicle show_images get_images ]
   before_action :set_vehicle_data, only: %i[ new edit ]
 
-  # GET /vehicles or /vehicles.json
   def index
     @vehicles = Vehicle.actives
     @reasons_to_disable = ReasonsToDisable.vehicles.actives
   end
 
-  # GET /vehicles/1 or /vehicles/1.json
   def show
   end
 
-  # GET /vehicles/new
   def new
+    @title_modal = "Registrar vehiculo"
     @vehicle = Vehicle.new
   end
 
-  # GET /vehicles/1/edit
   def edit
+    @title_modal = "Editar vehiculo"
   end
 
-  # POST /vehicles or /vehicles.json
   def create
     @vehicle = Vehicle.new(vehicle_params)
 
@@ -36,7 +33,6 @@ class VehiclesController < ApplicationController
     end
   end
 
-  # PATCH/PUT /vehicles/1 or /vehicles/1.json
   def update
     respond_to do |format|
       if @vehicle.update(vehicle_params)
@@ -112,7 +108,14 @@ class VehiclesController < ApplicationController
 
   def status_mileage_for_service
     vehicle = Vehicle.find(params[:id])
-    render json: { msg: vehicle.status_mileage_for_service( params[:mileage].to_i) }
+    if vehicle.unit_load == 'both'
+      message = vehicle.status_service_ks_hs( params[:value].to_i, params[:unit_load])
+    elsif params[:unit_load] == 'kilometers'
+      message = vehicle.status_service_mileages( params[:value].to_i)
+    else
+      message = vehicle.status_service_hours( params[:value].to_i)
+    end
+    render json: { msg: message }
   end
 
   private
@@ -132,6 +135,7 @@ class VehiclesController < ApplicationController
     # Only allow a list of trusted parameters through.
     def vehicle_params
       params.require(:vehicle).permit(:code, :domain, :chassis, :engine, :observations,
-          :year, :vehicle_type_id, :vehicle_model_id, :vehicle_location_id, :mileage_for_service, :active, :is_company,:unit_load,images: [])
+          :year, :vehicle_type_id, :vehicle_model_id, :vehicle_location_id, :mileage_for_service,:hours_for_service,
+          :active, :is_company,:unit_load,images: [])
     end
 end

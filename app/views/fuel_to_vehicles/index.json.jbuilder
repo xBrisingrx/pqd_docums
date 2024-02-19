@@ -2,6 +2,7 @@ json.data @fuel_to_vehicles do |fuel_vehicle|
 	json.date date_format(fuel_vehicle.computable_date)
 	json.vehicle fuel_vehicle.vehicle.code
 	json.mileage fuel_vehicle.mileage
+	json.hours fuel_vehicle.hours
 	json.fueling fuel_vehicle.fueling
 	json.fuel_type fuel_vehicle.fuel_type_name
 	json.supplier fuel_vehicle.fuel_supplier.name 

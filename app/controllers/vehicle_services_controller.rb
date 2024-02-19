@@ -10,6 +10,8 @@ class VehicleServicesController < ApplicationController
     @vehicle_service = VehicleService.new
     @title_modal = "Services del vehiculo #{@vehicle.code}"
     @mileage_for_service = ( @vehicle.mileage_for_service.blank? ) ? 0 : @vehicle.mileage_for_service
+    @hours_for_service = ( @vehicle.hours_for_service.blank? ) ? 0 : @vehicle.hours_for_service
+    
   end
 
   # GET /vehicle_services/1 or /vehicle_services/1.json

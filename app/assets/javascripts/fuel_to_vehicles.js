@@ -12,6 +12,7 @@ $(document).ready(function(){
     {'data': 'date'},
     {'data': 'vehicle'},
     {'data': 'mileage'},
+    {'data': 'hours'},
     {'data': 'fueling'},
     {'data': 'fuel_type'},
     {'data': 'supplier'},

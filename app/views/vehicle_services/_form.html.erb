@@ -1,5 +1,5 @@
 <%= form_with(model: vehicle_service ,class: 'g-brd-around g-brd-gray-light-v4 g-pa-10 g-mb-10', id: form_id) do |form| %>
-<%= form.hidden_field :vehicle_id, value: vehicle_id %>
+  <%= form.hidden_field :vehicle_id, value: vehicle_id %>
   <div class="form-group row g-mb-10">
     <%= form.label :date, 'Fecha:',class: 'col-8 col-sm-6 col-md-2' %>
     <div class="col-12 col-sm-6 col-md-4">
@@ -8,38 +8,42 @@
     </div>
   </div>
 
-  <div class="row col-12">
-    <div class="col-6">
+  <div id="mileage_input" class="row col-12">
+    <div class="col-12 col-sm-12 col-lg-6">
       <div class="form-group row g-mb-10">
-        <%= form.label :mileage, 'Kilometraje', class:'col-8 col-sm-6 col-md-2 col-form-label g-mb-10' %>
-        <div class="col-12 col-sm-8 col-md-6">
-          <%= form.text_field :mileage, class: 'form-control u-form-control', placeholder: 'KM al momento del service', required: true %>
+        <%= form.label :mileage, 'Kilometraje actual', class:'col-12 col-sm-6 col-md-6 col-lg-6 col-form-label g-mb-10' %>
+        <div class="col-12 col-sm-6 col-md-6 col-lg-6">
+          <%= form.text_field :mileage, class: 'form-control u-form-control', placeholder: 'KM al momento del service' %>
           <small id="error_mileage" class='text-danger vehicle_service_mileage'></small>
         </div>
       </div>
-
+    </div>
+    <div class="col-12 col-sm-12 col-lg-6">
       <div class="form-group row g-mb-10">
-        <%= form.label :mileage_next_service, 'Kilometraje', class:'col-8 col-sm-6 col-md-2 col-form-label g-mb-10' %>
-        <div class="col-12 col-sm-8 col-md-6">
-          <%= form.text_field :mileage_next_service, class: 'form-control u-form-control', placeholder: 'KM/HS próximo service', required: true %>
+        <%= form.label :mileage_next_service, 'Kilometraje prox service', class:'col-12 col-sm-6 col-md-6 col-lg-6 col-form-label g-mb-10' %>
+        <div class="col-12 col-sm-6 col-md-6 col-lg-6">
+          <%= form.text_field :mileage_next_service, class: 'form-control u-form-control', placeholder: 'KM próximo service' %>
           <small id="error_mileage_next_service" class='text-danger vehicle_service_mileage_next_service'></small>
         </div>
       </div>
     </div>
+  </div>
 
-    <div class="col-6">
+  <div id="hours_input" class="row col-12">
+    <div class="col-12 col-sm-12 col-lg-6">
       <div class="form-group row g-mb-10">
-        <%= form.label :hours, 'Horas', class:'col-8 col-sm-6 col-md-2 col-form-label g-mb-10' %>
-        <div class="col-12 col-sm-8 col-md-6">
-          <%= form.text_field :hours, class: 'form-control u-form-control', placeholder: 'KM al momento del service', required: true %>
+        <%= form.label :hours, 'Horas actuales', class:'col-12 col-sm-6 col-md-6 col-lg-6 col-form-label g-mb-10' %>
+        <div class="col-12 col-sm-6 col-md-6 col-lg-6">
+          <%= form.text_field :hours, class: 'form-control u-form-control', placeholder: 'HS al momento del service' %>
           <small id="error_hours" class='text-danger vehicle_service_hours'></small>
         </div>
       </div>
-
+    </div>
+    <div class="col-12 col-sm-12 col-lg-6">
       <div class="form-group row g-mb-10">
-        <%= form.label :hours_next_service, 'Horas', class:'col-8 col-sm-6 col-md-2 col-form-label g-mb-10' %>
-        <div class="col-12 col-sm-8 col-md-6">
-          <%= form.text_field :hours_next_service, class: 'form-control u-form-control', placeholder: 'KM/HS próximo service', required: true %>
+        <%= form.label :hours_next_service, 'Horas prox service', class:'col-12 col-sm-6 col-md-6 col-lg-6 col-form-label g-mb-10' %>
+        <div class="col-12 col-sm-6 col-md-6 col-lg-6">
+          <%= form.text_field :hours_next_service, class: 'form-control u-form-control', placeholder: 'HS próximo service' %>
           <small id="error_hours_next_service" class='text-danger vehicle_service_hours_next_service'></small>
         </div>
       </div>

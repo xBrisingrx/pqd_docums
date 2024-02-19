@@ -18,6 +18,7 @@
 #  updated_at          :datetime         not null
 #  mileage_for_service :bigint
 #  unit_load           :integer          default("kilometers"), not null
+#  hours_for_service   :integer
 #
 class Vehicle < ApplicationRecord
   belongs_to :vehicle_type
@@ -39,7 +40,8 @@ class Vehicle < ApplicationRecord
   scope :actives, -> { where(active: true) }
   scope :inactives, -> { where(active: false) }
 
-  validates :mileage_for_service, numericality: { only_integer: true, allow_nil: true }
+  validates :mileage_for_service,:hours_for_service,
+    numericality: { only_integer: true, allow_nil: true }
 
   # I use this attribute to control with what type of unit we need measure to know when is the next vehicle service
   # no_apply means that in the fuel load form the input to kilometers doesn't required
@@ -65,22 +67,128 @@ class Vehicle < ApplicationRecord
     self.update(active: true)
   end
 
-  def status_mileage_for_service mileage_fuel_load = nil
+  def status_service_mileages mileage_fuel_load = nil
     # verificamos si la unidad esta proxima a necesitar service
     # el aviso lo damos en vista documentos o al momento de cargar combustible, en el modal al colocar el km/hs avisamos 
     # si nos llega mileage_fuel_load significa que estamos cargando combustible
-    next_service = self.vehicle_services.order(:date).last
+    next_service = self.vehicle_services.order(:date).order(:mileage).last
+    if next_service.blank?
+      if self.unit_load != 'no_apply'
+        return 'A esta unidad no se le han hecho services.'
+      else
+        return ''
+      end
+    end
+
     last_load_fuel = ( mileage_fuel_load.nil? ) ? self.fuel_to_vehicles.order(:date)&.last&.mileage : mileage_fuel_load
-    return 'A esta unidad no se le han hecho services.' if next_service.blank?
     return '' if last_load_fuel.blank?
 
     mileage = next_service.mileage_next_service - last_load_fuel
     
     return 'Esta unidad tiene el service vencido' if mileage < 0
     #empezamos a avisar del service cuando le queda la mitad de km/hs que se necesitan
-    return "A esta unidad le faltan #{mileage} KM para el próximo service" if mileage <= self.mileage_for_service/2
+    if self.mileage_for_service > 0
+      return "A esta unidad le faltan #{mileage} KM para el próximo service" if mileage <= self.mileage_for_service/2
+      return '' if mileage > self.mileage_for_service/2
+    end
+  end
 
-    return '' if mileage > self.mileage_for_service/2  
+  def status_service_hours hours = nil
+    next_service = self.vehicle_services.order(:date).order(:hours).last
+    if next_service.blank?
+      if self.unit_load != 'no_apply'
+        return 'A esta unidad no se le han hecho services.'
+      else
+        puts "\n == a no apply \n"
+        return ''
+      end
+    end
+
+    last_load_fuel = ( hours.nil? ) ? self.fuel_to_vehicles.order(:date)&.last&.hours : hours
+    puts "\n blank \n" if last_load_fuel.blank?
+    return '' if last_load_fuel.blank?
+    
+    hours = next_service.hours_next_service - last_load_fuel
+    
+    return 'Esta unidad tiene el service vencido' if hours < 0
+    #empezamos a avisar del service cuando le queda la mitad de km/hs que se necesitan
+    if self.hours_for_service > 0
+      return "A esta unidad le faltan #{hours} horas para el próximo service" if hours <= self.hours_for_service/2
+      puts "\n hours > self.hours_for_service/2hours > self.hours_for_service/2 \n" if hours > self.hours_for_service/2
+      return '' if hours > self.hours_for_service/2
+    end
+  end
+
+  def status_service_ks_hs value = nil, unit_load = nil
+    # tenemos que revisar por ambos a los vehiculos que se le cargan ambos datos ks y hs
+    message = ''
+    next_service = self.vehicle_services.order(:date).order(:id).last
+    if next_service.blank?
+      if self.unit_load != 'no_apply'
+        return 'A esta unidad no se le han hecho services.'
+      else
+        return ''
+      end
+    end
+    if unit_load == 'kilometers'
+      # se le esta haciendo una carga de combustible registrando kilometros
+      kilometers_to_compare = ( value.nil? ) ? self.fuel_to_vehicles.order(:date)&.last&.mileage : value
+      hours_to_compare = self.fuel_to_vehicles.order(:date)&.last&.hours
+    elsif unit_load == 'hours'
+      # se le esta haciendo una carga de combustible registrando horas
+      kilometers_to_compare = self.fuel_to_vehicles.order(:date)&.last&.mileage
+      hours_to_compare = ( value.nil? ) ? self.fuel_to_vehicles.order(:date)&.last&.hours : value
+    else
+      # consulta desde documentos
+      kilometers_to_compare = self.fuel_to_vehicles.order(:date)&.last&.mileage
+      hours_to_compare = self.fuel_to_vehicles.order(:date)&.last&.hours
+    end
+
+    if next_service.hours_next_service
+      hours_to_service = next_service.hours_next_service - hours_to_compare
+    else
+      # pongo un valor para que no explote la siguiente comparacion
+      hours_to_service = 0
+    end
+
+    if next_service.mileage_next_service
+      km_to_service = next_service.mileage_next_service - kilometers_to_compare
+    else
+      # pongo un valor para que no explote la siguiente comparacion
+      km_to_service = 0
+    end
+
+    if hours_to_service < 0 && km_to_service < 0
+      return 'Esta unidad tiene el service vencido'
+    end
+
+    if self.hours_for_service > 0 && hours_to_service > 0
+      message += "A esta unidad le faltan #{hours_to_service} horas para el próximo service. \n" if hours_to_service <= self.hours_for_service/2
+      message += '' if hours_to_service > self.hours_for_service/2
+    end
+
+    if self.mileage_for_service > 0 && km_to_service > 0
+      message += "A esta unidad le faltan #{km_to_service} KM para el próximo service" if km_to_service <= self.mileage_for_service/2
+      message += '' if km_to_service > self.mileage_for_service/2
+    end
+    byebug
+    return message
+  end
+
+  def check_service
+    unit_load = self.unit_load
+    if unit_load == 'both'
+      msg = self.status_service_ks_hs
+    end
+
+    if unit_load == 'kilometers'
+      msg = self.status_service_mileages
+    end
+
+    if unit_load == 'hours'
+      msg = self.status_service_hours
+    end
+    return "#{msg}"
   end
 
   private

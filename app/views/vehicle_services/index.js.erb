@@ -14,6 +14,9 @@ vehicle_services_table = $("#vehicle_services_table").DataTable({
 
 setInputDate('#vehicle_service_date')
 
+document.getElementById('mileage_input').classList.toggle( 'd-none', "<%= @vehicle.unit_load %>" == 'hours' )
+document.getElementById('hours_input').classList.toggle( 'd-none', "<%= @vehicle.unit_load %>" == 'kilometers' )
+
 $("#renovations_modal").modal('show')
 
 $("#form-vehicle-service").on("ajax:success", function(event) {
@@ -26,6 +29,11 @@ $("#form-vehicle-service").on("ajax:success", function(event) {
   set_input_status_form('form-vehicle-service', 'vehicle_service', msg)
 })
 
-  document.getElementById('vehicle_service_mileage').addEventListener('change', e => {
-    document.getElementById('vehicle_service_mileage_next_service').value = parseInt(e.target.value) + <%= @mileage_for_service %>
-  })
+document.getElementById('vehicle_service_mileage').addEventListener('change', e => {
+  document.getElementById('vehicle_service_mileage_next_service').value = parseInt(e.target.value) + <%= @mileage_for_service %>
+})
+
+document.getElementById('vehicle_service_hours').addEventListener('change', e => {
+  document.getElementById('vehicle_service_hours_next_service').value = parseInt(e.target.value) + <%= @hours_for_service %>
+})
+
