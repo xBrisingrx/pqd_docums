@@ -1,0 +1,49 @@
+$("#modal").html("<%= j (render partial: 'shared/modal', locals:{ size: 'lg', content: 'permission_fuel_load' } ) %>")
+$("#modal").modal('show')
+
+$(document).ready(function(){
+  permission_fuel_load_people_table = $("#permission_fuel_load_people_table").DataTable({
+    'ajax': "<%= permission_fuel_load_people_path %>",
+    'columns': [
+    {'data': 'name'},
+    {'data': 'can_authorize'},
+    {'data': 'load_without_ticket'},
+    {'data': 'load_with_km'}
+    ],
+    'language': {'url': datatables_lang}
+  })
+
+
+  $("#form-person-set-permission").on("ajax:beforeSend", function(event) {
+    console.log('beforeSend')
+  }).on("ajax:error", function(event) {
+    let msg = JSON.parse(event.detail[2].response)
+    noty_alert("error", msg.msg.base[0])
+  })
+
+})
+
+function set_permission_person(){
+  const person_id = event.target.dataset.id
+  const attribute = event.target.dataset.attr
+  const form = new FormData()
+  form.append( `person[${attribute}]`, event.target.checked )
+  fetch( `/people/${person_id}`, {
+    method: 'PATCH',
+    headers: {           
+      'X-CSRF-Token': document.getElementsByName('csrf-token')[0].content,
+    },
+    body: form
+  })
+  .then( response => response.json() )
+  .then( response => {
+    if (response.status === 'success') {
+      noty_alert(response.status, response.msg)
+    } else {
+      noty_alert(response.status, response.msg)
+    }
+  } )
+  .catch( error => noty_alert('error', 'Ocurrio un error, no se pudo registrar el proyecto') )
+}
+
+

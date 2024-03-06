@@ -10,6 +10,8 @@ class VehicleServicesController < ApplicationController
     @vehicle_service = VehicleService.new
     @title_modal = "Services del vehiculo #{@vehicle.code}"
     @mileage_for_service = ( @vehicle.mileage_for_service.blank? ) ? 0 : @vehicle.mileage_for_service
+    @hours_for_service = ( @vehicle.hours_for_service.blank? ) ? 0 : @vehicle.hours_for_service
+    
   end
 
   # GET /vehicle_services/1 or /vehicle_services/1.json
@@ -71,6 +73,6 @@ class VehicleServicesController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def vehicle_service_params
-      params.require(:vehicle_service).permit(:date, :vehicle_id, :mileage, :mileage_next_service, :comment)
+      params.require(:vehicle_service).permit(:date, :vehicle_id, :mileage, :mileage_next_service, :comment,:hours, :hours_next_service)
     end
 end

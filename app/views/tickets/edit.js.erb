@@ -1,0 +1,14 @@
+$("#modal_change_status").html("<%= j (render partial: 'tickets/form_change_status') %>")
+setInputDate('#ticket-change-status #ticket_date')
+
+$("#modal_change_status").modal('show')
+
+$("#ticket-change-status").on("ajax:success", function(event) {
+    tickets_table.ajax.reload(null,false)
+    let msg = JSON.parse(event.detail[2].response)
+    noty_alert(msg.status, msg.msg)
+    $("#modal_change_status").modal('hide')
+  }).on("ajax:error", function(event) {
+	let msg = JSON.parse( event.detail[2].response )
+	set_input_status_form('ticket-change-status', 'ticket', msg)
+})

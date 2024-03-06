@@ -1,4 +1,4 @@
-let fuel_vehicles_table
+let fuel_vehicles_table, select_person_authorize
 
 function modal_disable_fuel_vehicle(id) {
   $('#modal-disable-fuel-vehicle #fuel_vehicle_id').val(id)
@@ -12,6 +12,7 @@ $(document).ready(function(){
     {'data': 'date'},
     {'data': 'vehicle'},
     {'data': 'mileage'},
+    {'data': 'hours'},
     {'data': 'fueling'},
     {'data': 'fuel_type'},
     {'data': 'supplier'},

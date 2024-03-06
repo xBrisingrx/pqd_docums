@@ -10,6 +10,8 @@
 
   <%= link_to "<i class='fa fa-book'></i> Talonarios".html_safe, ticket_books_path(), remote: true,
     class: 'btn u-btn-outline-pink u-btn-hover-v1-2 mb-2 mr-4' %>
+  <%= link_to "<i class='fa fa-users'></i> Config personas".html_safe, permission_fuel_load_people_path(), remote: true,
+    class: 'btn u-btn-outline-purple u-btn-hover-v1-2 mb-2 mr-4' %>
 </div>
 
 <%= render( partial: 'shared/table', 
@@ -33,7 +35,7 @@
                       color: 'blue', 
                       icon: 'fa-gear',
                       title: "Cargas a vehiculos", 
-                      col_names: [ 'Fecha','Vehiculo','KM/HS' ,'Litros','Tipo', 'Estación','Carga','Autoriza','Ticket','Centro de costos','Acciones' ] }) %>
+                      col_names: [ 'Fecha','Vehiculo','KM', 'HS' ,'Litros','Tipo', 'Estación','Carga','Autoriza','Ticket','Centro de costos','Acciones' ] }) %>
 
 
 <div class="modal fade" id="ticket_books" role="dialog"
@@ -41,5 +43,9 @@
 </div>
 
 <div class="modal fade" id="ticket_book_create" role="dialog"
+     aria-labelledby="exampleModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+</div>
+
+<div class="modal fade" id="tickets_crud" role="dialog"
      aria-labelledby="exampleModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
 </div>

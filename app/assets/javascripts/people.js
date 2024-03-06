@@ -1,4 +1,4 @@
-let form_person, people_table, inactive_people_table
+let form_person, people_table, inactive_people_table, permission_fuel_load_people_table
 
 function modal_disable_person(id) {
   clean_form('form-disable-person')

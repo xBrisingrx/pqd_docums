@@ -68,7 +68,7 @@
 
   <div class="form-group row">
     <%= form.label :is_company, 'Tipo uso: ', class: 'col-form-label col-sm-3 col-md-4' %>
-    <div class="col-sm-9 col-md-6">
+    <div class="col-sm-6 col-md-6">
       <select name="vehicle[is_company]" id="vehicle_is_company" class="form-control" required>
         <option value="">Seleccione el tipo de uso</option>
         <option value="1" <%= (@vehicle.is_company?) ? 'selected' : '' %> >Vehiculo de la empresa</option>
@@ -76,13 +76,28 @@
       </select>
     </div>
   </div>
+
+  <div class="form-group  row">
+    <%= form.label :unit_load, 'Medida para service', class:'col-form-label col-2' %>
+    <div class="col-sm-6 col-lg-6">
+      <%= form.select(:unit_load, @units_load.collect {|index, value| [ value , index]}, { include_blank: true},
+                      class: 'form-control', required: true, placeholder: "Seleccionar medida") %>
+      <small class="text-info"></small>
+    </div>
+  </div>
   
   <div class="form-group row g-mb-10">
-    <%= form.label :mileage_for_service, 'Service cada ',class:'col-sm-2 col-form-label g-mb-10' %>
-
+    <%= form.label :mileage_for_service, 'Service a los KM ',class:'col-sm-2 col-form-label g-mb-10' %>
     <div class="col-sm-9">
-      <%= form.text_field :mileage_for_service, class: 'form-control u-form-control rounded-0', placeholder: 'Cada cuantos KM/HS se le debe hacer service' %>
+      <%= form.text_field :mileage_for_service, class: 'form-control u-form-control rounded-0', placeholder: 'Cada cuantos KM se le debe hacer service' %>
       <small class="form-control-feedback text-danger vehicle_mileage_for_service"></small>
+    </div>
+  </div>
+  <div class="form-group row g-mb-10">
+    <%= form.label :hours_for_service, 'Service a las HS ',class:'col-sm-2 col-form-label g-mb-10' %>
+    <div class="col-sm-9">
+      <%= form.text_field :hours_for_service, class: 'form-control u-form-control rounded-0', placeholder: 'Cada cuantas HS se le debe hacer service' %>
+      <small class="form-control-feedback text-danger vehicle_hours_for_service"></small>
     </div>
   </div>
 

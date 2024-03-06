@@ -1,0 +1,16 @@
+$("#tickets_crud").html("<%= j (render partial: 'tickets/index' ) %>")
+
+$(document).ready(function(){
+  tickets_table = $("#tickets_table").DataTable({
+    'ajax': `tickets?ticket_book_id=`+<%= @ticket_book_id %>,
+    'columns': [
+    {'data': 'number'},
+    {'data': 'used'},
+    {'data': 'status'},
+    {'data': 'actions'}
+    ],
+    'language': {'url': datatables_lang}
+  })
+})
+
+$("#tickets_crud").modal('show')

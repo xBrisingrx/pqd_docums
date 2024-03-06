@@ -13,6 +13,11 @@ Rails.application.routes.draw do
     put 'set_closed', on: :member
     post "disable", on: :collection
   end
+  resources :tickets, except: [:destroy] do
+    get "modal_change_status", on: :member
+    post "change_status", on: :member
+    get "modal_detail_disable", on: :member
+  end
   resources :fuel_suppliers
   resources :fuel_to_vehicles 
   resources :fuel_loads
@@ -69,7 +74,10 @@ Rails.application.routes.draw do
   
   get 'person_dato_disponible', to: 'people#dato_disponible', as: 'person_dato_disponible'
   get '/people/:id/upload_person_file/:file', to: 'people#upload_person_file', as: 'upload_person_file'
-  resources :people, except: [:destroy]
+  resources :people, except: [:destroy] do 
+    get "permission_fuel_load", on: :collection
+    post 'set_permission', on: :member
+  end
   post 'disable_person', to: 'people#disable', as: 'disable_person'
   get 'inactive_people', to: 'people#inactives', as: 'inactive_people'
   get 'people/:id/show_person_history', to: 'people#show_person_history', as: 'show_person_history'
