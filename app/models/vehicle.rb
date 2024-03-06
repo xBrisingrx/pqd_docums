@@ -130,36 +130,42 @@ class Vehicle < ApplicationRecord
         return ''
       end
     end
+    last_load_fuel = self.fuel_to_vehicles.order(:date).order(:id)
     if unit_load == 'kilometers'
       # se le esta haciendo una carga de combustible registrando kilometros
-      kilometers_to_compare = ( value.nil? ) ? self.fuel_to_vehicles.order(:date)&.last&.mileage : value
-      hours_to_compare = self.fuel_to_vehicles.order(:date)&.last&.hours
+      kilometers_to_compare = ( value.nil? ) ? last_load_fuel&.last&.mileage : value
+      hours_to_compare = ( last_load_fuel&.last&.hours ) ? last_load_fuel&.last&.hours : 0
     elsif unit_load == 'hours'
       # se le esta haciendo una carga de combustible registrando horas
-      kilometers_to_compare = self.fuel_to_vehicles.order(:date)&.last&.mileage
-      hours_to_compare = ( value.nil? ) ? self.fuel_to_vehicles.order(:date)&.last&.hours : value
+      kilometers_to_compare = ( last_load_fuel&.last&.mileage ) ? last_load_fuel&.last&.mileage : 0
+      hours_to_compare = ( value.nil? ) ? last_load_fuel&.last&.hours : value
     else
       # consulta desde documentos
-      kilometers_to_compare = self.fuel_to_vehicles.order(:date)&.last&.mileage
-      hours_to_compare = self.fuel_to_vehicles.order(:date)&.last&.hours
+      kilometers_to_compare = ( last_load_fuel&.last&.mileage ) ? last_load_fuel&.last&.mileage : 0
+      hours_to_compare = ( last_load_fuel&.last&.hours ) ? last_load_fuel&.last&.hours : 0
     end
 
-    if next_service.hours_next_service
+    if next_service.hours_next_service && hours_to_compare > 0
       hours_to_service = next_service.hours_next_service - hours_to_compare
     else
       # pongo un valor para que no explote la siguiente comparacion
       hours_to_service = 0
     end
 
-    if next_service.mileage_next_service
+    if next_service.mileage_next_service && kilometers_to_compare > 0
       km_to_service = next_service.mileage_next_service - kilometers_to_compare
     else
       # pongo un valor para que no explote la siguiente comparacion
       km_to_service = 0
     end
 
-    if hours_to_service < 0 && km_to_service < 0
-      return 'Esta unidad tiene el service vencido'
+
+    if hours_to_service < 0 && unit_load == 'hours'
+      message += "Esta unidad esta pasada de horas, tiene el service vencido."
+    end
+
+    if km_to_service < 0 && unit_load == 'kilometers'
+      message += 'Esta unidad esta pasada de kilometraje, tiene el service vencido.'
     end
 
     if self.hours_for_service > 0 && hours_to_service > 0
@@ -171,7 +177,6 @@ class Vehicle < ApplicationRecord
       message += "A esta unidad le faltan #{km_to_service} KM para el próximo service" if km_to_service <= self.mileage_for_service/2
       message += '' if km_to_service > self.mileage_for_service/2
     end
-    byebug
     return message
   end
 

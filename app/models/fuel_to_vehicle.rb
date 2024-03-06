@@ -91,7 +91,7 @@ class FuelToVehicle < ApplicationRecord
       # if vehicle unit load is both, someone be present
       vehicle = self.vehicle
       if vehicle.unit_load == "both"
-        if self.mileage.blank? && self.mileage.blank?
+        if self.mileage.blank? && self.hours.blank?
           errors.add(:mileage, "Debe ingresar los kilometros u horas actuales de la unidad.")
           errors.add(:hours, "Debe ingresar los kilometros u horas actuales de la unidad.")
         end
