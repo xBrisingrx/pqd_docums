@@ -28,9 +28,9 @@
                   <!-- Submenu personas -->
                   <ul class="hs-sub-menu list-unstyled g-mt-20--lg g-mt-10--lg--scrolling" id="nav-submenu-people" aria-labelledby="nav-people">
                     <li><%= link_to 'Listar personas', people_path %></li>
-                    <li><%= link_to 'Admin. perfiles', profiles_path( d_type: :people ) %></li>
+                    <%# <li>link_to 'Admin. perfiles', profiles_path( d_type: :people )</li> %>
                     <li><%= link_to 'Admin. documentos', documents_path( d_type: :people ) %></li>
-                    <li><%= link_to 'Asignación de perfiles', people_profiles_path() %></li>
+                    <%# <li><%= link_to 'Asignación de perfiles', people_profiles_path() %></li> %>
                     <li><%= link_to 'Admin. motivos de baja', reasons_to_disables_path(d_type: :people) %></li>
                     <li><%= link_to 'Ropa', clothing_packages_path() %></li>
                   </ul>
@@ -41,9 +41,9 @@
                   <!-- Submenu vehiculos -->
                   <ul class="hs-sub-menu list-unstyled g-mt-20--lg g-mt-10--lg--scrolling" id="nav-submenu-vehicles" aria-labelledby="nav-vehicles">
                     <li><%= link_to 'Listar vehiculos', vehicles_path %></li>
-                    <li><%= link_to 'Admin. perfiles', profiles_path( d_type: :vehicles ) %></li>
+                    <%# <li><%= link_to 'Admin. perfiles', profiles_path( d_type: :vehicles ) %></li> %>
                     <li><%= link_to 'Admin. documentos', documents_path( d_type: :vehicles ) %></li>
-                    <li><%= link_to 'Asignación de perfiles', vehicles_profiles_path() %></li>
+                    <%# <li><%= link_to 'Asignación de perfiles', vehicles_profiles_path() %></li> %>
                     <li><%= link_to 'Admin. motivos de baja', reasons_to_disables_path(d_type: :vehicles) %></li>
                     <li><%= link_to 'Seguros', insurances_path() %></li>
                     <li><%= link_to 'Cargas de combustible', fuel_suppliers_path() %></li>
