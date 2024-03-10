@@ -119,18 +119,6 @@
     </div>
   </div>
 
-  <div class="form-group">
-    <label class="d-flex align-items-center">
-      <%= form.label :can_authorize, 'Puede autorizar:', class: "col-sm-6 col-md-4 col-form-label g-mb-10" %>
-      <div class="ml-4 u-check">
-        <%= form.check_box :can_authorize, class: 'g-hidden-xs-up g-pos-abs g-top-0 g-right-0'%>
-        <div class="u-check-icon-radio-v8">
-          <i class="fa" data-check-icon=""></i>
-        </div>        
-      </div>
-    </label>
-  </div>
-
   <div class="actions">
     <%= form.submit 'Guardar', class: 'btn u-btn-primary g-mr-10' %>
     <button type="button" class="btn u-btn-darkred" data-dismiss="modal">Cerrar</button>
