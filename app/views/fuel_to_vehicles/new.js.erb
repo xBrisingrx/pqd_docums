@@ -6,15 +6,6 @@ $('.select-ticket-book').select2({ width: '100%',theme: "bootstrap4", placeholde
 $('.select-ticket').select2({ width: '100%',theme: "bootstrap4", placeholder: "Ticket (*)" })
 $("#modal").modal('show')
 
-
-// document.getElementById('form-fuel-vehicle').addEventListener('submit', (e) => {
-//   e.preventDefault()
-//   e.preventDefault()
-//   const form = new FormData()
-//   form.append('fuel_to_vehicle[ticket_id]', '1' )
-//   comodin = e.target
-// })
-
 $("#form-fuel-vehicle").on("ajax:success", function(event) {
     fuel_suppliers_table.ajax.reload(null,false)
     fuel_vehicles_table.ajax.reload(null,false)
