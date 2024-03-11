@@ -89,6 +89,7 @@ class FuelToVehicle < ApplicationRecord
 
     def unit_load_requireds
       # if vehicle unit load is both, someone be present
+      return if self.person_load.load_without_km
       vehicle = self.vehicle
       if vehicle.unit_load == "both"
         if self.mileage.blank? && self.hours.blank?
@@ -99,6 +100,7 @@ class FuelToVehicle < ApplicationRecord
     end
 
     def mileage_required
+      return if self.person_load.load_without_km
       vehicle = self.vehicle
       if vehicle.unit_load == "kilometers" && self.mileage.blank?
         errors.add(:mileage, "Debe ingresar los kilometros actuales de la unidad.")
@@ -106,6 +108,7 @@ class FuelToVehicle < ApplicationRecord
     end
 
     def hours_required
+      return if self.person_load.load_without_km
       vehicle = self.vehicle
       if vehicle.unit_load == "hours" && self.hours.blank?
         errors.add(:hours, "Debe ingresar los horas actuales de la unidad.")
