@@ -5,14 +5,14 @@
 #  id                   :bigint           not null, primary key
 #  date                 :date             not null
 #  vehicle_id           :bigint
-#  mileage              :bigint           not null
-#  mileage_next_service :bigint           not null
+#  mileage              :integer
+#  mileage_next_service :integer
 #  comment              :text(65535)
 #  active               :boolean          default(TRUE)
 #  created_at           :datetime         not null
 #  updated_at           :datetime         not null
-#  hours                :bigint
-#  hours_next_service   :bigint
+#  hours                :integer
+#  hours_next_service   :integer
 #
 class VehicleService < ApplicationRecord
   belongs_to :vehicle
