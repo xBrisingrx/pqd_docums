@@ -22,7 +22,7 @@
 #  updated_at          :datetime         not null
 #  can_authorize       :boolean          default(FALSE)
 #  load_without_ticket :boolean          default(FALSE)
-#  load_with_km        :boolean          default(TRUE)
+#  load_without_km     :boolean          default(TRUE)
 #
 class Person < ApplicationRecord
   has_one_attached :dni_file
