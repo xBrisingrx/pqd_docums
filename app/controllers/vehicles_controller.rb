@@ -106,6 +106,12 @@ class VehiclesController < ApplicationController
     end
   end
 
+  def admin_units_load
+    @title_modal = 'Editar unidad de medida par service de interno.'
+    @units_load = { :no_apply=> "No aplica", :kilometers => "KM", :hours => "HS", :both => "KM y HS" }
+    @vehicles = Vehicle.actives
+  end
+
   def status_mileage_for_service
     vehicle = Vehicle.find(params[:id])
     if vehicle.unit_load == 'both'

@@ -12,6 +12,8 @@
     class: 'btn u-btn-outline-pink u-btn-hover-v1-2 mb-2 mr-4' %>
   <%= link_to "<i class='fa fa-users'></i> Config personas".html_safe, permission_fuel_load_people_path(), remote: true,
     class: 'btn u-btn-outline-purple u-btn-hover-v1-2 mb-2 mr-4' %>
+  <%= link_to "<i class='fa fa-car'></i> Config internos".html_safe, admin_units_load_vehicles_path(), remote: true,
+    class: 'btn u-btn-outline-orange u-btn-hover-v1-2 mb-2 mr-4' %>
 </div>
 
 <%= render( partial: 'shared/table', 

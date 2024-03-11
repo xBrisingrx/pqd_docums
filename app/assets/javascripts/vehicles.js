@@ -1,4 +1,4 @@
-let form_vehicle, vehicles_table, inactive_vehicles_table
+let form_vehicle, vehicles_table, inactive_vehicles_table,admin_units_load_vehicles_table
 
 function modal_disable_vehicle(id) {
   clean_form('form-disable-vehicle')
@@ -56,3 +56,56 @@ $(document).ready(function(){
   })
 
 })
+
+function update_unit_load(event, vehicle_id){
+  const unit_load = event.target.value
+  if ( unit_load == '' ) {
+    noty_alert('error', 'Debe seleccionar una unidad')
+    return
+  }
+  const form = new FormData()
+  form.append( 'vehicle[unit_load]', unit_load )
+  fetch(`/vehicles/${vehicle_id}`, {
+    method: "PATCH",
+    headers: {           
+      'X-CSRF-Token': document.getElementsByName('csrf-token')[0].content,
+    },
+    body: form
+  })
+  .then( response => response.json() )
+  .then( response => {
+    if (response.status == 'success') {
+      noty_alert('success', 'Unidad de medida actualizada')
+    } else {
+      noty_alert('error', 'No se pudo actualizar la unida de medida')
+    }
+  } )
+}
+
+function update_unit_value(event){
+  if ( isNaN( parseInt(event.target.value) ) ) {
+    noty_alert('error', 'Debe ingresar un número valido')
+    addClassInvalid(event.target)
+    return
+  }
+  addClassValid(event.target)
+  const vehicle_id = event.target.dataset.id
+  const unit_load = event.target.dataset.unit
+  const form = new FormData()
+  form.append( `vehicle[${unit_load}_for_service]`, event.target.value )
+  fetch(`/vehicles/${vehicle_id}`, {
+    method: "PATCH",
+    headers: {           
+      'X-CSRF-Token': document.getElementsByName('csrf-token')[0].content,
+    },
+    body: form
+  })
+  .then( response => response.json() )
+  .then( response => {
+    if (response.status == 'success') {
+      noty_alert('success', 'Unidad de medida actualizada')
+    } else {
+      noty_alert('error', 'No se pudo actualizar la unida de medida')
+    }
+  } )
+}

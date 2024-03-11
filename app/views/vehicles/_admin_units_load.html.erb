@@ -1,0 +1,9 @@
+<b>KM/HS para service: </b> Cada cuantos Km/Hs se hace el service en el interno.
+<%= render( partial: 'shared/table', 
+            locals: { table_id: 'admin_units_load_vehicles', 
+                      color: 'cyan', 
+                      icon: 'fa-car',
+                      title: "Listado de internos", 
+                      col_names: [ 'Interno', 'Unidad de medida', 'KM para service', 'Hs para service' ] }) %>
+
+<button type="button" class="btn u-btn-darkred" data-dismiss="modal">Cerrar</button>

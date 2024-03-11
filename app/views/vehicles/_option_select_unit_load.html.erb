@@ -1,0 +1,10 @@
+<select name="" id="" class='form-control' onchange='update_unit_load(event, "<%= vehicle.id %>")'>
+  <option value=""> Seleccione</option>
+  <% units_load.each do |key, value| %>
+    <% if key.to_s == vehicle.unit_load %>
+      <option value="<%= key %>" selected ><%= value %></option>
+    <% else %>
+      <option value="<%= key %>" ><%= value %></option>
+    <% end %>
+  <% end %>
+</select>

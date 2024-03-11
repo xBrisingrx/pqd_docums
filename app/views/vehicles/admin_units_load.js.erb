@@ -1,0 +1,38 @@
+$("#modal").html("<%= j (render partial: 'shared/modal', locals:{ size: 'lg', content: 'admin_units_load' } ) %>")
+$("#modal").modal('show')
+
+$(document).ready(function(){
+  admin_units_load_vehicles_table = $("#admin_units_load_vehicles_table").DataTable({
+    'ajax': "<%= admin_units_load_vehicles_path %>",
+    'columns': [
+    {'data': 'code'},
+    {'data': 'unit_load'},
+    {'data': 'mileage_for_service'},
+    {'data': 'hours_for_service'}
+    ],
+    'language': {'url': datatables_lang}
+  })
+})
+
+function set_permission_person(){
+  const vehicle_id = event.target.dataset.id
+  const attribute = event.target.dataset.attr
+  const form = new FormData()
+  form.append( `person[${attribute}]`, event.target.checked )
+  fetch( `/vehicles/${vehicle_id}`, {
+    method: 'PATCH',
+    headers: {           
+      'X-CSRF-Token': document.getElementsByName('csrf-token')[0].content,
+    },
+    body: form
+  })
+  .then( response => response.json() )
+  .then( response => {
+    if (response.status === 'success') {
+      noty_alert(response.status, response.msg)
+    } else {
+      noty_alert(response.status, response.msg)
+    }
+  } )
+  .catch( error => noty_alert('error', 'Ocurrio un error, no se pudo registrar el proyecto') )
+}

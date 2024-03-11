@@ -46,6 +46,7 @@ Rails.application.routes.draw do
     get 'modal_enable_vehicle', on: :member
     post :delete_image_attachment, on: :collection
     get 'status_mileage_for_service', on: :member
+    get 'admin_units_load', on: :collection
   end
   post 'disable_vehicle', to: 'vehicles#disable', as: 'disable_vehicle'
   get 'inactives_vehicles', to: 'vehicles#inactives', as: 'inactives_vehicles'
