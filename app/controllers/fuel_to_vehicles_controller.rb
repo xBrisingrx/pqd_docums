@@ -59,6 +59,28 @@ class FuelToVehiclesController < ApplicationController
     end
   end
 
+  def import_excel
+    data_import = Roo::Spreadsheet.open('public/fuel_febrary.xlsx') # open spreadsheet
+    data_import.each_with_index do |row, idx|
+      next if idx == 0 
+      byebug if idx == 1
+      row = Hash[[row].transpose]
+      next if row.keys[0] == ''
+      data = row.keys.compact
+      vehicle = Vehicle.find_by(code: data[1])
+      
+      fuel_to_vehicle = FuelToVehicle.new(
+        date: data[0],
+        vehicle: vehicle,
+        person_authorize: data[8],
+        person_load: data[7],
+        
+      )
+
+    end
+
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_fuel_to_vehicle

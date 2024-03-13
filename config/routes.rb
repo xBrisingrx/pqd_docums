@@ -19,7 +19,9 @@ Rails.application.routes.draw do
     get "modal_detail_disable", on: :member
   end
   resources :fuel_suppliers
-  resources :fuel_to_vehicles 
+  resources :fuel_to_vehicles do
+    get 'import_excel', on: :collection
+  end
   resources :fuel_loads
   root 'main#welcome'
   get 'main/welcome'

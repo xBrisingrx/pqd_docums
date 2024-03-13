@@ -14,6 +14,9 @@
     class: 'btn u-btn-outline-purple u-btn-hover-v1-2 mb-2 mr-4' %>
   <%= link_to "<i class='fa fa-car'></i> Config internos".html_safe, admin_units_load_vehicles_path(), remote: true,
     class: 'btn u-btn-outline-orange u-btn-hover-v1-2 mb-2 mr-4' %>
+    
+    <%= link_to "<i class='fa fa-file'></i> Importar".html_safe, import_excel_fuel_to_vehicles_path(),
+      class: 'btn u-btn-outline-purple u-btn-hover-v1-2 mb-2 mr-4' %>
 </div>
 
 <%= render( partial: 'shared/table', 
