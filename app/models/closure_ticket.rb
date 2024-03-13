@@ -9,6 +9,6 @@
 #  updated_at :datetime         not null
 #
 class ClosureTicket < ApplicationRecord
-  belongs_to :closure
+  belongs_to :closure, dependent: :destroy
   belongs_to :ticket
 end

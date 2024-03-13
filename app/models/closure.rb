@@ -11,7 +11,7 @@
 #  was_send   :boolean          default(FALSE)
 #
 class Closure < ApplicationRecord
-	has_many :closure_tickets
+	has_many :closure_tickets, dependent: :destroy
 	has_many :tickets, through: :closure_tickets
 	validates :start_date, :end_date, presence: true
 	validate :end_date_after_start_date, on: :create

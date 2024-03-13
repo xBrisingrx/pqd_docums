@@ -61,24 +61,45 @@ class FuelToVehiclesController < ApplicationController
 
   def import_excel
     data_import = Roo::Spreadsheet.open('public/fuel_febrary.xlsx') # open spreadsheet
-    data_import.each_with_index do |row, idx|
-      next if idx == 0 
-      byebug if idx == 1
-      row = Hash[[row].transpose]
-      next if row.keys[0] == ''
-      data = row.keys.compact
-      vehicle = Vehicle.find_by(code: data[1])
-      
-      fuel_to_vehicle = FuelToVehicle.new(
-        date: data[0],
-        vehicle: vehicle,
-        person_authorize: data[8],
-        person_load: data[7],
-        
-      )
+    ActiveRecord::Base.transaction do
+      data_import.each_with_index do |row, idx|
+        next if idx == 0
+        next if row[0].nil?
+        vehicle = Vehicle.find_by(code: row[1])
+        fuel_supplier_id = ( row[5] == 'ABASTECEDOR' ) ? 2 : 1
+        if row[9] != '-'
+          ticket_book = TicketBook.find_by(name: row[9])
+          if ticket_book.blank?
+            ticket_book = TicketBook.create( name: row[9] )
+          end
+          ticket = ticket_book.tickets.last
+          ticket_number = 1
+          if !ticket.blank? 
+            ticket_number = ticket.number + 1
+          end
 
-    end
+          ticket = ticket_book.tickets.create( number: ticket_number )
+          ticket_id = ticket.id
+        else
+          ticket_id = ''
+        end
 
+        fuel_to_vehicle = FuelToVehicle.create!(
+          date: row[0],
+          vehicle: vehicle,
+          person_authorize_id: row[8],
+          person_load_id: row[7],
+          mileage: (row[2] != '-') ? row[2] : '',
+          fueling: row[3],
+          fuel_supplier_id: fuel_supplier_id,
+          cost_center_id: 1,
+          computable_date: row[0],
+          ticket_id: ticket_id
+        )
+      rescue => e
+        byebug
+      end  # each 
+    end # transaction
   end
 
   private

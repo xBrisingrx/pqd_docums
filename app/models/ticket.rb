@@ -13,8 +13,8 @@
 #
 class Ticket < ApplicationRecord
 	belongs_to :ticket_book
-	has_one :fuel_to_vehicle
-	has_one :closure_ticket
+	has_one :fuel_to_vehicle, dependent: :destroy
+	has_one :closure_ticket, dependent: :destroy
 
 	validates :number, 
 		presence: true, 

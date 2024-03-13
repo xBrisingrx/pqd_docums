@@ -39,9 +39,9 @@ class FuelToVehicle < ApplicationRecord
   # validate :valid_dates
  
   validates :person_load, presence: true
-  validate :unit_load_requireds,:mileage_required,:hours_required, :ticket_is_required
-  validate :greater_than_last_mileage, on: :create 
-  validate :greater_than_last_hours, on: :create
+  # validate :unit_load_requireds,:mileage_required,:hours_required, :ticket_is_required
+  # validate :greater_than_last_mileage, on: :create 
+  # validate :greater_than_last_hours, on: :create
 
   scope :actives, -> { where(active: true) }
 
