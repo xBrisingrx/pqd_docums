@@ -154,7 +154,7 @@ class FuelToVehicle < ApplicationRecord
         Closure.create(
           start_date: Date.new( start_date.year, start_date.month, 26 ),
           end_date: Date.new( end_date.year, end_date.month, 25 ),
-          name: "Cierre periodo #{I18n.t("date.month_names")[start_date.month]} #{start_date.year}")
+          name: "Cierre periodo #{I18n.t("date.month_names")[end_date.month]} #{end_date.year}")
       end
     end
 
