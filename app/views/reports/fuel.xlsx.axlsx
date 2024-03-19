@@ -1,6 +1,7 @@
 wb = xlsx_package.workbook
 wb.styles do |style|
-	highlight_cell = style.add_style(bg_color: "C4C4C4", border: Axlsx::STYLE_THIN_BORDER)
+	grey_background = style.add_style(bg_color: "C4C4C4", border: Axlsx::STYLE_THIN_BORDER)
+	white_background = style.add_style(border: Axlsx::STYLE_THIN_BORDER)
 	title_cell = style.add_style( :b => true, :sz => 12, :bg_color => "bc611b",
 		:alignment => { :horizontal=> :center }, 
 		border: Axlsx::STYLE_THIN_BORDER )
@@ -14,43 +15,28 @@ wb.styles do |style|
 		wb.add_worksheet(name: @page_name ) do |sheet|
 		sheet.add_row ['MES', 'FECHA CARGA', 'INTERNO', 'KM/HS', 'LITROS', 'TIPO', 'ESTACION', 'CARGA', 'AUTORIZA', 'N° VALE']
 	  @fuel_to_vehicles.each_with_index do |fuel, index|
-	  	if index.odd?
-	  		sheet.add_row [
-	  			"#{I18n.t("date.month_names")[fuel.computable_date.month]}-#{fuel.computable_date.year}",
-	  			date_format(fuel.computable_date),
-	  			fuel.vehicle.code,
-	  			fuel.mileage,
-	  			fuel.fueling,
-	  			fuel.fuel_type_name,
-	  			fuel.fuel_supplier.name,
-					fuel.person_load.fullname,
-	  			fuel.person_authorize.fullname,
-					fuel.ticket.number
-	  		], 
-	  		style: highlight_cell
-	  	else
-	  		sheet.add_row [
-	  			"#{I18n.t("date.month_names")[fuel.computable_date.month]}-#{fuel.computable_date.year}",
-	  			date_format(fuel.computable_date),
-	  			fuel.vehicle.code,
-	  			fuel.mileage,
-	  			fuel.fueling,
-	  			fuel.fuel_type_name,
-	  			fuel.fuel_supplier.name,
-					fuel.person_load.fullname,
-	  			fuel.person_authorize.fullname,
-					fuel.ticket.number
-	  		]
-	  	end
+	  	sheet.add_row [
+				"#{I18n.t("date.month_names")[fuel.computable_date.month]}-#{fuel.computable_date.year}",
+				date_format(fuel.computable_date),
+				fuel.vehicle.code,
+				fuel.mileage,
+				fuel.fueling,
+				fuel.fuel_type_name,
+				fuel.fuel_supplier.name,
+				fuel.person_load.fullname,
+				fuel.person_authorize.fullname,
+				fuel.ticket&.number
+			], 
+			style: (index.odd?) ? grey_background : white_background
 	  end # each 
 	  sheet.row_style 0,title_cell #set title style
 	  sheet.add_row []
 	  sheet.add_row ['MES', 'INTERNO', 'LITROS S/ VALES'], style: title_cell2
-	  @fuel_to_vehicles.each_with_index do |fuel, index|
+	  @summary.each_with_index do |fuel, index|
 	  	sheet.add_row [
-	  		"#{I18n.t("date.abbr_month_names")[fuel.computable_date.month]}-#{fuel.computable_date.year}",
-		  	fuel.vehicle.code,
-		  	fuel.fueling
+	  		@closure_date,
+		  	fuel.vehicle_code,
+		  	fuel.carga
 		  ]
 	  end
 	  sheet.add_row ['', 'TOTAL', "#{@total_lts}"], style: [ bold_letter, bold_letter, title_cell2 ]

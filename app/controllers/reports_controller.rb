@@ -41,9 +41,16 @@ class ReportsController < ApplicationController
 	def by_closure
 		closure = Closure.find(params[:closure_id])
 		tickets = closure.tickets.pluck(:id)
-		@fuel_to_vehicles = FuelToVehicle.where("ticket_id IN (?)", tickets).actives.order(:date)
+		query = FuelToVehicle.where( computable_date: closure.start_date..closure.end_date ).actives
+		@fuel_to_vehicles = query.order(:date).order(id: :asc)
 		@total_lts = @fuel_to_vehicles.sum(:fueling).to_s
-		@page_name = "Cierre #{I18n.t("date.abbr_month_names")[closure.start_date.month]}"
+		@summary = query
+								.joins(:vehicle)
+								.order("vehicle_code ASC")
+								.group(:vehicle_id)
+								.select(:id, :vehicle_id, "SUM(fuel_to_vehicles.fueling) as carga", :computable_date, "vehicles.code as vehicle_code")
+		@page_name = "Cierre #{I18n.t("date.abbr_month_names")[closure.end_date.month]}"
+		@closure_date = "#{I18n.t("date.month_names")[closure.end_date.month]}-#{closure.end_date.year}"
 		render xlsx: 'Cierre', template: 'reports/fuel'
 	end
 
