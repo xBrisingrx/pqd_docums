@@ -9,28 +9,23 @@
     </div>
   </div>
 
-   <div class="form-group row">
-    <%= form.label :fuel_supplier_id, 'Abastecedor (*)', class:'col-form-label col-sm-3 col-md-4' %>
-    <div class="col-sm-8 col-lg-6">
-      <%= form.select(:fuel_supplier_id, FuelSupplier.actives.collect {|d| [d.name_with_fuel, d.id]}, { include_blank: true},
-                      class: 'form-control select-document-profile') %>
-      <small class="form-control-feedback text-danger fuel_to_vehicle_fuel_supplier_id"></small>
+  <div class="form-group row d-none">
+    <%= form.label :mileage, class: 'col-sm-3 col-md-4' do %>
+      <span class="u-label g-bg-primary u-label--lg g-px-15 g-py-8 g-mr-10 g-mb-15">Kilometros</span>
+    <% end %>
+    <div class="col-sm-9 col-md-6">
+      <%= form.number_field :mileage, step:'0.01', class: 'form-control' %>
+      <small class="invalid-feedback fuel_to_vehicle_mileage"></small>
     </div>
   </div>
-  
-  <div class="form-group row">
-    <%= form.label :date, 'Fecha' ,class:'col-form-label col-sm-3 col-md-4' %>
-    <div class="col-9 col-md-6">
-      <%= form.date_field :date, class: 'form-control',required: true %>
-      <small class="form-control-feedback text-danger fuel_to_vehicle_date"></small>
-    </div>
-  </div> 
 
-  <div class="form-group row" style="display:none">
-    <%= form.label :computable_date, 'Fecha computable', class:'col-form-label col-sm-3 col-md-4' %>
-    <div class="col-9 col-md-6">
-      <%= form.date_field :computable_date, class: 'form-control' %>
-      <small class="form-control-feedback text-danger fuel_to_vehicle_computable_date"></small>
+  <div class="form-group row d-none">
+    <%= form.label :hours, class: 'col-sm-3 col-md-4' do %>
+      <span class="u-label g-bg-indigo u-label--lg g-px-15 g-py-8 g-mr-10 g-mb-15">Horas</span>
+    <%end%>
+    <div class="col-sm-9 col-md-6">
+      <%= form.number_field :hours, step:'0.01', class: 'form-control' %>
+      <small class="invalid-feedback fuel_to_vehicle_hours"></small>
     </div>
   </div>
 
@@ -46,31 +41,16 @@
     </div>
   </div>
 
-  <div class="form-group row">
-    <%= form.label :fueling, 'Litros: ', class: 'col-form-label col-sm-3 col-md-4' %>
-    <div class="col-sm-9 col-md-6">
-      <%= form.number_field :fueling, step:'0.01', class: 'form-control', required: true %>
-      <small class="invalid-feedback fuel_to_vehicle_fueling"></small>
+   <div class="form-group row">
+    <%= form.label :fuel_supplier_id, 'Abastecedor (*)', class:'col-form-label col-sm-3 col-md-4' %>
+    <div class="col-sm-8 col-lg-6">
+      <%= form.select(:fuel_supplier_id, FuelSupplier.actives.collect {|d| [d.name_with_fuel, d.id]}, { include_blank: true},
+                      class: 'form-control select-document-profile') %>
+      <small class="form-control-feedback text-danger fuel_to_vehicle_fuel_supplier_id"></small>
     </div>
   </div>
 
-  <div class="form-group row d-none">
-    <%= form.label :mileage, 'Kilometraje: ', class: 'col-form-label col-sm-3 col-md-4' %>
-    <div class="col-sm-9 col-md-6">
-      <%= form.number_field :mileage, step:'0.01', class: 'form-control' %>
-      <small class="invalid-feedback fuel_to_vehicle_mileage"></small>
-    </div>
-  </div>
-
-  <div class="form-group row d-none">
-    <%= form.label :hours, 'Horas: ', class: 'col-form-label col-sm-3 col-md-4' %>
-    <div class="col-sm-9 col-md-6">
-      <%= form.number_field :hours, step:'0.01', class: 'form-control' %>
-      <small class="invalid-feedback fuel_to_vehicle_hours"></small>
-    </div>
-  </div>
-
-  <div class="form-group row">
+    <div class="form-group row">
     <%= form.label :preson_load_id, 'Carga (*)', class:'col-form-label col-sm-3 col-md-4' %>
     <div class="col-sm-8 col-lg-6">
       <%= form.select(:person_load_id, Person.actives.order(:last_name).collect {|p| [p.fullname, p.id, data: { load_without_ticket: p.load_without_ticket, can_authorize: p.can_authorize } ]}, { include_blank: true},
@@ -100,6 +80,30 @@
     <div class="col-4">
       <select name="fuel_to_vehicle[ticket_id]" id="fuel_to_vehicle_ticket_id" class="form-control select-ticket"></select>
       <small class="text-danger fuel_to_vehicle_ticket_id"></small>
+    </div>
+  </div>
+  
+  <div class="form-group row">
+    <%= form.label :date, 'Fecha' ,class:'col-form-label col-sm-3 col-md-4' %>
+    <div class="col-9 col-md-6">
+      <%= form.date_field :date, class: 'form-control',required: true %>
+      <small class="form-control-feedback text-danger fuel_to_vehicle_date"></small>
+    </div>
+  </div> 
+
+  <div class="form-group row" style="display:none">
+    <%= form.label :computable_date, 'Fecha computable', class:'col-form-label col-sm-3 col-md-4' %>
+    <div class="col-9 col-md-6">
+      <%= form.date_field :computable_date, class: 'form-control' %>
+      <small class="form-control-feedback text-danger fuel_to_vehicle_computable_date"></small>
+    </div>
+  </div>
+
+  <div class="form-group row">
+    <%= form.label :fueling, 'Litros: ', class: 'col-form-label col-sm-3 col-md-4' %>
+    <div class="col-sm-9 col-md-6">
+      <%= form.number_field :fueling, step:'0.01', class: 'form-control', required: true %>
+      <small class="invalid-feedback fuel_to_vehicle_fueling"></small>
     </div>
   </div>
 
