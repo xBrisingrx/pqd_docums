@@ -3,7 +3,7 @@
   <div class="form-group row">
     <%= form.label :name, 'Nombre: ', class: 'col-form-label col-sm-3 col-md-4' %>
     <div class="col-sm-9 col-md-6">
-      <%= form.text_field :name, class: 'form-control', required:true %>
+      <%= form.text_field :name, class: 'form-control', required:true, placeholder: 'Nombre del talonario' %>
       <small class="invalid-feedback ticket_book_name"></small>
     </div>
   </div>
@@ -11,12 +11,12 @@
     <%= form.label :ticket_from, 'N° de tickets:', class: 'col-form-label col-sm-3 col-md-4' %>
     <div class="col-sm-9 col-md-6 row">
       <div class="col-6">
-        <%= form.number_field :ticket_from, class: 'form-control', placeholder: 'Desde el n°', required: true %>
+        <%= form.number_field :ticket_from, class: 'form-control', placeholder: 'Desde el n°', required: true, value: @start_tickets %>
         <small class="invalid-feedback ticket_book_ticket_from ticket_book_tickets"></small>
         <small class="invalid-feedback ticket_book_base"></small>
       </div>
       <div class="col-6">
-        <%= form.number_field :ticket_until, class: 'form-control', placeholder: 'Hasta el n°', required: true %>
+        <%= form.number_field :ticket_until, class: 'form-control', placeholder: 'Hasta el n°', required: true, value: @end_tickets %>
         <small class="invalid-feedback ticket_book_ticket_until ticket_book_tickets"></small>
         <small class="invalid-feedback ticket_book_base"></small>
       </div>

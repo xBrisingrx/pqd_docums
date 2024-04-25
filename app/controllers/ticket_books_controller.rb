@@ -15,10 +15,14 @@ class TicketBooksController < ApplicationController
   def new
     @title_modal = "Registrar talonario"
     @ticket_book = TicketBook.new
+    @start_tickets = 1
+    @end_tickets = 10
   end
 
   # GET /ticket_books/1/edit
   def edit
+    @start_tickets = @ticket_book.tickets.first.number
+    @end_tickets = @ticket_book.tickets.last.number
   end
 
   # POST /ticket_books or /ticket_books.json
