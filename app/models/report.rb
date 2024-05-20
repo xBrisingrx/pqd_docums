@@ -36,4 +36,11 @@ class Report < ApplicationRecord
 		end
 
 	end
+
+	def self.email_report
+    email_list = ['mdavid.almiron@gmail.com', 'soporte@maurosampaoli.com.ar', "sistema.etap@maurosampaoli.com.ar"]
+  	email_list.each do |email|
+  		NotifyMailer.weekly_report(email).deliver_later
+  	end
+	end
 end

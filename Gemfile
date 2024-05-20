@@ -34,3 +34,4 @@ group :test do
   gem 'chromedriver-helper'
 end
 gem "roo", "~> 2.10"
+gem 'whenever', require: false
